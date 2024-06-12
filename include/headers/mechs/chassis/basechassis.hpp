@@ -7,13 +7,13 @@ class chassis {
 
  public:
 
-    pros::Motor leftFrontMotor = pros::Motor(4, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
-    pros::Motor leftBackMotor = pros::Motor(5, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
-    pros::Motor leftTopMotor = pros::Motor(6, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
+    pros::Motor leftFrontMotor = pros::Motor(4);
+    pros::Motor leftBackMotor = pros::Motor(5);
+    pros::Motor leftTopMotor = pros::Motor(6);
 
-    pros::Motor rightFrontMotor = pros::Motor(1, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES);
-    pros::Motor rightBackMotor = pros::Motor(2, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES);
-    pros::Motor rightTopMotor = pros::Motor(3, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES);
+    pros::Motor rightFrontMotor = pros::Motor(1);
+    pros::Motor rightBackMotor = pros::Motor(2);
+    pros::Motor rightTopMotor = pros::Motor(3);
 
     enum E_driveControl {
         E_ARCADE_CONTROL,
@@ -30,8 +30,8 @@ class chassis {
 
     pros::IMU ChassisIMU = pros::IMU(10);
 
-    pros::ADIEncoder left_tracker = pros::ADIEncoder('D', 'G');
-    pros::ADIEncoder right_tracker = pros::ADIEncoder('E', 'F');
+    pros::adi::Encoder left_tracker = pros::adi::Encoder('D', 'G');
+    pros::adi::Encoder right_tracker = pros::adi::Encoder('E', 'F');
 
     bool driverControlPeriod;
 
@@ -41,7 +41,7 @@ class chassis {
     bool PTODB;
     bool PTOValue;
 
-    pros::ADIDigitalOut PTOPistons = pros::ADIDigitalOut('A'); //Pnemautic cylinder object / right wing in the A port.
+    pros::adi::DigitalOut PTOPistons = pros::adi::DigitalOut('A'); //Pnemautic cylinder object / right wing in the A port.
 
     void setDriveControl(int v);
 

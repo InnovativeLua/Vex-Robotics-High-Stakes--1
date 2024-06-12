@@ -60,6 +60,29 @@ void chassis::opControl(){
 }
 
 void chassis::initialize(){
+    leftFrontMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
+    leftFrontMotor.set_reversed(true);
+    leftFrontMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+
+    leftBackMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
+    leftBackMotor.set_reversed(true);
+    leftBackMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+
+    leftTopMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
+    leftTopMotor.set_reversed(true);
+    leftTopMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+
+    rightFrontMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
+    rightFrontMotor.set_reversed(false);
+    rightFrontMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+
+    rightBackMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
+    rightBackMotor.set_reversed(false);
+    rightBackMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+
+    rightTopMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
+    rightTopMotor.set_reversed(false);
+    rightTopMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
     //ChassisIMU.reset(true);
 }
 

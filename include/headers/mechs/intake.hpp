@@ -19,6 +19,8 @@ public:
 
     void spinForward(); //Function when called spins the intake forward.
 
+    void initalize();
+
     void spinReverse(); //Function when called spins the intake reverse.
 
     void stop(); //Function when called stops the intake from moving.

@@ -1,6 +1,12 @@
 #include "main.h"
-#include "custom/brain/controller.hpp"
-#include "custom/mechs/intake.hpp"
+#include "headers/brain/controller.hpp"
+#include "headers/mechs/intake.hpp"
+
+void intake::initalize(){
+    intakeMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
+    intakeMotor.set_reversed(false);
+    intakeMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+}
 
 void intake::opControl(){
     switch(intakeState){ //Looks at the different states the intake can be in.
