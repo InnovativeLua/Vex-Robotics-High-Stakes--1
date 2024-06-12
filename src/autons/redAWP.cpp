@@ -1,6 +1,6 @@
 #include "headers/auton/autons.hpp"
 
-void test(){
+void redAWP(){
     masterChassis.updateLeft(100);
     masterChassis.updateRight(100);
     
