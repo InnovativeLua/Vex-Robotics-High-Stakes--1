@@ -2,8 +2,6 @@
 #include "headers/mechs/chassis/basechassis.hpp"
 #define PI std::numbers::pi
 #define in_per_tick 2 * PI * (1/360)
-#define AuxOffset 0
-#define leftOffset 0
 
 void odometry::resetPosition(){
 	double X = 0; //Sets x to zero

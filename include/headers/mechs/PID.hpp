@@ -64,6 +64,7 @@ class PID {
   long prev_time;
 
  private:
+ 
   int i = 0, j = 0, k = 0, l = 0;
   void reset_timers();
   std::string name;

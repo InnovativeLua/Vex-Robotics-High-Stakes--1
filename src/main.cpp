@@ -137,10 +137,11 @@ void opcontrol() {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		
+
+
+		masterOdometry.update();
 		masterChassis.opControl();
 		masterIntake.opControl();
-		masterOdometry.update();
 
 
 		pros::delay(mSecWaitTime);

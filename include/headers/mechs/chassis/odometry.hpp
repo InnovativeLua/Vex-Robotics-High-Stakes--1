@@ -16,6 +16,8 @@ class odometry {
     std::vector<double> getEstimatedVelocity();
 
  private:
+    const double AuxOffset = 0;
+    const double leftOffset = 0;
 
     double X;
     double Y;
