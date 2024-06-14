@@ -30,8 +30,8 @@ class chassis {
 
     pros::IMU ChassisIMU = pros::IMU(10);
 
-    pros::adi::Encoder left_tracker = pros::adi::Encoder('D', 'G');
-    pros::adi::Encoder right_tracker = pros::adi::Encoder('E', 'F');
+    pros::adi::Encoder leftTracker = pros::adi::Encoder('D', 'G');
+    pros::adi::Encoder auxTracker = pros::adi::Encoder('E', 'F');
 
     bool driverControlPeriod;
 
