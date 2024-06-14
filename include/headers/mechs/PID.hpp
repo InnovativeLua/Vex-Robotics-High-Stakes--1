@@ -14,6 +14,7 @@ class PID {
   void setConstants(double p, double i = 0, double d = 0, double pStart_i = 0);
 
 
+
   struct Constants {
     double kp;
     double ki;
@@ -23,12 +24,15 @@ class PID {
 
 
   struct exitCondition {
-    double exitError = 0;
+    double smallExitError = 0;
+    double largeExitError = 0;
     int timeout = 0;
   };
 
+  enum E_exitResult {SMALL_EXIT, LARGE_EXIT, TIMEOUT};
 
-  void setExitCondition(double exitError, int timeout);
+
+  void setExitCondition(double smallExitError, double largeExitError, int timeout);
 
 
   void setTarget(double input);
@@ -38,6 +42,8 @@ class PID {
 
 
   double getTarget();
+
+  int checkExitCondition();
 
 
   Constants getConstants();
