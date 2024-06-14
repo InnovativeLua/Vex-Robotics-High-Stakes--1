@@ -16,6 +16,18 @@ void odometry::initilize(){
 	double previousHeading = masterChassis.ChassisIMU.get_heading()*PI/180; //Sets the previous heading to the current heading in radians.
 }
 
+std::vector<double> odometry::getPosition(){
+	return {X, Y, Heading};
+}
+
+std::vector<double> odometry::getPreviousPosition(){
+	return {prevX, prevY, previousHeading};
+}
+
+std::vector<double> odometry::getEstimatedVelocity(){
+	return {estimatedVelocityX, estimatedVelocityY, estimatedAngularVelocity};
+}
+
 void odometry::update(){
 	double LEncoder = masterChassis.leftTracker.get_value(); //Sets a variable composed of the left encoder value.
 	double auxEncoder = masterChassis.auxTracker.get_value(); //Sets a variable composed of the right encoder value.
@@ -26,7 +38,7 @@ void odometry::update(){
 	prevLE = LEncoder; //Updates the previousEncoder Value
 	prevAux = auxEncoder; //Updates the previousEncoder Value
 
-	double Heading = masterChassis.ChassisIMU.get_heading()*PI/180; //Updates the heading variable.
+	Heading = masterChassis.ChassisIMU.get_heading()*PI/180; //Updates the heading variable.
 
 	double deltaTheta = Heading - previousHeading;
 		
@@ -43,8 +55,15 @@ void odometry::update(){
 
 	double averageHeading = previousHeading + deltaTheta/2; //Takes the averge of the previous heading and the new heading.
 
+	prevX = X;
+	prevY = Y;
 	X += (cos(-averageHeading) * deltaX - sin(-averageHeading) * deltaY);
 	Y += (sin(-averageHeading) * deltaX + cos(-averageHeading) * deltaY);
+
+	estimatedVelocityX = (X - prevX)/0.01; //inches / 0.01 seconds - Time between updates.
+	estimatedVelocityY = (Y - prevY)/0.01; //inches / 0.01 seconds - Time between updates.
+
+	estimatedAngularVelocity = (Heading - previousHeading)/0.01;
 
 	previousHeading = Heading;
 }
