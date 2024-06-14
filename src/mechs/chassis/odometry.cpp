@@ -1,5 +1,5 @@
-#include "mechs/chassis/odometry.hpp"
-#include "mechs/chassis/basechassis.hpp"
+#include "headers/mechs/chassis/odometry.hpp"
+#include "headers/mechs/chassis/basechassis.hpp"
 #define PI std::numbers::pi
 #define in_per_tick 2 * PI * (1/360)
 #define AuxOffset 0
@@ -110,3 +110,5 @@ void odometry2(){
 	}
 }
 */
+
+odometry masterOdometry;

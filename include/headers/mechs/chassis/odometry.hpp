@@ -31,4 +31,4 @@ class odometry {
     //In radians / second
 };
 
-odometry masterOdometry;
+extern odometry masterOdometry;
