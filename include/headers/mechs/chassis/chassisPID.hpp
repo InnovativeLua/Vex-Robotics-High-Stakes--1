@@ -13,16 +13,18 @@ class chassisPID {
 
     void update();
     void initilize();
-    void reset();
-    void setTarget();
+    void setHeadingPID(double headingTarget, int timeoutTime);
+    void setDistancePID(double xTarget, double yTarget, int timeoutTime, double smallExitError=2, double largeExitError=100);
     bool targetExists;
     double currentOdometryX;
     double currentOdometryY;
     double targetX;
     double targetY;
+    double targetHeading;
     PID headingPID;
     PID distancePID;
-    bool distancePIDFinished = true;
+    bool distancePIDActive = false;
+    bool headingPIDActive = false;
 
  private:
     const double AuxOffset = 0;
