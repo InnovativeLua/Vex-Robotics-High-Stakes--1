@@ -26,7 +26,6 @@ PID::Constants PID::getConstants() { return constants; }
 PID::PID(double p, double i, double d, double start_i, std::string name) {
   resetVariables();
   setConstants(p, i, d, start_i);
-  setName(name);
 } 
 
 // Set PID constants
