@@ -35,20 +35,20 @@ double motionProfile::trapezoidalProfile(){
     }
     #endif
 
-    if (elapsedTime < accelTime){
-        return elapsedTime * maxSpeed/accelTime;
-    } else if (finishTime - elapsedTime < accelTime){
-        return (finishTime - elapsedTime) *  accelTime;
+    if (elapsedTime < m_accelTime){
+        return elapsedTime * m_maxSpeed/m_accelTime;
+    } else if (finishTime - elapsedTime < m_accelTime){
+        return (finishTime - elapsedTime) * m_accelTime;
     } else {
-        return maxSpeed;
+        return m_maxSpeed;
     }
 
 }
 
-void motionProfile::updateProfile(double i_maxSpeed, double i_accelTime, double i_finishTime){
-    maxSpeed = i_maxSpeed;
-    accelTime = i_accelTime;
-    i_finishTime = finishTime;
+void motionProfile::updateProfile(double a_maxSpeed, double a_accelTime, double a_finishTime){
+    m_maxSpeed = a_maxSpeed;
+    m_accelTime = a_accelTime;
+    finishTime = a_finishTime;
 }
 
 void motionProfile::disable(){
