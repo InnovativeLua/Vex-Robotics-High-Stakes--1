@@ -12,5 +12,3 @@ constexpr char ODOMETRY_AUX_BOTTOM = 'B';
 constexpr char ODOMETRY_LEFT_TOP = 'C';
 constexpr char ODOMETRY_LEFT_BOTTOM = 'D';
 constexpr char MOGO_MECH_SOLENOID = 'F';
-constexpr int CATAPORT = 7;
-constexpr int CATAPORT = 7;
