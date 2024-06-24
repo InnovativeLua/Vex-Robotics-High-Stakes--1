@@ -7,13 +7,13 @@ class chassis {
 
  public:
 
-    pros::Motor leftFrontMotor = pros::Motor(4);
-    pros::Motor leftBackMotor = pros::Motor(5);
-    pros::Motor leftTopMotor = pros::Motor(6);
+    pros::Motor leftFrontMotor = pros::Motor(LEFT_FRONT_MOTOR);
+    pros::Motor leftBackMotor = pros::Motor(LEFT_BACK_MOTOR);
+    pros::Motor leftTopMotor = pros::Motor(LEFT_TOP_MOTOR);
 
-    pros::Motor rightFrontMotor = pros::Motor(1);
-    pros::Motor rightBackMotor = pros::Motor(2);
-    pros::Motor rightTopMotor = pros::Motor(3);
+    pros::Motor rightFrontMotor = pros::Motor(RIGHT_FRONT_MOTOR);
+    pros::Motor rightBackMotor = pros::Motor(RIGHT_BACK_MOTOR);
+    pros::Motor rightTopMotor = pros::Motor(RIGHT_TOP_MOTOR);
 
     enum E_driveControl {
         E_ARCADE_CONTROL,
@@ -30,8 +30,8 @@ class chassis {
 
     pros::IMU ChassisIMU = pros::IMU(10);
 
-    pros::adi::Encoder leftTracker = pros::adi::Encoder('D', 'G');
-    pros::adi::Encoder auxTracker = pros::adi::Encoder('E', 'F');
+    pros::adi::Encoder leftTracker = pros::adi::Encoder(ODOMETRY_LEFT_BOTTOM, ODOMETRY_LEFT_TOP);
+    pros::adi::Encoder auxTracker = pros::adi::Encoder(ODOMETRY_AUX_BOTTOM, ODOMETRY_AUX_TOP);
 
     bool driverControlPeriod;
 
