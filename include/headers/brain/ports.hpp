@@ -1,5 +1,16 @@
-#ifndef PORTS_HPP
-#define PORTS_HPP
-#define CATAPORT 7
-#define LIMIT_SWITCH 'A'
-#endif
+#pragma once
+constexpr int RIGHT_FRONT_MOTOR = 1;
+constexpr int RIGHT_BACK_MOTOR = 2;
+constexpr int RIGHT_TOP_MOTOR = 3;
+constexpr int LEFT_FRONT_MOTOR = 4;
+constexpr int LEFT_BACK_MOTOR = 5;
+constexpr int LEFT_TOP_MOTOR = 6;
+constexpr int LIFT_MOTOR = 7;
+constexpr int INTAKEMOTOR = 8;
+constexpr char ODOMETRY_AUX_TOP = 'A';
+constexpr char ODOMETRY_AUX_BOTTOM = 'B';
+constexpr char ODOMETRY_LEFT_TOP = 'C';
+constexpr char ODOMETRY_LEFT_BOTTOM = 'D';
+constexpr char MOGO_MECH_SOLENOID = 'F';
+constexpr int CATAPORT = 7;
+constexpr int CATAPORT = 7;
