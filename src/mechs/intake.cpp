@@ -11,9 +11,9 @@ void intake::initalize(){
 void intake::opControl(){
     switch(intakeState){ //Looks at the different states the intake can be in.
     case E_MANUAL: //If the catapult is in manual state, part of the manual control system.
-        if (mainController.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
+        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
             spinForward(); //Spins the intake motor forwards.
-        } else if (mainController.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
+        } else if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
             spinReverse(); //Spins the intake motor reverse.
         } else {
             stop(); //stops the intake motor.
@@ -23,11 +23,11 @@ void intake::opControl(){
     case E_IDLE: //If the catapult is in idle state, part of the toggle control system.
         stop(); //stops the intake motor.
         if (toggleDB > 100){
-            if (mainController.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
+            if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
                 intakeState = E_INTAKING; //Sets the state of the intake to be intaking
                 toggleDB = 0; //Resets the toggleDB clock.
                 spinForward(); //Spins the intake motor forwards.
-            } else if (mainController.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
+            } else if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
                 intakeState = E_OUTTAKING; //Sets the state of the intake to be outtaking
                 toggleDB = 0; //Resets the toggleDB clock.
                 spinReverse(); //Spins the intake motor reverse.
@@ -38,11 +38,11 @@ void intake::opControl(){
     case E_INTAKING: //If the catapult is in intaking state, part of the toggle control system.
         spinForward(); //Spins the intake motor forwards.
         if (toggleDB > 100){
-            if (mainController.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
+            if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
                 intakeState = E_IDLE; //Sets the state of the intake to be idle
                 toggleDB = 0; //Resets the toggleDB clock.
                 stop(); //stops the intake motor.
-            } else if (mainController.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
+            } else if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
                 intakeState = E_OUTTAKING; //Sets the state of the intake to be outtaking.
                 toggleDB = 0; //Resets the toggleDB clock.
                 spinReverse(); //Spins the intake motor reverse.
@@ -53,11 +53,11 @@ void intake::opControl(){
     case E_OUTTAKING: //If the catapult is in outtaking state, part of the toggle control system.
         spinReverse(); //Spins the intake motor reverse.
         if (toggleDB > 100){
-            if (mainController.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
+            if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
                 intakeState = E_INTAKING; //Sets the state of the intake to be intaking.
                 toggleDB = 0; //Resets the toggleDB clock.
                 spinForward(); //Spins the intake motor forwards.
-            } else if (mainController.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
+            } else if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
                 intakeState = E_IDLE; //Sets the state of the intake to be idle.
                 toggleDB = 0; //Resets the toggleDB clock.
                 stop(); //stops the intake motor.

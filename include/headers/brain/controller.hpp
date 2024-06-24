@@ -1,6 +1,6 @@
 #pragma once
 #include "main.h"
-pros::Controller mainController;
+extern std::unique_ptr<pros::Controller> mainController;
 
 constexpr int INTAKE_FORWARD = pros::E_CONTROLLER_DIGITAL_R1;
 constexpr int INTAKE_REVERSE = pros::E_CONTROLLER_DIGITAL_R2;

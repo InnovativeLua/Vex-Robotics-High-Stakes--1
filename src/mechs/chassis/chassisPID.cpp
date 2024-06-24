@@ -14,7 +14,7 @@ void chassisPID::setHeadingPID(double headingTarget, int timeoutTime){
     headingPIDActive = true;
 }
 
-void chassisPID::setDistancePID(double xTarget, double yTarget, int timeoutTime, double smallExitError=2, double largeExitError=100){
+void chassisPID::setDistancePID(double xTarget, double yTarget, int timeoutTime, double smallExitError, double largeExitError){
     headingPID.resetVariables();
     distancePID.resetVariables();
     targetX = xTarget;
@@ -97,3 +97,5 @@ void chassisPID::update(){
         masterChassis.updateRight(rightPower);
     }
 }
+
+chassisPID masterChassisPID;

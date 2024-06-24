@@ -13,9 +13,9 @@ class chassisPID {
 
     void update();
     void initilize();
-    
+
     void setHeadingPID(double headingTarget, int timeoutTime);
-    void setDistancePID(double xTarget, double yTarget, int timeoutTime, double smallExitError=2, double largeExitError=100);
+    void setDistancePID(double xTarget, double yTarget, int timeoutTime, double smallExitError, double largeExitError);
 
 public:
     bool distancePIDActive = false;

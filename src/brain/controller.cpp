@@ -1,3 +1,3 @@
 #include "headers/brain/controller.hpp"
 
-pros::Controller mainController(CONTROLLER_MASTER);
+std::unique_ptr<pros::Controller> mainController = std::make_unique<pros::Controller>(CONTROLLER_MASTER); 

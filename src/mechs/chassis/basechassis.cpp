@@ -37,13 +37,13 @@ void chassis::opControl(){
 
 			*/
         } else if (driveControl == E_TANK_CONTROL){
-            int leftPower = mainController.get_analog(ANALOG_LEFT_Y);
-            int rightPower = mainController.get_analog(ANALOG_RIGHT_Y);
+            int leftPower = mainController->get_analog(ANALOG_LEFT_Y);
+            int rightPower = mainController->get_analog(ANALOG_RIGHT_Y);
 
             updateDrive(leftPower, rightPower);
         }
 
-		if (mainController.get_digital(DIGITAL_A)) {
+		if (mainController->get_digital(DIGITAL_A)) {
 			if (PTODB == true){
 				PTOPistons.set_value(PTOValue);
 				PTODB = false;
@@ -53,7 +53,7 @@ void chassis::opControl(){
 			PTODB = true;
 		}
 
-		if (mainController.get_digital(DIGITAL_Y)){
+		if (mainController->get_digital(DIGITAL_Y)){
 			updateDrive(600, 600);
 		}
     }
