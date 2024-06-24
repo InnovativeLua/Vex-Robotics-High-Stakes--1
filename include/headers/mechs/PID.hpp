@@ -71,7 +71,8 @@ class PID {
 
  private:
  
-  int i = 0, j = 0, k = 0, l = 0;
+  int i = 0, j = 0, k = 0, l = 0; //Need to rewrite these to be more explicit.
+  //Also make timeout and big error work.
   void reset_timers();
   std::string name;
 };

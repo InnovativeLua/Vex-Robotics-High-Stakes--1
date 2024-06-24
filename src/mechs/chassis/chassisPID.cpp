@@ -22,10 +22,10 @@ void chassisPID::setDistancePID(double xTarget, double yTarget, int timeoutTime,
     targetExists = true;
 
     std::vector<double> robotPosition = masterOdometry.getPosition();
-    currentOdometryX = robotPosition[0];
-    currentOdometryY = robotPosition[1];
-    double deltaX = targetX - currentOdometryX;
-    double deltaY = targetY - currentOdometryY;  
+    m_currentOdometryX = robotPosition[0];
+    m_currentOdometryY = robotPosition[1];
+    double deltaX = targetX - m_currentOdometryX;
+    double deltaY = targetY - m_currentOdometryY;  
     double distanceFromTarget = std::hypot(deltaX, deltaY);
     double headingDistanceFromTarget = std::atan2(deltaY, deltaX);
 
@@ -40,10 +40,10 @@ void chassisPID::setDistancePID(double xTarget, double yTarget, int timeoutTime,
 
 void chassisPID::update(){
     std::vector<double> robotPosition = masterOdometry.getPosition();
-    currentOdometryX = robotPosition[0];
-    currentOdometryY = robotPosition[1];
-    double deltaX = targetX - currentOdometryX;
-    double deltaY = targetY - currentOdometryY;
+    m_currentOdometryX = robotPosition[0];
+    m_currentOdometryY = robotPosition[1];
+    double deltaX = targetX - m_currentOdometryX;
+    double deltaY = targetY - m_currentOdometryY;
     if (distancePIDActive && targetExists){
         double distanceFromTarget = std::hypot(deltaX, deltaY);
         double headingDistanceFromTarget = std::atan2(deltaY, deltaX);
