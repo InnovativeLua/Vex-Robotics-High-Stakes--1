@@ -1,39 +1,74 @@
 #include "headers/mechs/chassis/chassisPID.hpp"
-
+// Initialize the PID controllers for heading and distance.
 void chassisPID::initilize(){
+    // Set PID constants for heading control: (Kp, Ki, Kd, Kf)
     headingPID.setConstants(0, 0, 0, 0);
+
+    // Set PID constants for distance control: (Kp, Ki, Kd, Kf)
     distancePID.setConstants(0, 0, 0, 0);
 }
 
-void chassisPID::setHeadingPID(double headingTarget, int timeoutTime){
+// Set up PID control for heading with specified parameters.
+void chassisPID::setHeadingPID(double p_targetHeading, int p_timeout){
+    // Reset all PID variables to their initial state such as the error, derivative, etc.
     headingPID.resetVariables();
-    targetHeading = headingTarget;
+
+    // Set the target heading for the PID controller.
+    targetHeading = p_targetHeading;
     targetExists = true;
-    headingPID.setTarget(headingTarget);
-    headingPID.setExitCondition(1, 180, 5000);
+
+    // Configure the PID controller with the new target heading.
+    headingPID.setTarget(p_targetHeading);
+
+    // Set the exit conditions for the PID loop:
+    // - SmallExitError - Minimum error in degrees before ending the PID (1 degree).
+    // - LargeExitError - Maximum allowed error in degrees (180 degrees).
+    // - Maximum allowed time to reach target in milliseconds (5000 ms).
+    headingPID.setExitCondition(1, 180, p_timeout);
+
     headingPIDActive = true;
 }
 
-void chassisPID::setDistancePID(double xTarget, double yTarget, int timeoutTime, double smallExitError, double largeExitError){
+/**
+ * Calculate and set the inital PID targets. Resets the variables for the PID's along with setting the exit conditions.
+ *
+ * @param p_targetX X coordinate of the target points's position, in inches starting from the inital robot's position.
+ * @param p_targetY Y coordinate of the target points's position, in inches starting from the inital robot's position.
+ * @param p_timeout Time in miliseconds which when reached automatically exit the PID even if not finished.
+ * @param smallExitError Error term in degrees for when the PID is close enough to its target heading to exit.
+ * @param largeExitError Error term in degrees for when the PID is too far away from its target heading so it exits the PID (assuming something went wrong).
+ * @return Nothing
+ * 
+ */
+void chassisPID::setDistancePID(double p_targetX, double p_targetY, int p_timeout, double smallExitError, double largeExitError){
+    // Reset all PID variables to their initial state such as the error, derivative, etc.
     headingPID.resetVariables();
     distancePID.resetVariables();
-    targetX = xTarget;
-    targetY = yTarget;
+
+    //Setting the target coordinates for the PID.
+    targetX = p_targetX;
+    targetY = p_targetY;
     targetExists = true;
 
+    //Gets the current robot x and y coordinates along with the heading.
+    //Index 0 is the x, Index 1 is the y, Index 2 is the heading.
     std::vector<double> robotPosition = masterOdometry.getPosition();
     m_currentOdometryX = robotPosition[0];
     m_currentOdometryY = robotPosition[1];
+
+    //Calculates how far in the x and y directions the robot is from its target position.
     double deltaX = targetX - m_currentOdometryX;
     double deltaY = targetY - m_currentOdometryY;  
+
+    //
     double distanceFromTarget = std::hypot(deltaX, deltaY);
     double headingDistanceFromTarget = std::atan2(deltaY, deltaX);
 
     headingPID.setTarget(headingDistanceFromTarget);
     distancePID.setTarget(0.0);
 
-    headingPID.setExitCondition(0, 180, timeoutTime);
-    distancePID.setExitCondition(smallExitError, largeExitError, timeoutTime);
+    headingPID.setExitCondition(0, 180, p_timeout);
+    distancePID.setExitCondition(smallExitError, largeExitError, p_timeout);
 
     distancePIDActive = true;
 }
