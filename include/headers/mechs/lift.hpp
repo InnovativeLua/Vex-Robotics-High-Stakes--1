@@ -1,70 +1,32 @@
 #pragma once
 
 #include "main.h"
+#include "headers/brain/ports.hpp"
+class lift{
+public:
 
-class PID {
- public:
+    //Control types define what the intake is doing at any point during OPControl.
+    enum liftStates {
+        E_DISABLED,
+        E_MANUAL,
+        E_IDLE
+    };
 
-  PID();
+    int liftState = E_MANUAL; //The default state currently is manual.
 
+    int toggleDB = 0; //Debounce for the toggle in ms.
 
-  PID(double p, double i = 0, double d = 0, double pStart_i = 0, std::string name = "");
+    void spinForward(); //Function when called spins the lift forward.
 
+    void initalize();
 
-  void setConstants(double p, double i = 0, double d = 0, double pStart_i = 0);
+    void spinReverse(); //Function when called spins the lift reverse.
 
+    void stop(); //Function when called stops the lift from moving.
 
-  struct Constants {
-    double kp;
-    double ki;
-    double kd;
-    double start_i;
-  };
+    void opControl(); //Function called every time the OPControl loop is ran in main.cpp.
 
-
-  struct exitCondition {
-    double exitError = 0;
-    int timeout = 0;
-  };
-
-
-  void setExitCondition(double exitError, int timeout);
-
-
-  void setTarget(double input);
-
-
-  double compute(double current);
-
-
-  double getTarget();
-
-
-  Constants getConstants();
-
-  void resetVariables();
-
-  Constants constants;
-
-  exitCondition exit;
-
-  void setName(std::string name);
-
-  /**
-   * PID variables. 
-   */
-  double output;
-  double cur;
-  double error;
-  double target;
-  double prev_error;
-  double integral;
-  double derivative;
-  long time;
-  long prev_time;
-
- private:
-  int i = 0, j = 0, k = 0, l = 0;
-  void reset_timers();
-  std::string name;
+    pros::Motor liftMotor = pros::Motor(LIFT_MOTOR); //Declares a motor for the lift with port "IntakeMotor"
 };
+
+extern lift masterLift; //Global lift object to be accessed by any files.
