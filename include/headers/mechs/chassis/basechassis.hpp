@@ -41,7 +41,7 @@ class chassis {
     bool PTODB;
     bool PTOValue;
 
-    pros::adi::DigitalOut PTOPistons = pros::adi::DigitalOut('A'); //Pnemautic cylinder object / right wing in the A port.
+    pros::adi::DigitalOut PTOPistons = pros::adi::DigitalOut('G'); //Pnemautic cylinder object / right wing in the A port.
 
     void setDriveControl(int v);
 
