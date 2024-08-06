@@ -19,11 +19,11 @@ class odometry {
     const double AuxOffset = 0;
     const double leftOffset = 0;
 
-    double X;
-    double Y;
+    double X = 0.0;
+    double Y = 0.0;
     double prevX;
     double prevY;
-    double Heading;
+    double Heading = 0.0;
     double prevAux; //Sets the previous encoder value to the current value.
 	double prevLE; //Sets the previous encoder value to the current value.
 	double previousHeading; //Sets the previous heading to the current heading in radians.

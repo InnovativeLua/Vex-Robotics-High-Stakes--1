@@ -143,6 +143,8 @@ void opcontrol() {
 		masterChassis.opControl();
 		masterIntake.opControl();
 
+		std::cout << masterOdometry.getPosition()[0] << "," << masterOdometry.getPosition()[1] << std::endl;
+
 
 		pros::delay(mSecWaitTime);
 	}
