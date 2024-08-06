@@ -26,3 +26,5 @@ void autonSelector::cycleAutons(){
     currentAutonPage += 1;
   }
 }
+
+autonSelector masterAutonSelector;

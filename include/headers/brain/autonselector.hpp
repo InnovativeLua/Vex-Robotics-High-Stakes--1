@@ -13,3 +13,5 @@ public:
   void addAutons(std::vector<Auton> autons);
   void cycleAutons();
 };
+
+extern autonSelector masterAutonSelector;

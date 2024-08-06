@@ -49,6 +49,9 @@ void callProfile(){
 	//masterProfile.profileTask();
 }
 
+pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn('H');
+bool limitDebounce = false;
+
 void initialize() {
 	masterOdometry.initilize();//May cause a problem because the robot
 	//could be moved in the time between initalize and the start of 
@@ -67,10 +70,20 @@ void initialize() {
 	a_test.autonFunction = *test;
 	a_test.Name = "OffensiveAWP";
 
+	Auton a_test2;
+	a_test2.autonFunction = *test;
+	a_test2.Name = "RedFinals";
+
+	Auton a_test3;
+	a_test3.autonFunction = *test;
+	a_test3.Name = "BlueFinals";
+
 	autonsList.push_back(a_RedAWP);
 	autonsList.push_back(a_test);
+	autonsList.push_back(a_test2);
+	autonsList.push_back(a_test3);
 
-	//masterAutonSelector.addAutons(autonsList);
+	masterAutonSelector.addAutons(autonsList);
 
 	pros::lcd::register_btn1_cb(on_center_button);
 
@@ -143,8 +156,17 @@ void opcontrol() {
 		masterChassis.opControl();
 		masterIntake.opControl();
 
-		std::cout << masterOdometry.getPosition()[0] << "," << masterOdometry.getPosition()[1] << std::endl;
+		if (limitSwitch.get_value() != limitDebounce){
+			limitDebounce = limitSwitch.get_value();
+			if (limitSwitch.get_value() == true){
+				masterAutonSelector.cycleAutons();
+				std::cout << masterAutonSelector.currentAutonPage << std::endl;
+      			pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Current Auton: %3d", masterAutonSelector.currentAutonPage);
+      			pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
+			}
+		}
 
+		//std::cout << limitSwitch.get_value() << std::endl;
 
 		pros::delay(mSecWaitTime);
 	}
