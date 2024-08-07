@@ -21,12 +21,12 @@ class odometry {
 
     double X = 0.0;
     double Y = 0.0;
-    double prevX;
-    double prevY;
+    double prevX = 0.0;
+    double prevY = 0.0;
     double Heading = 0.0;
-    double prevAux; //Sets the previous encoder value to the current value.
-	double prevLE; //Sets the previous encoder value to the current value.
-	double previousHeading; //Sets the previous heading to the current heading in radians.
+    double prevAux = 0.0; //Sets the previous encoder value to the current value.
+	double prevLE = 0.0; //Sets the previous encoder value to the current value.
+	double previousHeading = 0.0; //Sets the previous heading to the current heading in radians.
     double estimatedVelocityX; //in inches/second
     double estimatedVelocityY; //in inches/second
     double estimatedAngularVelocity; //Might be an explicit way to do this;

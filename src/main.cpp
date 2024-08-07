@@ -145,6 +145,13 @@ void opcontrol() {
 	//auto myLights = sylib::Addrled(0, 'A', 32);
 	//myLights.turn_on();
 	//myLights.set_all(0x00FF00);
+	masterOdometry.initilize();
+
+	masterChassis.ChassisIMU.reset(true);
+
+	while (masterChassis.ChassisIMU.is_calibrating()){
+		pros::delay(20);
+	}
 
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
@@ -165,6 +172,8 @@ void opcontrol() {
       			pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
 			}
 		}
+
+		std::cout << masterOdometry.getPosition()[0] << "," << masterOdometry.getPosition()[1] << std::endl;
 
 		//std::cout << limitSwitch.get_value() << std::endl;
 
