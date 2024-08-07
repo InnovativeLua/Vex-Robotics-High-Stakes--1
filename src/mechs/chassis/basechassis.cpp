@@ -62,26 +62,32 @@ void chassis::opControl(){
 void chassis::initialize(){
     leftFrontMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
     leftFrontMotor.set_reversed(true);
+	leftFrontMotor.set_brake_mode(MOTOR_BRAKE_COAST);
     leftFrontMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
     leftBackMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
     leftBackMotor.set_reversed(true);
+	leftBackMotor.set_brake_mode(MOTOR_BRAKE_COAST);
     leftBackMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
     leftTopMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
     leftTopMotor.set_reversed(true);
+	leftTopMotor.set_brake_mode(MOTOR_BRAKE_COAST);
     leftTopMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
     rightFrontMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
     rightFrontMotor.set_reversed(false);
+	rightFrontMotor.set_brake_mode(MOTOR_BRAKE_COAST);
     rightFrontMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
     rightBackMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
     rightBackMotor.set_reversed(false);
+	rightBackMotor.set_brake_mode(MOTOR_BRAKE_COAST);
     rightBackMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
     rightTopMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
     rightTopMotor.set_reversed(false);
+	rightTopMotor.set_brake_mode(MOTOR_BRAKE_COAST);
     rightTopMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
     //ChassisIMU.reset(true);
 }
