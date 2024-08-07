@@ -19,23 +19,6 @@
 //AutonSelector masterAutonSelector = AutonSelector();
 
 
-bool pressed2 = false;
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-		if (pressed2 == false){
-			//masterAutonSelector.cycleAutons();
-			pressed2 = true;
-		}
-	} else {
-		if (pressed2 == true){
-			pressed2 = false;
-		}
-		pros::lcd::clear_line(2);
-	}
-}
 
 
 
@@ -57,8 +40,6 @@ void initialize() {
 	//could be moved in the time between initalize and the start of 
 	//drive control period.
 
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
 
 	std::vector<Auton> autonsList = {};
 
@@ -85,7 +66,6 @@ void initialize() {
 
 	masterAutonSelector.addAutons(autonsList);
 
-	pros::lcd::register_btn1_cb(on_center_button);
 
 	//pros::Task motionProfileTask(callProfile);
 }
@@ -154,10 +134,38 @@ void opcontrol() {
 	}
 
 	while (true) {
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
+		int screen = 0;
 
+		switch (screen){
+			case 0:
+				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %3d", masterAutonSelector.currentAutonPage);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
+
+				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", masterOdometry.getPosition()[2]);
+
+
+				//55 Degrees celcius is overheating and power power is reduced
+				//Only in resolution of 5 degrees so starts as 35 then 40 then 45 etc
+				pros::screen::print(pros::E_TEXT_MEDIUM, 6, "LeftBackMotor Temperature: %g°C", masterChassis.leftBackMotor.get_temperature());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 7, "LeftTopMotor Temperature: %g°C", masterChassis.leftTopMotor.get_temperature());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 8, "LeftFrontMotor Temperature: %g°C", masterChassis.leftFrontMotor.get_temperature());
+
+				pros::screen::print(pros::E_TEXT_MEDIUM, 9, "RightBackMotor Temperature: %g°C", masterChassis.rightBackMotor.get_temperature());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 10, "RightTopMotor Temperature: %g°C", masterChassis.rightTopMotor.get_temperature());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 11, "RightFrontMotor Temperature: %g°C", masterChassis.rightFrontMotor.get_temperature());
+
+				break;
+			case 1:
+				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %3d", masterAutonSelector.currentAutonPage);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
+
+				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", masterOdometry.getPosition()[2]);
+
+		}
 
 		masterOdometry.update();
 		masterChassis.opControl();
@@ -168,8 +176,6 @@ void opcontrol() {
 			if (limitSwitch.get_value() == true){
 				masterAutonSelector.cycleAutons();
 				std::cout << masterAutonSelector.currentAutonPage << std::endl;
-      			pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Current Auton: %3d", masterAutonSelector.currentAutonPage);
-      			pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
 			}
 		}
 
