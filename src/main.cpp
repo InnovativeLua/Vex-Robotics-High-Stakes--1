@@ -134,7 +134,7 @@ void opcontrol() {
 	}
 
 	while (true) {
-		int screen = 0;
+		int screen = 9;
 
 		switch (screen){
 			case 0:
@@ -168,8 +168,8 @@ void opcontrol() {
 		}
 
 		masterOdometry.update();
-		masterChassis.opControl();
-		masterIntake.opControl();
+		//masterChassis.opControl();
+		//masterIntake.opControl();
 
 		if (limitSwitch.get_value() != limitDebounce){
 			limitDebounce = limitSwitch.get_value();
