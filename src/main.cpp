@@ -169,7 +169,7 @@ void opcontrol() {
 
 		masterOdometry.update();
 		//masterChassis.opControl();
-		//masterIntake.opControl();
+		masterIntake.opControl();
 
 		if (limitSwitch.get_value() != limitDebounce){
 			limitDebounce = limitSwitch.get_value();

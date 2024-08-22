@@ -7,6 +7,7 @@ constexpr int LEFT_BACK_MOTOR = 7;
 constexpr int LEFT_TOP_MOTOR = -3;
 constexpr int LIFT_MOTOR = 8;
 constexpr int INTAKEMOTOR = 9;
+constexpr int INTAKEMOTOR2 = -10;
 constexpr char ODOMETRY_AUX_TOP = 'A';
 constexpr char ODOMETRY_AUX_BOTTOM = 'B';
 constexpr char ODOMETRY_LEFT_TOP = 'C';

@@ -29,6 +29,7 @@ public:
     void opControl(); //Function called every time the OPControl loop is ran in main.cpp.
 
     pros::Motor intakeMotor = pros::Motor(INTAKEMOTOR); //Declares a motor for the catapult with port "8"
+    pros::Motor intakeMotor2 = pros::Motor(INTAKEMOTOR2); //Declares a motor for the catapult with port "8"
 };
 
 extern intake masterIntake; //Global intake object to be accessed by any files.
