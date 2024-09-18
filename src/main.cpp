@@ -5,6 +5,7 @@
 #include "headers/brain/autonselector.hpp"
 #include "headers/auton/autons.hpp"
 #include "headers/mechs/chassis/odometry.hpp"
+#include "headers/brain/controller.hpp"
 
 #include <vector>
 #include <cstdint>
@@ -32,7 +33,7 @@ void callProfile(){
 	//masterProfile.profileTask();
 }
 
-pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn('H');
+pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn('G');
 bool limitDebounce = false;
 
 void initialize() {
@@ -132,9 +133,17 @@ void opcontrol() {
 	while (masterChassis.ChassisIMU.is_calibrating()){
 		pros::delay(20);
 	}
+	pros::adi::DigitalOut piston ('F');
+	bool currentPValue = false;
 
 	while (true) {
 		int screen = 9;
+
+		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+			piston.set_value(false);
+		} else {
+			piston.set_value(true);
+		}
 
 		switch (screen){
 			case 0:
@@ -168,7 +177,7 @@ void opcontrol() {
 		}
 
 		masterOdometry.update();
-		//masterChassis.opControl();
+		masterChassis.opControl();
 		masterIntake.opControl();
 
 		if (limitSwitch.get_value() != limitDebounce){
