@@ -1,9 +1,10 @@
 #include "main.h"
 #include "headers/brain/controller.hpp"
 #include "headers/mechs/lift.hpp"
+#include "headers/mechs/intake.hpp"
 
 void lift::initalize(){
-    liftMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
+    liftMotor.set_gearing(pros::E_MOTOR_GEARSET_36);
     liftMotor.set_reversed(false);
     liftMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 }
@@ -18,8 +19,20 @@ void lift::opControl(){
         } else {
             stop(); //stops the lift motor.
         }
+        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+            liftState = E_IDLE;
+        }
         break; //Breaks out of the switch statement.
-    toggleDB += 10; ////Steps the toggleDB clock by 10 miliseconds.
+    case E_IDLE: //If the catapult is in manual state, part of the manual control system.
+        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R1) || mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R1 on controller.
+            liftState = E_MANUAL;
+        }
+        if (masterIntake.intakeState == intake::E_MANUALFORWARD || masterIntake.intakeState == intake::E_MANUALREVERSE){
+            liftMotor.set_brake_mode(MOTOR_BRAKE_HOLD)
+        } else if (masterIntake.intakeState == intake::E_MANUALIDLE || masterIntake.intakeState == intake::E_IDLE){
+            liftMotor.set_brake_mode(MOTOR_BRAKE_HOLD)
+        }
+        break; //Breaks out of the switch statement.
     }
 }
 

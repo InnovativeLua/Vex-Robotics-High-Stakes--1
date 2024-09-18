@@ -8,8 +8,8 @@ public:
     //Control types define what the intake is doing at any point during OPControl.
     enum liftStates {
         E_DISABLED,
-        E_MANUAL,
-        E_IDLE
+        E_IDLE,
+        E_MANUAL
     };
 
     int liftState = E_MANUAL; //The default state currently is manual.

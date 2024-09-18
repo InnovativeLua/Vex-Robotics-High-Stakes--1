@@ -8,13 +8,13 @@ public:
     //Control types define what the intake is doing at any point during OPControl.
     enum intakeStates {
         E_DISABLED,
-        E_MANUAL,
-        E_IDLE,
-        E_INTAKING,
-        E_OUTTAKING
+        E_MANUALFORWARD,
+        E_MANUALREVERSE,
+        E_MANUALIDLE,
+        E_IDLE
     };
 
-    int intakeState = E_MANUAL; //The default state currently is manual.
+    int intakeState = E_MANUALIDLE; //The default state currently is manual.
 
     int toggleDB = 0; //Debounce for the toggle in ms.
 
