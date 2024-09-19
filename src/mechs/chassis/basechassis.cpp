@@ -61,12 +61,12 @@ void chassis::opControl(){
 
 void chassis::initialize(){
     leftFrontMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
-    leftFrontMotor.set_reversed(true);
+    leftFrontMotor.set_reversed(false);
 	leftFrontMotor.set_brake_mode(MOTOR_BRAKE_COAST);
     leftFrontMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
     leftBackMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
-    leftBackMotor.set_reversed(true);
+    leftTopMotor.set_reversed(true);
 	leftBackMotor.set_brake_mode(MOTOR_BRAKE_COAST);
     leftBackMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 

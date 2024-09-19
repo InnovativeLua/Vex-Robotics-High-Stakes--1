@@ -1,6 +1,7 @@
 #include "main.h"
 #include "headers/mechs/chassis/basechassis.hpp"
 #include "headers/mechs/intake.hpp" 
+#include "headers/mechs/lift.hpp"
 #include "headers/brain/ports.hpp"
 #include "headers/brain/autonselector.hpp"
 #include "headers/auton/autons.hpp"
@@ -176,9 +177,10 @@ void opcontrol() {
 
 		}
 
-		masterOdometry.update();
+		//masterOdometry.update();
 		masterChassis.opControl();
 		masterIntake.opControl();
+		masterLift.opControl();
 
 		if (limitSwitch.get_value() != limitDebounce){
 			limitDebounce = limitSwitch.get_value();

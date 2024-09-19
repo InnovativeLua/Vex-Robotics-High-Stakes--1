@@ -12,9 +12,9 @@ void lift::initalize(){
 void lift::opControl(){
     switch(liftState){ //Looks at the different states the lift can be in.
     case E_MANUAL: //If the catapult is in manual state, part of the manual control system.
-        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
+        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_L1)){ //looks for press of R1 on controller.
             spinForward(); //Spins the lift motor forwards.
-        } else if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
+        } else if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_L2)){ //looks for press of R2 on controller.
             spinReverse(); //Spins the lift motor reverse.
         } else {
             stop(); //stops the lift motor.
@@ -28,9 +28,9 @@ void lift::opControl(){
             liftState = E_MANUAL;
         }
         if (masterIntake.intakeState == intake::E_MANUALFORWARD || masterIntake.intakeState == intake::E_MANUALREVERSE){
-            liftMotor.set_brake_mode(MOTOR_BRAKE_HOLD)
+            liftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
         } else if (masterIntake.intakeState == intake::E_MANUALIDLE || masterIntake.intakeState == intake::E_IDLE){
-            liftMotor.set_brake_mode(MOTOR_BRAKE_HOLD)
+            liftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
         }
         break; //Breaks out of the switch statement.
     }

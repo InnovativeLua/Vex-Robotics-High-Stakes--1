@@ -6,11 +6,14 @@ void intake::initalize(){
     intakeMotor.set_gearing(pros::E_MOTOR_GEARSET_18);
     intakeMotor.set_reversed(false);
     intakeMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+    intakeState = E_MANUALIDLE;
 }
 
 void intake::opControl(){
     switch(intakeState){ //Looks at the different states the intake can be in.
-    case E_MANUALFORWARD || E_MANUALREVERSE || E_MANUALIDLE: //If the catapult is in manual state, part of the manual control system.
+    case E_MANUALFORWARD: //If the catapult is in manual state, part of the manual control system.
+    case E_MANUALREVERSE:
+    case E_MANUALIDLE:
         if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
             intakeState = E_MANUALFORWARD;
             spinForward(); //Spins the intake motor forwards.
