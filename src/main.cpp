@@ -41,6 +41,7 @@ void initialize() {
 	masterOdometry.initilize();//May cause a problem because the robot
 	//could be moved in the time between initalize and the start of 
 	//drive control period.
+	masterChassis.initialize();
 
 
 	std::vector<Auton> autonsList = {};
