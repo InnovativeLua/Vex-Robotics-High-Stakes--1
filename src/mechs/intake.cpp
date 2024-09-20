@@ -14,30 +14,39 @@ void intake::opControl(){
     case E_MANUALFORWARD: //If the catapult is in manual state, part of the manual control system.
     case E_MANUALREVERSE:
     case E_MANUALIDLE:
-        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
-            intakeState = E_MANUALFORWARD;
-            spinForward(); //Spins the intake motor forwards.
-        } else if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
-            intakeState = E_MANUALREVERSE;
-            spinReverse(); //Spins the intake motor reverse.
+        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
+            intakeVelocity = 165.0;
         } else {
-            intakeState = E_MANUALIDLE;
-            stop(); //stops the intake motor.
+            intakeVelocity = 200.0;
         }
-        break; //Breaks out of the switch statement.
+        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) && ((ringDetector.get_hue() < ringDectorMinHue) || (ringDetector.get_hue() > ringDectorMaxHue))){
+            spinReverse();
+        } else {
+            if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
+                intakeState = E_MANUALFORWARD;
+                spinForward(); //Spins the intake motor forwards.
+            } else if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
+                intakeState = E_MANUALREVERSE;
+                spinReverse(); //Spins the intake motor reverse.
+            } else {
+                intakeState = E_MANUALIDLE;
+                stop(); //stops the intake motor.
+            }
+            break; //Breaks out of the switch statement.
+        }
     }
 }
 
  //Function when called spins the intake forwards.
 void intake::spinForward(){
-    intakeMotor.move_velocity(200); //Sets the intake motor to 100 velocity or 50% speed.
-    intakeMotor2.move_velocity(200); //Sets the intake motor to 100 velocity or 50% speed.
+    intakeMotor.move_velocity(-intakeVelocity); //Sets the intake motor to 100 velocity or 50% speed.
+    intakeMotor2.move_velocity(-intakeVelocity); //Sets the intake motor to 100 velocity or 50% speed.
 }
 
  //Function when called spins the intake reverse.
 void intake::spinReverse(){
-    intakeMotor.move_velocity(-200); //Sets the intake motor to -100 velocity or -50% speed.
-    intakeMotor2.move_velocity(-200); //Sets the intake motor to 100 velocity or 50% speed.
+    intakeMotor.move_velocity(intakeVelocity); //Sets the intake motor to -100 velocity or -50% speed.
+    intakeMotor2.move_velocity(intakeVelocity); //Sets the intake motor to 100 velocity or 50% speed.
 }
 
 //Function when called stops the intake from moving.

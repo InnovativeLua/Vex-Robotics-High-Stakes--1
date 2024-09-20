@@ -12,6 +12,8 @@ public:
         E_MANUAL
     };
 
+    double liftTargetPosition = 40.0;
+
     int liftState = E_MANUAL; //The default state currently is manual.
 
     int toggleDB = 0; //Debounce for the toggle in ms.

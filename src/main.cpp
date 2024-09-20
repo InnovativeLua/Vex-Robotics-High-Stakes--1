@@ -139,7 +139,7 @@ void opcontrol() {
 	bool currentPValue = false;
 
 	while (true) {
-		int screen = 9;
+		int screen = 2;
 
 		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_A)){
 			piston.set_value(false);
@@ -175,7 +175,9 @@ void opcontrol() {
 				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", masterOdometry.getPosition()[2]);
-
+			case 2:
+				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Color Hue: %g", masterIntake.ringDetector.get_hue());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Lift Angle: %g", masterLift.liftMotor.get_position());
 		}
 
 		//masterOdometry.update();

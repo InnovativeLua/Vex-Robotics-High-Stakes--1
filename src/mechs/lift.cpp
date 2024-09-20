@@ -29,8 +29,13 @@ void lift::opControl(){
         }
         if (masterIntake.intakeState == intake::E_MANUALFORWARD || masterIntake.intakeState == intake::E_MANUALREVERSE){
             liftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+            if (liftMotor.get_position() < liftTargetPosition){
+                //liftMotor.move_velocity(50);
+            }
         } else if (masterIntake.intakeState == intake::E_MANUALIDLE || masterIntake.intakeState == intake::E_IDLE){
             liftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+        } else {
+            liftMotor.set_brake_mode(MOTOR_BRAKE_COAST);
         }
         break; //Breaks out of the switch statement.
     }

@@ -14,6 +14,8 @@ public:
         E_IDLE
     };
 
+    double intakeVelocity = 200.0;
+
     int intakeState = E_MANUALIDLE; //The default state currently is manual.
 
     int toggleDB = 0; //Debounce for the toggle in ms.
@@ -30,6 +32,11 @@ public:
 
     pros::Motor intakeMotor = pros::Motor(INTAKEMOTOR); //Declares a motor for the catapult with port "8"
     pros::Motor intakeMotor2 = pros::Motor(INTAKEMOTOR2); //Declares a motor for the catapult with port "8"
+
+    pros::Optical ringDetector = pros::Optical(RINGDETECTOR);
+
+    double ringDectorMaxHue = 60.0;
+    double ringDectorMinHue = 29.0;
 };
 
 extern intake masterIntake; //Global intake object to be accessed by any files.
