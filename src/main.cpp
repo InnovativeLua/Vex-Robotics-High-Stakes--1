@@ -1,6 +1,7 @@
 #include "main.h"
 #include "headers/mechs/chassis/basechassis.hpp"
 #include "headers/mechs/intake.hpp" 
+#include "headers/mechs/MOGOmech.hpp"
 #include "headers/mechs/lift.hpp"
 #include "headers/brain/ports.hpp"
 #include "headers/brain/autonselector.hpp"
@@ -42,6 +43,7 @@ void initialize() {
 	//could be moved in the time between initalize and the start of 
 	//drive control period.
 	masterChassis.initialize();
+	masterMogo.initialize();
 
 
 	std::vector<Auton> autonsList = {};
@@ -135,17 +137,12 @@ void opcontrol() {
 	while (masterChassis.ChassisIMU.is_calibrating()){
 		pros::delay(20);
 	}
-	pros::adi::DigitalOut piston ('F');
 	bool currentPValue = false;
 
 	while (true) {
 		int screen = 2;
 
-		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_A)){
-			piston.set_value(false);
-		} else {
-			piston.set_value(true);
-		}
+
 
 		switch (screen){
 			case 0:
@@ -184,6 +181,7 @@ void opcontrol() {
 		masterChassis.opControl();
 		masterIntake.opControl();
 		masterLift.opControl();
+		masterMogo.opControl();
 
 		if (limitSwitch.get_value() != limitDebounce){
 			limitDebounce = limitSwitch.get_value();
