@@ -39,11 +39,10 @@ pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn('G');
 bool limitDebounce = false;
 
 void initialize() {
-	masterOdometry.initilize();//May cause a problem because the robot
-	//could be moved in the time between initalize and the start of 
-	//drive control period.
+	masterOdometry.initilize();
 	masterChassis.initialize();
 	masterMogo.initialize();
+	masterOdometry.initilize();
 
 
 	std::vector<Auton> autonsList = {};
@@ -124,25 +123,16 @@ void autonomous() {
 
 void opcontrol() {
 	const int mSecWaitTime = 10;
-	masterChassis.driveControl = masterChassis.E_TANK_CONTROL;
 	masterChassis.driverControlPeriod = true;
-
-	//auto myLights = sylib::Addrled(0, 'A', 32);
-	//myLights.turn_on();
-	//myLights.set_all(0x00FF00);
-	masterOdometry.initilize();
 
 	masterChassis.ChassisIMU.reset(true);
 
 	while (masterChassis.ChassisIMU.is_calibrating()){
 		pros::delay(20);
 	}
-	bool currentPValue = false;
 
 	while (true) {
 		int screen = 2;
-
-
 
 		switch (screen){
 			case 0:
@@ -192,9 +182,6 @@ void opcontrol() {
 		}
 
 		std::cout << masterOdometry.getPosition()[0] << "," << masterOdometry.getPosition()[1] << std::endl;
-
-		//std::cout << limitSwitch.get_value() << std::endl;
-
 		pros::delay(mSecWaitTime);
 	}
 }
