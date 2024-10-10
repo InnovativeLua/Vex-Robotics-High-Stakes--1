@@ -2,7 +2,6 @@
 #include "headers/brain/controller.hpp"
 
 
-
 void mogoMech::opControl(){
     if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_A)){
         extend();

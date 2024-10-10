@@ -12,13 +12,6 @@
 #include <vector>
 #include <cstdint>
 
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
-
 //AutonSelector masterAutonSelector = AutonSelector();
 
 
