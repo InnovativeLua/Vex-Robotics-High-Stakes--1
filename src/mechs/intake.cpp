@@ -32,7 +32,6 @@ intake::E_intakeStates intake::getCurrentState(){
     return intakeState;
 }
 
-
 /**
  * Runs both the top intake and the bottom intake forward based on the current intake velocity.
  *
@@ -40,8 +39,8 @@ intake::E_intakeStates intake::getCurrentState(){
  * 
  */
 void intake::spinForward(){
-    intakeMotor.move_velocity(-intakeVelocity); //Sets the intake motor to 100 velocity or 50% speed.
-    intakeMotor2.move_velocity(-intakeVelocity); //Sets the intake motor to 100 velocity or 50% speed.
+    intakeMotor.move_velocity(-intakeVelocity); //Sets the intake motor to the current intake velocity in reverse.
+    intakeMotor2.move_velocity(-intakeVelocity);
     intakeState = E_FORWARD;
 }
 
@@ -52,8 +51,8 @@ void intake::spinForward(){
  * 
  */
 void intake::spinReverse(){
-    intakeMotor.move_velocity(intakeVelocity); //Sets the intake motor to -100 velocity or -50% speed.
-    intakeMotor2.move_velocity(intakeVelocity); //Sets the intake motor to 100 velocity or 50% speed.
+    intakeMotor.move_velocity(intakeVelocity); //Sets the intake motor to the current intake velocity.
+    intakeMotor2.move_velocity(intakeVelocity);
     intakeState = E_REVERSE;
 }
 
@@ -64,8 +63,8 @@ void intake::spinReverse(){
  * 
  */
 void intake::stop(){
-    intakeMotor.move_velocity(0); //Stops the intake motor from moving.
-    intakeMotor2.move_velocity(0); //Sets the intake motor to 100 velocity or 50% speed.
+    intakeMotor.move_velocity(0); //Stops the intake motors from moving.
+    intakeMotor2.move_velocity(0);
     intakeState = E_IDLE;
 }
 
@@ -79,25 +78,28 @@ void intake::stop(){
  * 
  */
 void intake::opControl(){
-    switch(intakeState){ //Looks at the different states the intake can be in.
-    //For every intake state except for disabled it will run the same thing.
+    //Looks at the different states the intake can be in.
+    //For every intake state except for disabled.
+    switch(intakeState){ 
     case E_FORWARD:
     case E_REVERSE:
     case E_IDLE:
-        //Allows
-        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
+        //looks for press of the respective slow button on the controller.
+        if (mainController->get_digital(INTAKE_SLOW)){
             intakeVelocity = 165.0; //Slows down the intake.
         } else {
             intakeVelocity = 200.0; //Sets the intake to maximum velocity.
         }
-        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //looks for press of R1 on controller.
-            spinForward(); //Spins the intake motor forwards.
-        } else if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_R2)){ //looks for press of R2 on controller.
-            spinReverse(); //Spins the intake motor reverse.
+        //looks for press of the respective forward button on the controller.
+        if (mainController->get_digital(INTAKE_FORWARD)){
+            spinForward();
+        //looks for press of the respective reverse button on the controller.
+        } else if (mainController->get_digital(INTAKE_REVERSE)){ //looks for press of R2 on controller.
+            spinReverse();
         } else {
-            stop(); //stops the intake motor.
+            stop();
         }
-        break; //Breaks out of the switch statement.
+        break;
     }
 }
 
@@ -109,13 +111,17 @@ void intake::opControl(){
  * 
  */
 void intake::initalize(){
+
+	//Sets the intake motors to the correct gearing, brake mode, and encoder units.
     intakeMotor.set_gearing(pros::E_MOTOR_GEARSET_18);
     intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     intakeMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+
     intakeMotor2.set_gearing(pros::E_MOTOR_GEARSET_18);
     intakeMotor2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     intakeMotor2.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
-    intakeState = E_IDLE;
+
+    intakeState = E_IDLE; //Default intake state is idle.
 }
 
 intake masterIntake; //Global main intake to use the intake in other files.

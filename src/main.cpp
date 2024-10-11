@@ -62,9 +62,6 @@ void initialize() {
 	autonsList.push_back(a_test3);
 
 	masterAutonSelector.addAutons(autonsList);
-
-
-	//pros::Task motionProfileTask(callProfile);
 }
 
 /**
@@ -97,7 +94,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	//masterAutonSelector.callSelectedAuton();
+
 }
 
 /**
@@ -113,7 +110,6 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-
 void opcontrol() {
 	const int mSecWaitTime = 10;
 	masterChassis.driverControlPeriod = true;
