@@ -1,4 +1,4 @@
-//Respective header file for chassis.
+//Respective header file for the chassis.
 #include "headers/mechs/chassis/basechassis.hpp"
 
 /**

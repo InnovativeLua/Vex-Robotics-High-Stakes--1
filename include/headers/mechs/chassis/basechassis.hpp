@@ -105,7 +105,6 @@ class chassis {
      * @return Nothing
      * 
      */
-
     void initialize();
 
 private:

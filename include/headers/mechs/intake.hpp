@@ -1,42 +1,101 @@
 #pragma once
 
+//Required vex library.
 #include "main.h"
+
+//Custom headers.
 #include "headers/brain/ports.hpp"
+#include "headers/brain/controller.hpp"
+
 class intake{
 public:
 
-    //Control types define what the intake is doing at any point during OPControl.
-    enum intakeStates {
+    //Motor definitions with the respective ports defined in the ports.hpp file.
+    pros::Motor intakeMotor = pros::Motor(INTAKEMOTOR);
+    pros::Motor intakeMotor2 = pros::Motor(INTAKEMOTOR2);
+
+    //Enum for the control types define what the intake is doing at any point.
+    enum E_intakeStates {
         E_DISABLED,
-        E_MANUALFORWARD,
-        E_MANUALREVERSE,
-        E_MANUALIDLE,
-        E_IDLE
+        E_FORWARD,
+        E_REVERSE,
+        E_IDLE,
     };
 
-    double intakeVelocity = 200.0;
+    /**
+     * Sets the current intake velocity.
+     *
+     * @param targetVelocity(double) velocity to set the intake to.
+     * @return Nothing
+     * 
+     */
+    void setVelocity(double targetVelocity);
 
-    int intakeState = E_MANUALIDLE; //The default state currently is manual.
+    /**
+     * Gets the current intake velocity.
+     *
+     * @return The current intake velocity.
+     * 
+     */
+    double getVelocity();
 
-    int toggleDB = 0; //Debounce for the toggle in ms.
+    /**
+     * Gets the current intake state.
+     *
+     * @return The current intake state.
+     * 
+     */
+    intake::E_intakeStates getCurrentState();
 
-    void spinForward(); //Function when called spins the intake forward.
+    /**
+     * Runs both the top intake and the bottom intake forward based on the current intake velocity.
+     *
+     * @return Nothing
+     * 
+     */
+    void spinForward();
 
+
+    /**
+     * Runs both the top intake and the bottom intake reverse based on the current intake velocity.
+     *
+     * @return Nothing
+     * 
+     */
+    void spinReverse();
+
+    /**
+     * Stops both the top intake and the bottom intake.
+     *
+     * @return Nothing
+     * 
+     */
+    void stop();
+
+    /**
+     * Runs during operator control code.
+     * Makes the drivetrain move based on what buttons are being pressed.
+     * R1 - Forward
+     * R2 - Reverse
+     * 
+     * @return Nothing
+     * 
+     */
+    void opControl();
+
+    /**
+     * Runs during initialization.
+     * Sets all the motors to the correct gearing, brake modes, and encoder units.
+     * 
+     * @return Nothing
+     * 
+     */
     void initalize();
 
-    void spinReverse(); //Function when called spins the intake reverse.
+private:
+    double intakeVelocity = 200.0; //Velocity of the intake.
 
-    void stop(); //Function when called stops the intake from moving.
-
-    void opControl(); //Function called every time the OPControl loop is ran in main.cpp.
-
-    pros::Motor intakeMotor = pros::Motor(INTAKEMOTOR); //Declares a motor for the catapult with port "8"
-    pros::Motor intakeMotor2 = pros::Motor(INTAKEMOTOR2); //Declares a motor for the catapult with port "8"
-
-    pros::Optical ringDetector = pros::Optical(RINGDETECTOR);
-
-    double ringDectorMaxHue = 60.0;
-    double ringDectorMinHue = 29.0;
+    E_intakeStates intakeState; //Current intake state the intake is in.
 };
 
 extern intake masterIntake; //Global intake object to be accessed by any files.
