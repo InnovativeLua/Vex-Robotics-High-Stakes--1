@@ -22,5 +22,4 @@ void mogoMech::initialize(){
 
 }
 
-
 mogoMech masterMogo;

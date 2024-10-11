@@ -1,12 +1,19 @@
 #pragma once
+
+//Built in libaries
 #include <vector>
+
+//Required vex library.
 #include "main.h"
+
+//Custom headers.
 #include "headers/brain/ports.hpp"
+#include "headers/brain/controller.hpp"
 
 class chassis {
-
  public:
 
+    //Motor definitions with the respective ports defined in the ports.hpp file.
     pros::Motor leftFrontMotor = pros::Motor(LEFT_FRONT_MOTOR);
     pros::Motor leftBackMotor = pros::Motor(LEFT_BACK_MOTOR);
     pros::Motor leftTopMotor = pros::Motor(LEFT_TOP_MOTOR);
@@ -15,50 +22,94 @@ class chassis {
     pros::Motor rightBackMotor = pros::Motor(RIGHT_BACK_MOTOR);
     pros::Motor rightTopMotor = pros::Motor(RIGHT_TOP_MOTOR);
 
+    //Enum for each type of drive controls.
     enum E_driveControl {
-        E_ARCADE_CONTROL,
-        E_TANK_CONTROL
+        E_ARCADE_CONTROL, //Control type which uses one vertical joystick and one horizontal joystick.
+        E_TANK_CONTROL //Control type which uses two vertical joysticks.
     };
 
-    enum E_PTO { //Different states the PTO can be in.
-        E_PTOTYPE_ENABLED, //Enabled / Extended
-        E_PTOTYPE_DISABLED, //Disabled / Retracted
-    };
-
+    //Vector to hold which left motors are active. Implemented in case we want to have a PTO later.
     std::vector<pros::Motor> ActiveLeftMotors = {leftFrontMotor, leftBackMotor, leftTopMotor};
+
+    //Vector to hold which right motors are active. Implemented in case we want to have a PTO later.
     std::vector<pros::Motor> ActiveRightMotors = {rightFrontMotor, rightBackMotor, rightTopMotor};
 
-    pros::IMU ChassisIMU = pros::IMU(10);
+    pros::IMU ChassisIMU = pros::IMU(10); //Chassis IMU to be used later.
 
-    pros::adi::Encoder leftTracker = pros::adi::Encoder(ODOMETRY_LEFT_BOTTOM, ODOMETRY_LEFT_TOP);
-    pros::adi::Encoder auxTracker = pros::adi::Encoder(ODOMETRY_AUX_BOTTOM, ODOMETRY_AUX_TOP);
+    bool driverControlPeriod; //Boolean to see if the driver control period is enabled.
 
-    bool driverControlPeriod;
+    /**
+     * Sets the current chassis control type.
+     *
+     * @param targetDriveControl(E_driveControl) Drive control to switch to.
+     * @return Nothing
+     * 
+     */
+    void setDriveControl(E_driveControl targetDriveControl);
 
-    E_driveControl driveControl;
-    E_PTO PTOControl;
+    /**
+     * Get the current chassis control type.
+     *
+     * @return driveControl(E_driveControl) current drive control type for the chassis.
+     * 
+     */
+    E_driveControl getCurrentDriveControl();
 
-    bool PTODB;
-    bool PTOValue;
-
-    pros::adi::DigitalOut PTOPistons = pros::adi::DigitalOut('G'); //Pnemautic cylinder object / right wing in the A port.
-
-    void setDriveControl(int v);
-
-    void updateDrive(int leftPower, int rightPower);
-
-    void opControl();
-
+    /**
+     * Runs the left chassis motors based on the power param.
+     *
+     * @param power(int) Voltage for motors from -127 to 127
+     * @return Nothing
+     * 
+     */
     void updateLeft(int power);
 
+    /**
+     * Runs the right chassis motors based on the power param.
+     *
+     * @param power(int) Voltage for motors from -127 to 127
+     * @return Nothing
+     * 
+     */
     void updateRight(int power);
 
-    void turnToAngle(double targetAngle);
+    /**
+     * Runs both the left and right chassis motors.
+     *
+     * @param leftPower(int) Voltage for left chassis motors ranging from -127 to 127.
+     * @param rightPower(int) Voltage for right chassis motors ranging from -127 to 127.
+     * @return Nothing
+     * 
+     */
+    void updateDrive(int leftPower, int rightPower);
 
-    //Runs constantly during auton
-    void chassisAutoTask();
+    //void turnToAngle(double targetAngle); //Not Implemented will be later on.
+
+    /**
+     * Runs during operator control code.
+     * Makes the drivetrain move based on the controller joysticks and the type of control we want. 
+     * Arcade Control - One vertical joystick moves the drivetrain forward and one horizontal turns the drivetrain.
+     * Tank Control - Each vertical joystick moves each side of the drivetrain.
+     * 
+     * @return Nothing
+     * 
+     */
+    void opControl();
+
+
+    /**
+     * Runs during initialization.
+     * Sets all the motors to the correct gearing, brake modes, and encoder units.
+     * Resets the chassis IMU.
+     * 
+     * @return Nothing
+     * 
+     */
 
     void initialize();
+
+private:
+    E_driveControl driveControl; //Current drive control type the chassis is using.
 };
 
-extern chassis masterChassis;
+extern chassis masterChassis; //Global main chassis to use the drivetrain in other files.

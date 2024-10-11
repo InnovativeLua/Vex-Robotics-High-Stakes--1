@@ -1,6 +1,26 @@
-//Including
+//Respective header file for chassis.
 #include "headers/mechs/chassis/basechassis.hpp"
-#include "headers/brain/controller.hpp"
+
+/**
+ * Sets the current chassis control type.
+ *
+ * @param targetDriveControl(E_driveControl) Drive control to switch to.
+ * @return Nothing
+ * 
+ */
+void chassis::setDriveControl(E_driveControl targetDriveControl){
+    driveControl = targetDriveControl;
+}
+
+/**
+ * Get the current chassis control type.
+ *
+ * @return driveControl(E_driveControl) current drive control type for the chassis.
+ * 
+ */
+chassis::E_driveControl chassis::getCurrentDriveControl(){
+    return driveControl;
+}
 
 /**
  * Runs the left chassis motors based on the power param.
