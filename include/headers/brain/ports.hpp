@@ -21,4 +21,4 @@ constexpr char ODOMETRY_LEFT_TOP = 'C';
 constexpr char ODOMETRY_LEFT_BOTTOM = 'D';
 
 //Solenoids
-constexpr char MOGO_MECH_SOLENOID = 'F';
+constexpr char MOGO_MECH_SOLENOID = 'G';

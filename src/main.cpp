@@ -12,8 +12,6 @@
 #include <vector>
 #include <cstdint>
 
-//AutonSelector masterAutonSelector = AutonSelector();
-
 
 
 
@@ -28,14 +26,14 @@ void callProfile(){
 	//masterProfile.profileTask();
 }
 
-pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn('G');
+pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn('H');
 bool limitDebounce = false;
 
 void initialize() {
-	masterOdometry.initilize();
+	//masterOdometry.initilize();
 	masterChassis.initialize();
 	masterMogo.initialize();
-	masterOdometry.initilize();
+	masterIntake.initalize();
 
 
 	std::vector<Auton> autonsList = {};
@@ -94,7 +92,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-
+	test();
 }
 
 /**
@@ -121,16 +119,13 @@ void opcontrol() {
 	}
 
 	while (true) {
-		int screen = 2;
+		int screen = 1;
 
 		switch (screen){
 			case 0:
 				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %3d", masterAutonSelector.currentAutonPage);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
 
-				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", masterOdometry.getPosition()[2]);
 
 
 				//55 Degrees celcius is overheating and power power is reduced
@@ -148,18 +143,14 @@ void opcontrol() {
 				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %3d", masterAutonSelector.currentAutonPage);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
 
-				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", masterOdometry.getPosition()[2]);
 			case 2:
-				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Color Hue: %g", masterIntake.ringDetector.get_hue());
-				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Lift Angle: %g", masterLift.liftMotor.get_position());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Lift Angle: %g", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage]);
 		}
 
 		//masterOdometry.update();
 		masterChassis.opControl();
 		masterIntake.opControl();
-		masterLift.opControl();
+		//masterLift.opControl();
 		masterMogo.opControl();
 
 		if (limitSwitch.get_value() != limitDebounce){
@@ -170,7 +161,10 @@ void opcontrol() {
 			}
 		}
 
-		std::cout << masterOdometry.getPosition()[0] << "," << masterOdometry.getPosition()[1] << std::endl;
+		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
+			masterAutonSelector.callSelectedAuton();
+		}
+
 		pros::delay(mSecWaitTime);
 	}
 }
