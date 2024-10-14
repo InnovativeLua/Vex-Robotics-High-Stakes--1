@@ -90,12 +90,6 @@ void chassis::opControl(){
             updateDrive(leftPower, rightPower);
         }
 		
-		//If Y is pressed it will move the drivetrain straight made specifically for tank control.
-		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_X)){
-			updateDrive(600, 600); //Moves the drivetrain forwards straight.
-		} else if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_B)){
-			updateDrive(-600, -600); //Moves the drivetrain backwards straight.
-		}
     }
 }
 

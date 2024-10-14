@@ -92,7 +92,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	test();
+	test2();
 }
 
 /**
@@ -108,6 +108,9 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+int mogoTimeout = 200;
+int currentMogoDelay = 0;
+pros::adi::DigitalOut axeCylinder = pros::adi::DigitalOut('B');
 void opcontrol() {
 	const int mSecWaitTime = 10;
 	masterChassis.driverControlPeriod = true;
@@ -151,7 +154,12 @@ void opcontrol() {
 		masterChassis.opControl();
 		masterIntake.opControl();
 		//masterLift.opControl();
-		masterMogo.opControl();
+		if (currentMogoDelay <= 0){
+			masterMogo.opControl();
+			currentMogoDelay = mogoTimeout;
+		} else {
+			currentMogoDelay -= 20;
+		}
 
 		if (limitSwitch.get_value() != limitDebounce){
 			limitDebounce = limitSwitch.get_value();
@@ -163,6 +171,12 @@ void opcontrol() {
 
 		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			masterAutonSelector.callSelectedAuton();
+		}
+
+		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_X)){
+			axeCylinder.set_value(true);
+		} else {
+			axeCylinder.set_value(false);
 		}
 
 		pros::delay(mSecWaitTime);
