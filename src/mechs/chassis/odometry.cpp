@@ -11,8 +11,10 @@ void odometry::resetPosition(){
 
 void odometry::initilize(){
 	resetPosition();
-	double prevAux = masterChassis.auxTracker.get_value(); //Sets the previous encoder value to the current value.
-	double prevLE = masterChassis.leftTracker.get_value(); //Sets the previous encoder value to the current value.
+    masterChassis.auxTracker.reset();
+    masterChassis.leftTracker.reset();
+	double prevAux = (double)masterChassis.auxTracker.get_value(); //Sets the previous encoder value to the current value.
+	double prevLE = (double)masterChassis.leftTracker.get_value(); //Sets the previous encoder value to the current value.
 	double previousHeading = masterChassis.ChassisIMU.get_heading()*PI/180; //Sets the previous heading to the current heading in radians.
 }
 
@@ -29,8 +31,8 @@ std::vector<double> odometry::getEstimatedVelocity(){
 }
 
 void odometry::update(){
-	double LEncoder = masterChassis.leftTracker.get_value(); //Sets a variable composed of the left encoder value.
-	double auxEncoder = masterChassis.auxTracker.get_value(); //Sets a variable composed of the right encoder value.
+	double LEncoder = (double)(masterChassis.leftTracker.get_value()); //Sets a variable composed of the left encoder value.
+	double auxEncoder = (double)(masterChassis.auxTracker.get_value()); //Sets a variable composed of the right encoder value.
 
 	std::cout << "LEncoder: " << LEncoder << std::endl;
 	std::cout << "auxEncoder: " << auxEncoder << std::endl;
@@ -59,7 +61,7 @@ void odometry::update(){
 	double deltaY = deltaAux; //Local Coordinate System Delta Y
 
 
-	if (std::abs(deltaTheta) < 0.0001){ //if the robot has not turned.
+	if (std::abs(deltaTheta) < 0.001){ //if the robot has not turned.
 		deltaX = deltaL; //sets DeltaX to the left encoder value.
 		deltaY = deltaAux; //sets DeltaY to the right encoder value.
 	} else { //The robot has turned
@@ -72,25 +74,27 @@ void odometry::update(){
 
 	double averageHeading = previousHeading + deltaTheta/2; //Takes the averge of the previous heading and the new heading.
 
-	std::cout << "averageHeading: " << averageHeading << std::endl;
+	//std::cout << "averageHeading: " << averageHeading << std::endl;
 
 	prevX = X;
 	prevY = Y;
 	X += (cos(-averageHeading) * deltaX - sin(-averageHeading) * deltaY);
 	Y += (sin(-averageHeading) * deltaX + cos(-averageHeading) * deltaY);
 
+	std::cout << "X: " << X << std::endl;
+	std::cout << "Y: " << Y << std::endl;
 	
-	std::cout << (std::cos(-averageHeading) * deltaX - std::sin(-averageHeading) * deltaY) << std::endl;
-	std::cout << (std::sin(-averageHeading) * deltaX + std::cos(-averageHeading) * deltaY) << std::endl;
+	//std::cout << (std::cos(-averageHeading) * deltaX - std::sin(-averageHeading) * deltaY) << std::endl;
+	//std::cout << (std::sin(-averageHeading) * deltaX + std::cos(-averageHeading) * deltaY) << std::endl;
 
-	estimatedVelocityX = (X - prevX)/0.01; //inches / 0.01 seconds - Time between updates.
-	estimatedVelocityY = (Y - prevY)/0.01; //inches / 0.01 seconds - Time between updates.
+	//estimatedVelocityX = (X - prevX)/0.01; //inches / 0.01 seconds - Time between updates.
+	//estimatedVelocityY = (Y - prevY)/0.01; //inches / 0.01 seconds - Time between updates.
 
-	estimatedAngularVelocity = (Heading - previousHeading)/0.01;
+	//estimatedAngularVelocity = (Heading - previousHeading)/0.01;
 
 	previousHeading = Heading;
 
-	std::cout << "previousHeading: " << previousHeading << std::endl;
+	//std::cout << "previousHeading: " << previousHeading << std::endl;
 }
 
 //Old Code:

@@ -113,7 +113,7 @@ int mogoTimeout = 400;
 int currentMogoDelay = 0;
 int axeTimeout = 400;
 int currentAxeDelay = 0;
-pros::adi::DigitalOut axeCylinder = pros::adi::DigitalOut('B');
+pros::adi::DigitalOut axeCylinder = pros::adi::DigitalOut('G');
 void opcontrol() {
 	const int mSecWaitTime = 10;
 	masterChassis.driverControlPeriod = true;
@@ -125,7 +125,7 @@ void opcontrol() {
 	}
 
 	while (true) {
-		int screen = 0;
+		int screen = 1;
 
 		switch (screen){
 			case 0:
@@ -151,6 +151,11 @@ void opcontrol() {
 			case 1:
 				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %3d", masterAutonSelector.currentAutonPage);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", masterOdometry.getPosition()[2]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 6, "AUX: %g", masterChassis.auxTracker.get_value());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 7, "LEFT: %g", masterChassis.leftTracker.get_value());
 
 			case 2:
 				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Lift Angle: %g", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage]);
@@ -160,7 +165,7 @@ void opcontrol() {
 		masterChassis.opControl();
 		masterIntake.opControl();
 		masterLift.opControl();
-		//masterLift.opControl();
+
 		if (currentMogoDelay <= 0){
 			masterMogo.opControl();
 			currentMogoDelay = mogoTimeout;

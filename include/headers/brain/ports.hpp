@@ -16,8 +16,8 @@ constexpr int INTAKEMOTOR2 = 10;
 //Sensors
 constexpr int RINGDETECTOR = 11;
 constexpr int ODOMETRY_INERTIAL = 8;
-constexpr char ODOMETRY_AUX_TOP = 'D';
-constexpr char ODOMETRY_AUX_BOTTOM = 'C';
+constexpr char ODOMETRY_AUX_TOP = 'C';
+constexpr char ODOMETRY_AUX_BOTTOM = 'D';
 constexpr char ODOMETRY_LEFT_TOP = 'A';
 constexpr char ODOMETRY_LEFT_BOTTOM = 'B';
 
