@@ -30,10 +30,11 @@ pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn('H');
 bool limitDebounce = false;
 
 void initialize() {
-	//masterOdometry.initilize();
 	masterChassis.initialize();
+	masterOdometry.initilize();
 	masterMogo.initialize();
 	masterIntake.initalize();
+	masterLift.initalize();
 
 
 	std::vector<Auton> autonsList = {};
@@ -108,8 +109,10 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-int mogoTimeout = 200;
+int mogoTimeout = 400;
 int currentMogoDelay = 0;
+int axeTimeout = 400;
+int currentAxeDelay = 0;
 pros::adi::DigitalOut axeCylinder = pros::adi::DigitalOut('B');
 void opcontrol() {
 	const int mSecWaitTime = 10;
@@ -122,13 +125,16 @@ void opcontrol() {
 	}
 
 	while (true) {
-		int screen = 1;
+		int screen = 0;
 
 		switch (screen){
 			case 0:
 				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %3d", masterAutonSelector.currentAutonPage);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
 
+				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", masterOdometry.getPosition()[2]);
 
 
 				//55 Degrees celcius is overheating and power power is reduced
@@ -150,9 +156,10 @@ void opcontrol() {
 				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Lift Angle: %g", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage]);
 		}
 
-		//masterOdometry.update();
+		masterOdometry.update();
 		masterChassis.opControl();
 		masterIntake.opControl();
+		masterLift.opControl();
 		//masterLift.opControl();
 		if (currentMogoDelay <= 0){
 			masterMogo.opControl();
@@ -173,10 +180,16 @@ void opcontrol() {
 			masterAutonSelector.callSelectedAuton();
 		}
 
-		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_X)){
-			axeCylinder.set_value(true);
+		if (currentAxeDelay <= 0){
+			if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_X)){
+				axeCylinder.set_value(true);
+			} else {
+				axeCylinder.set_value(false);
+			}
+			currentAxeDelay = axeTimeout;
+	
 		} else {
-			axeCylinder.set_value(false);
+			currentAxeDelay -= 20;
 		}
 
 		pros::delay(mSecWaitTime);

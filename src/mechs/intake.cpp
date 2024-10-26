@@ -113,11 +113,11 @@ void intake::opControl(){
 void intake::initalize(){
 
 	//Sets the intake motors to the correct gearing, brake mode, and encoder units.
-    intakeMotor.set_gearing(pros::E_MOTOR_GEARSET_18);
+    intakeMotor.set_gearing(pros::E_MOTOR_GEARSET_36);
     intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     intakeMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
-    intakeMotor2.set_gearing(pros::E_MOTOR_GEARSET_18);
+    intakeMotor2.set_gearing(pros::E_MOTOR_GEARSET_36);
     intakeMotor2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     intakeMotor2.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 

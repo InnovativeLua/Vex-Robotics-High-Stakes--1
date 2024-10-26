@@ -34,7 +34,10 @@ class chassis {
     //Vector to hold which right motors are active. Implemented in case we want to have a PTO later.
     std::vector<pros::Motor> ActiveRightMotors = {rightFrontMotor, rightBackMotor, rightTopMotor};
 
-    pros::IMU ChassisIMU = pros::IMU(10); //Chassis IMU to be used later.
+    pros::IMU ChassisIMU = pros::IMU(ODOMETRY_INERTIAL); //Chassis IMU to be used later.
+
+    pros::adi::Encoder leftTracker = pros::adi::Encoder(ODOMETRY_LEFT_TOP, ODOMETRY_LEFT_BOTTOM);
+    pros::adi::Encoder auxTracker = pros::adi::Encoder(ODOMETRY_AUX_TOP, ODOMETRY_AUX_BOTTOM);
 
     bool driverControlPeriod; //Boolean to see if the driver control period is enabled.
 

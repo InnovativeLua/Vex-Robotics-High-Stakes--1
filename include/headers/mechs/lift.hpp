@@ -1,7 +1,11 @@
 #pragma once
 
 #include "main.h"
+
+//Custom headers.
 #include "headers/brain/ports.hpp"
+#include "headers/brain/controller.hpp"
+
 class lift{
 public:
 
@@ -11,8 +15,6 @@ public:
         E_IDLE,
         E_MANUAL
     };
-
-    double liftTargetPosition = 40.0;
 
     int liftState = E_MANUAL; //The default state currently is manual.
 
