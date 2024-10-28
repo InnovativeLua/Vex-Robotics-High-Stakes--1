@@ -153,9 +153,11 @@ void opcontrol() {
 				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", masterOdometry.getPosition()[2]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", 180/3.14159*masterOdometry.getPosition()[2]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 6, "AUX: %g", masterChassis.auxTracker.get_value());
 				pros::screen::print(pros::E_TEXT_MEDIUM, 7, "LEFT: %g", masterChassis.leftTracker.get_value());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Distance: %g", masterIntake.distanceSensor.get());
+				//std::cout << "Intake distance " << masterIntake.distanceSensor.get() << std::endl;
 
 			case 2:
 				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Lift Angle: %g", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage]);

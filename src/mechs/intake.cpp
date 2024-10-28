@@ -40,8 +40,6 @@ intake::E_intakeStates intake::getCurrentState(){
  */
 void intake::spinForward(){
     intakeMotor.move_velocity(-intakeVelocity); //Sets the intake motor to the current intake velocity in reverse.
-    intakeMotor2.move_velocity(-intakeVelocity);
-    intakeState = E_FORWARD;
 }
 
 /**
@@ -52,8 +50,6 @@ void intake::spinForward(){
  */
 void intake::spinReverse(){
     intakeMotor.move_velocity(intakeVelocity); //Sets the intake motor to the current intake velocity.
-    intakeMotor2.move_velocity(intakeVelocity);
-    intakeState = E_REVERSE;
 }
 
 /**
@@ -64,8 +60,6 @@ void intake::spinReverse(){
  */
 void intake::stop(){
     intakeMotor.move_velocity(0); //Stops the intake motors from moving.
-    intakeMotor2.move_velocity(0);
-    intakeState = E_IDLE;
 }
 
 /**
@@ -81,16 +75,16 @@ void intake::opControl(){
     //Looks at the different states the intake can be in.
     //For every intake state except for disabled.
     switch(intakeState){ 
-    case E_FORWARD:
-    case E_REVERSE:
-    case E_IDLE:
-        //looks for press of the respective slow button on the controller.
-        if (mainController->get_digital(INTAKE_SLOW)){
-            intakeVelocity = 165.0; //Slows down the intake.
-        } else {
-            intakeVelocity = 200.0; //Sets the intake to maximum velocity.
-        }
+    case E_MANUAL:
         //looks for press of the respective forward button on the controller.
+        if (mainController->get_digital(INTAKE_SLOW)){
+            if (distanceSensor.get_distance() < distanceTargetDistance){
+                intakeState = E_RINGDETECTED;
+                intakeVelocity = 125.0;
+                spinForward();
+                break;
+            }
+        }
         if (mainController->get_digital(INTAKE_FORWARD)){
             spinForward();
         //looks for press of the respective reverse button on the controller.
@@ -100,7 +94,31 @@ void intake::opControl(){
             stop();
         }
         break;
+    case E_RINGDETECTED:
+        if (distanceSensor.get_distance() > distanceTargetDistance){
+            intakeState = E_RINGLEFTWAITING;
+            currentDelay = 0;
+        }
+
+    case E_RINGLEFTWAITING:
+        if (currentDelay > afterDelay){
+            spinReverse();
+            intakeState = E_REVERSING;
+        } else {
+            currentDelay += 20;
+        }
+
+    case E_REVERSING:
+        if (currentDelay > reversingTime){
+            stop();
+            currentDelay = 0;
+            intakeState = E_MANUAL;
+        } else {
+            currentDelay += 20;
+            spinReverse();
+        }
     }
+
 }
 
 /**
@@ -117,11 +135,7 @@ void intake::initalize(){
     intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     intakeMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
-    intakeMotor2.set_gearing(pros::E_MOTOR_GEARSET_36);
-    intakeMotor2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-    intakeMotor2.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
-
-    intakeState = E_IDLE; //Default intake state is idle.
+    intakeState = E_MANUAL; //Default intake state is idle.
 }
 
 intake masterIntake; //Global main intake to use the intake in other files.

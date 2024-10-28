@@ -9,6 +9,7 @@
 //Custom headers.
 #include "headers/brain/ports.hpp"
 #include "headers/brain/controller.hpp"
+#include "headers/mechs/PID.hpp"
 
 class chassis {
  public:
@@ -109,6 +110,10 @@ class chassis {
      * 
      */
     void initialize();
+
+
+    bool headingPIDEnabled = false;
+    PID headingPID = PID(6.0, 0, 20.0, 0, "HeadingPID");
 
 private:
     E_driveControl driveControl; //Current drive control type the chassis is using.

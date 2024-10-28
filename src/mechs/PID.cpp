@@ -37,10 +37,11 @@ void PID::setConstants(double p, double i, double d, double p_start_i) {
 }
 
 // Set exit condition timeouts
-void PID::setExitCondition(double smallExitError, double largeExitError, int timeout) {
+void PID::setExitCondition(double smallExitError, double largeExitError, int timeout, int smallExitTimeout) {
   exit.smallExitError = smallExitError;
   exit.largeExitError = largeExitError;
   exit.timeout = timeout;
+  exit.smallExitTimeout = smallExitTimeout;
 }
 
 void PID::setTarget(double input) { target = input; }
@@ -67,26 +68,26 @@ double PID::compute(double current) {
 }
 
 void PID::reset_timers() {
-  i = 0;
   k = 0;
   j = 0;
-  l = 0;
 }
 
 int PID::checkExitCondition() {
-
+  k += 20;
   // If the robot gets within the target, make sure it's there for small_timeout amount of time
   if (exit.smallExitError != 0) {
     if (abs(error) < exit.smallExitError) {
       j += 10;
-      i = 0;  // While this is running, don't run big thresh
-      if (j > exit.smallExitError) {
+      if (j > exit.smallExitTimeout) {
         reset_timers();
         return SMALL_EXIT;
       }
     } else {
       j = 0;
     }
+  }
+  if (k > exit.timeout){
+    return TIMEOUT;
   }
   return -1;
 }

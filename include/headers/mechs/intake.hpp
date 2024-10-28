@@ -12,15 +12,22 @@ public:
 
     //Motor definitions with the respective ports defined in the ports.hpp file.
     pros::Motor intakeMotor = pros::Motor(INTAKEMOTOR);
-    pros::Motor intakeMotor2 = pros::Motor(INTAKEMOTOR2);
+
+    pros::Distance distanceSensor = pros::Distance(DISTANCESENSOR);
 
     //Enum for the control types define what the intake is doing at any point.
     enum E_intakeStates {
         E_DISABLED,
-        E_FORWARD,
-        E_REVERSE,
-        E_IDLE,
+        E_MANUAL,
+        E_RINGDETECTED,
+        E_RINGLEFTWAITING,
+        E_REVERSING,
     };
+
+    int afterDelay = 100;
+    int reversingTime = 500;
+    int currentDelay = 0;
+    int distanceTargetDistance = 100;
 
     /**
      * Sets the current intake velocity.

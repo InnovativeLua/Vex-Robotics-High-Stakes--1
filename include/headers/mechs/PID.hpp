@@ -26,13 +26,14 @@ class PID {
   struct exitCondition {
     double smallExitError = 0;
     double largeExitError = 0;
+    int smallExitTimeout = 0;
     int timeout = 0;
   };
 
   enum E_exitResult {SMALL_EXIT, LARGE_EXIT, TIMEOUT};
 
 
-  void setExitCondition(double smallExitError, double largeExitError, int timeout);
+  void setExitCondition(double smallExitError, double largeExitError, int timeout, int smallExitTimeout);
 
 
   void setTarget(double input);

@@ -71,8 +71,29 @@ void chassis::updateDrive(int leftPower, int rightPower){
  * 
  */
 void chassis::opControl(){
-	//Makes sure it is within the driver control period for running driver control code.
-    if (driverControlPeriod){ 
+    if (headingPIDEnabled){
+        if (headingPID.checkExitCondition() == headingPID.SMALL_EXIT){
+            headingPIDEnabled = false;
+            std::cout << "Disabled Heading PID" << std::endl;
+        }
+        double power = headingPID.compute(ChassisIMU.get_heading());
+        std::cout << "power: " << power << std::endl;
+        std::cout << "target: " << headingPID.getTarget()<< std::endl;
+        std::cout << "current: " << ChassisIMU.get_heading() << std::endl;
+        if (power > 75){
+            power = 75;
+        } else if (power < -75){
+            power = -75;
+        }
+        updateDrive(power, -power);
+        std::cout << "Power: " << std::endl;
+    } else if (driverControlPeriod){ 
+        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
+            headingPIDEnabled = true;
+            headingPID.resetVariables();
+            headingPID.setTarget(180.0);
+            return;
+        }
 		//Arcade control for the drivetrain in case we want to use it.
         if (driveControl == E_ARCADE_CONTROL){
             int power = mainController->get_analog(ANALOG_LEFT_Y);
@@ -133,6 +154,9 @@ void chassis::initialize(){
     rightTopMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
     driveControl = E_TANK_CONTROL;
+
+    headingPID.resetVariables();
+    headingPID.setExitCondition(0.1, 500.0, 5000, 200);
 
     ChassisIMU.reset(true); //Resets the chassis IMU.
 }

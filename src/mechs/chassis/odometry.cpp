@@ -34,8 +34,8 @@ void odometry::update(){
 	double LEncoder = (double)(masterChassis.leftTracker.get_value()); //Sets a variable composed of the left encoder value.
 	double auxEncoder = (double)(masterChassis.auxTracker.get_value()); //Sets a variable composed of the right encoder value.
 
-	std::cout << "LEncoder: " << LEncoder << std::endl;
-	std::cout << "auxEncoder: " << auxEncoder << std::endl;
+	//std::cout << "LEncoder: " << LEncoder << std::endl;
+	//std::cout << "auxEncoder: " << auxEncoder << std::endl;
 
 	double deltaL = (LEncoder - prevLE) * in_per_tick * 2.75; //Calculates the left distance by finding the change in encoder value and changing to inches.
 	double deltaAux = (auxEncoder - prevAux) * in_per_tick * 2.75; //Calculates the right distance by finding the change in encoder value and changing to inches.
@@ -46,16 +46,16 @@ void odometry::update(){
 	prevLE = LEncoder; //Updates the previousEncoder Value
 	prevAux = auxEncoder; //Updates the previousEncoder Value
 
-	std::cout << "prevLE: " << prevLE << std::endl;
-	std::cout << "prevAux: " << prevAux << std::endl;	
+	//std::cout << "prevLE: " << prevLE << std::endl;
+	//std::cout << "prevAux: " << prevAux << std::endl;	
 
 	Heading = masterChassis.ChassisIMU.get_heading()*PI/180; //Updates the heading variable.
 
-	std::cout << "Heading: " << Heading << std::endl;
+	//std::cout << "Heading: " << Heading << std::endl;
 
 	double deltaTheta = Heading - previousHeading;
 
-	std::cout << "deltaTheta: " << deltaTheta << std::endl;
+	//std::cout << "deltaTheta: " << deltaTheta << std::endl;
 		
 	double deltaX = deltaL; //Local Coordinate System Delta X
 	double deltaY = deltaAux; //Local Coordinate System Delta Y
@@ -69,8 +69,8 @@ void odometry::update(){
 		deltaY = 2 * std::sin(deltaTheta/2) * ((deltaAux / deltaTheta) + AuxOffset); //Triangles + Mathematics to determine local coordinate delta Y.
 	}
 
-	std::cout << "deltaX: " << deltaX << std::endl;
-	std::cout << "deltaY: " << deltaY << std::endl;
+	//std::cout << "deltaX: " << deltaX << std::endl;
+	//std::cout << "deltaY: " << deltaY << std::endl;
 
 	double averageHeading = previousHeading + deltaTheta/2; //Takes the averge of the previous heading and the new heading.
 
@@ -81,8 +81,8 @@ void odometry::update(){
 	X += (cos(-averageHeading) * deltaX - sin(-averageHeading) * deltaY);
 	Y += (sin(-averageHeading) * deltaX + cos(-averageHeading) * deltaY);
 
-	std::cout << "X: " << X << std::endl;
-	std::cout << "Y: " << Y << std::endl;
+	//std::cout << "X: " << X << std::endl;
+	//std::cout << "Y: " << Y << std::endl;
 	
 	//std::cout << (std::cos(-averageHeading) * deltaX - std::sin(-averageHeading) * deltaY) << std::endl;
 	//std::cout << (std::sin(-averageHeading) * deltaX + std::cos(-averageHeading) * deltaY) << std::endl;
