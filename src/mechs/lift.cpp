@@ -63,6 +63,16 @@ void lift::opControl(){
     }
 }
 
+void lift::liftPFoward(){
+    liftVelocity = 100.0 - liftMotor.get_position()/5;
+    spinReverse();
+}
+
+void lift::liftPReverse(){
+    liftVelocity = 50.0;
+    spinForward();
+}
+
 /**
  * Runs during initialization.
  * Sets all the motors to the correct gearing, brake modes, and encoder units.

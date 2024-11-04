@@ -30,6 +30,10 @@ public:
 
     void opControl(); //Function called every time the OPControl loop is ran in main.cpp.
 
+    void liftPReverse();
+
+    void liftPFoward();
+
     double liftVelocity = 100;
 
     pros::Motor liftMotor = pros::Motor(LIFT_MOTOR); //Declares a motor for the lift with port "IntakeMotor"
