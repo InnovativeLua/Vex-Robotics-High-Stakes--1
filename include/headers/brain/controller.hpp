@@ -9,6 +9,6 @@ extern std::unique_ptr<pros::Controller> mainController;
 //Buttons to be used by each mechanism.
 constexpr pros::controller_digital_e_t INTAKE_FORWARD = pros::E_CONTROLLER_DIGITAL_R1; //R1
 constexpr pros::controller_digital_e_t INTAKE_REVERSE = pros::E_CONTROLLER_DIGITAL_R2; //R2
-constexpr pros::controller_digital_e_t INTAKE_SLOW = pros::E_CONTROLLER_DIGITAL_DOWN; //Left Button
+constexpr pros::controller_digital_e_t INTAKE_REDIRECT = pros::E_CONTROLLER_DIGITAL_DOWN; //Down Button
 constexpr pros::controller_digital_e_t LIFT_FORWARD = pros::E_CONTROLLER_DIGITAL_L2; //R1
 constexpr pros::controller_digital_e_t LIFT_REVERSE = pros::E_CONTROLLER_DIGITAL_L1; //R2

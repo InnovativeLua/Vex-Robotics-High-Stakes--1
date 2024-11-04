@@ -24,11 +24,6 @@ public:
         E_REVERSING,
     };
 
-    int afterDelay = 2500;
-    int reversingTime = 1000;
-    int currentDelay = 0;
-    int distanceTargetDistance = 30;
-
     /**
      * Sets the current intake velocity.
      *
@@ -101,6 +96,11 @@ public:
 
 private:
     double intakeVelocity = 600.0; //Velocity of the intake.
+
+    int afterDelay = 2500; //Time for intake to wait before reversing after a ring leaves its sight.
+    int reversingTime = 1000; //Time for the intake to reverse before stopping.
+    int currentDelay = 0; //Timer for both the afterDelay and the reversingTime.
+    int distanceTargetDistance = 30; //Target distance for a ring to be considered "detected".
 
     E_intakeStates intakeState; //Current intake state the intake is in.
 };
