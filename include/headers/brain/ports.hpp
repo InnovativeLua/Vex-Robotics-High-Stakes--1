@@ -9,7 +9,7 @@ constexpr int RIGHT_BACK_MOTOR = 4;
 constexpr int LEFT_FRONT_MOTOR = -5;
 constexpr int LEFT_TOP_MOTOR = 6;
 constexpr int LEFT_BACK_MOTOR = -7;
-constexpr int LIFT_MOTOR = 10;
+constexpr int LIFT_MOTOR = 11;
 constexpr int INTAKEMOTOR = 9;
 
 //Sensors

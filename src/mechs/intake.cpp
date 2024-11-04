@@ -78,12 +78,16 @@ void intake::opControl(){
     case E_MANUAL:
         //looks for press of the respective forward button on the controller.
         if (mainController->get_digital(INTAKE_SLOW)){
+            intakeVelocity = 300.0;
+            spinForward();
             if (distanceSensor.get_distance() < distanceTargetDistance){
                 intakeState = E_RINGDETECTED;
-                intakeVelocity = 125.0;
+                intakeVelocity = 70.0;
                 spinForward();
                 break;
             }
+        } else {
+            intakeVelocity = 600.0;
         }
         if (mainController->get_digital(INTAKE_FORWARD)){
             spinForward();
@@ -102,8 +106,10 @@ void intake::opControl(){
 
     case E_RINGLEFTWAITING:
         if (currentDelay > afterDelay){
+            intakeVelocity = 300;
             spinReverse();
             intakeState = E_REVERSING;
+            currentDelay = 0;
         } else {
             currentDelay += 20;
         }
@@ -113,7 +119,9 @@ void intake::opControl(){
             stop();
             currentDelay = 0;
             intakeState = E_MANUAL;
+            intakeVelocity = 600.0;
         } else {
+            intakeVelocity = 300.0;
             currentDelay += 20;
             spinReverse();
         }
@@ -131,7 +139,7 @@ void intake::opControl(){
 void intake::initalize(){
 
 	//Sets the intake motors to the correct gearing, brake mode, and encoder units.
-    intakeMotor.set_gearing(pros::E_MOTOR_GEARSET_36);
+    intakeMotor.set_gearing(pros::E_MOTOR_GEARSET_06);
     intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     intakeMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 

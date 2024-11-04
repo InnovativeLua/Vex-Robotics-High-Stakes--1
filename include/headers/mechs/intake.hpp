@@ -24,10 +24,10 @@ public:
         E_REVERSING,
     };
 
-    int afterDelay = 100;
-    int reversingTime = 500;
+    int afterDelay = 2500;
+    int reversingTime = 1000;
     int currentDelay = 0;
-    int distanceTargetDistance = 100;
+    int distanceTargetDistance = 30;
 
     /**
      * Sets the current intake velocity.
@@ -100,7 +100,7 @@ public:
     void initalize();
 
 private:
-    double intakeVelocity = 200.0; //Velocity of the intake.
+    double intakeVelocity = 600.0; //Velocity of the intake.
 
     E_intakeStates intakeState; //Current intake state the intake is in.
 };
