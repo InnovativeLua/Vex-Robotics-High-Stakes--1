@@ -22,3 +22,4 @@ constexpr char ODOMETRY_LEFT_BOTTOM = 'B';
 
 //Solenoids
 constexpr char MOGO_MECH_SOLENOID = 'G';
+constexpr char TIPPER_SOLENOID = 'E';

@@ -3,6 +3,7 @@
 #include "headers/mechs/intake.hpp" 
 #include "headers/mechs/MOGOmech.hpp"
 #include "headers/mechs/lift.hpp"
+#include "headers/mechs/goalTipper.hpp"
 #include "headers/brain/ports.hpp"
 #include "headers/brain/autonselector.hpp"
 #include "headers/auton/autons.hpp"
@@ -109,18 +110,9 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-int axeTimeout = 400;
-int currentAxeDelay = 0;
-pros::adi::DigitalOut axeCylinder = pros::adi::DigitalOut('E');
 void opcontrol() {
 	const int mSecWaitTime = 10;
 	masterChassis.driverControlPeriod = true;
-
-	masterChassis.ChassisIMU.reset(true);
-
-	while (masterChassis.ChassisIMU.is_calibrating()){
-		pros::delay(20);
-	}
 
 	while (true) {
 		int screen = 1;
@@ -166,31 +158,8 @@ void opcontrol() {
 		masterChassis.opControl();
 		masterIntake.opControl();
 		masterLift.opControl();
-
-
-		if (limitSwitch.get_value() != limitDebounce){
-			limitDebounce = limitSwitch.get_value();
-			if (limitSwitch.get_value() == true){
-				masterAutonSelector.cycleAutons();
-				std::cout << masterAutonSelector.currentAutonPage << std::endl;
-			}
-		}
-
-		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
-			masterAutonSelector.callSelectedAuton();
-		}
-
-		if (currentAxeDelay <= 0){
-			if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_X)){
-				axeCylinder.set_value(true);
-			} else {
-				axeCylinder.set_value(false);
-			}
-			currentAxeDelay = axeTimeout;
-	
-		} else {
-			currentAxeDelay -= 20;
-		}
+		masterMogo.opControl();
+		masterTipper.opControl();
 
 		pros::delay(mSecWaitTime);
 	}
