@@ -109,8 +109,6 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-int mogoTimeout = 400;
-int currentMogoDelay = 0;
 int axeTimeout = 400;
 int currentAxeDelay = 0;
 pros::adi::DigitalOut axeCylinder = pros::adi::DigitalOut('E');
@@ -169,12 +167,6 @@ void opcontrol() {
 		masterIntake.opControl();
 		masterLift.opControl();
 
-		if (currentMogoDelay <= 0){
-			masterMogo.opControl();
-			currentMogoDelay = mogoTimeout;
-		} else {
-			currentMogoDelay -= 20;
-		}
 
 		if (limitSwitch.get_value() != limitDebounce){
 			limitDebounce = limitSwitch.get_value();

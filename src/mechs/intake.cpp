@@ -64,10 +64,7 @@ void intake::stop(){
 
 /**
  * Runs during operator control code.
- * Makes the drivetrain move based on what buttons are being pressed.
- * R1 - Forward
- * R2 - Reverse
- * Down - Intake Redirect
+ * Makes the intake move based on what buttons are being pressed.
  * 
  * @return Nothing
  * 
