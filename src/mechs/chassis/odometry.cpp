@@ -1,143 +1,78 @@
+//Respective header file for the odometry.
 #include "headers/mechs/chassis/odometry.hpp"
-#include "headers/mechs/chassis/basechassis.hpp"
 
-#define PI std::numbers::pi
-#define in_per_tick 2 * PI
+#define PI std::numbers::pi //Replaces PI with the number pi.
+#define in_per_tick 2 * PI //Replaces in_per_tick with tau.
 
 void odometry::resetPosition(){
-	double X = 0.0; //Sets x to zero
-	double Y = 0.0; //Sets the y to zero
+	double X = 0.0;
+	double Y = 0.0;
 }
 
 void odometry::initilize(){
-	resetPosition();
+	resetPosition(); //Calibrates the position to (0, 0)
+
+	//Sets the 2 tracking wheels' values to 0 degrees.
     masterChassis.auxTracker.reset();
     masterChassis.leftTracker.reset();
-	double prevAux = (double)masterChassis.auxTracker.get_value(); //Sets the previous encoder value to the current value.
-	double prevLE = (double)masterChassis.leftTracker.get_value(); //Sets the previous encoder value to the current value.
-	double previousHeading = masterChassis.ChassisIMU.get_heading()*PI/180; //Sets the previous heading to the current heading in radians.
+
+	//Sets the previous encoder/heading values to the current values.
+	double prevAux = (double)masterChassis.auxTracker.get_value();
+	double prevLE = (double)masterChassis.leftTracker.get_value();
+	double previousHeading = masterChassis.ChassisIMU.get_heading()*PI/180;
 }
 
 std::vector<double> odometry::getPosition(){
-	return {X, Y, Heading};
+	return {X, Y, Heading}; //Returns a vector of the X Position, Y Position, and Heading.
 }
 
 std::vector<double> odometry::getPreviousPosition(){
-	return {prevX, prevY, previousHeading};
-}
-
-std::vector<double> odometry::getEstimatedVelocity(){
-	return {estimatedVelocityX, estimatedVelocityY, estimatedAngularVelocity};
+	return {prevX, prevY, previousHeading}; //Returns a vector of the previous X, Y, and Heading.
 }
 
 void odometry::update(){
-	double LEncoder = (double)(masterChassis.leftTracker.get_value()); //Sets a variable composed of the left encoder value.
-	double auxEncoder = (double)(masterChassis.auxTracker.get_value()); //Sets a variable composed of the right encoder value.
+	//Sets variables composed of the encoder values. Casts to double to keep types consistent.
+	double LEncoder = (double)(masterChassis.leftTracker.get_value());
+	double auxEncoder = (double)(masterChassis.auxTracker.get_value());
 
-	//std::cout << "LEncoder: " << LEncoder << std::endl;
-	//std::cout << "auxEncoder: " << auxEncoder << std::endl;
+	//Finds the change between the last encoder value and converts to inches traveled.
+	//Multipled by 3.25" because we are using 3.25" wheels.
+	double deltaL = (LEncoder - prevLE) * in_per_tick * 3.25;
+	double deltaAux = (auxEncoder - prevAux) * in_per_tick * 3.25;
 
-	double deltaL = (LEncoder - prevLE) * in_per_tick * 2.75; //Calculates the left distance by finding the change in encoder value and changing to inches.
-	double deltaAux = (auxEncoder - prevAux) * in_per_tick * 2.75; //Calculates the right distance by finding the change in encoder value and changing to inches.
+	prevLE = LEncoder; //Updates the previousEncoder value.
+	prevAux = auxEncoder; //Updates the previousEncoder value.
 
-	//std::cout << "deltaL: " << deltaL << std::endl;
-	//std::cout << "deltaAux: " << deltaAux << std::endl;
+	//Updates the current heading and converting to radians. 
+	Heading = masterChassis.ChassisIMU.get_heading()*PI/180;
 
-	prevLE = LEncoder; //Updates the previousEncoder Value
-	prevAux = auxEncoder; //Updates the previousEncoder Value
-
-	//std::cout << "prevLE: " << prevLE << std::endl;
-	//std::cout << "prevAux: " << prevAux << std::endl;	
-
-	Heading = masterChassis.ChassisIMU.get_heading()*PI/180; //Updates the heading variable.
-
-	//std::cout << "Heading: " << Heading << std::endl;
-
+	//Finds the change in the heading, Local X, and local Y
 	double deltaTheta = Heading - previousHeading;
-
-	//std::cout << "deltaTheta: " << deltaTheta << std::endl;
-		
 	double deltaX = deltaL; //Local Coordinate System Delta X
 	double deltaY = deltaAux; //Local Coordinate System Delta Y
 
-
-	if (std::abs(deltaTheta) < 0.001){ //if the robot has not turned.
+	//Checks if the robot has not turned or barely turned.
+	if (std::abs(deltaTheta) < 0.001){
 		deltaX = deltaL; //sets DeltaX to the left encoder value.
 		deltaY = deltaAux; //sets DeltaY to the right encoder value.
 	} else { //The robot has turned
-		deltaX = 2 * std::sin(deltaTheta/2) * ((deltaL / deltaTheta) + leftOffset); //Triangles + Mathematics to determine local coordinate delta X.
-		deltaY = 2 * std::sin(deltaTheta/2) * ((deltaAux / deltaTheta) + AuxOffset); //Triangles + Mathematics to determine local coordinate delta Y.
+		//Applies trigonometry to find how far the robot has traveled in the local coordinate system.
+		deltaX = 2 * std::sin(deltaTheta/2) * ((deltaL / deltaTheta) + leftOffset);
+		deltaY = 2 * std::sin(deltaTheta/2) * ((deltaAux / deltaTheta) + AuxOffset);
 	}
 
-	//std::cout << "deltaX: " << deltaX << std::endl;
-	//std::cout << "deltaY: " << deltaY << std::endl;
+	//Average of the previous heading and current heading.
+	double averageHeading = previousHeading + deltaTheta/2;
 
-	double averageHeading = previousHeading + deltaTheta/2; //Takes the averge of the previous heading and the new heading.
-
-	//std::cout << "averageHeading: " << averageHeading << std::endl;
-
+	//Updates the previous X and Y variables.
 	prevX = X;
 	prevY = Y;
+
+	//Applies a rotation matrix to find the global X and Y changes and adds to the current X and Y.
 	X += (cos(-averageHeading) * deltaX - sin(-averageHeading) * deltaY);
 	Y += (sin(-averageHeading) * deltaX + cos(-averageHeading) * deltaY);
 
-	//std::cout << "X: " << X << std::endl;
-	//std::cout << "Y: " << Y << std::endl;
-	
-	//std::cout << (std::cos(-averageHeading) * deltaX - std::sin(-averageHeading) * deltaY) << std::endl;
-	//std::cout << (std::sin(-averageHeading) * deltaX + std::cos(-averageHeading) * deltaY) << std::endl;
-
-	//estimatedVelocityX = (X - prevX)/0.01; //inches / 0.01 seconds - Time between updates.
-	//estimatedVelocityY = (Y - prevY)/0.01; //inches / 0.01 seconds - Time between updates.
-
-	//estimatedAngularVelocity = (Heading - previousHeading)/0.01;
-
-	previousHeading = Heading;
-
-	//std::cout << "previousHeading: " << previousHeading << std::endl;
+	previousHeading = Heading; //Sets the previous heading to the current heading.
 }
-
-//Old Code:
-/*
-void odometry2(){
-	while (masterChassis.ChassisIMU.is_calibrating()){
-		pros::delay(20); //Waits for the odometry to calibrate
-	}
-	while (true){ //Goes on forever.
-		double LEncoder = masterChassis.leftTracker.get_value(); //Sets a variable composed of the left encoder value.
-		double auxEncoder = masterChassis.auxTracker.get_value(); //Sets a variable composed of the right encoder value.
-
-		double deltaL = (LEncoder - prevLE) * in_per_tick; //Calculates the left distance by finding the change in encoder value and changing to inches.
-		double deltaAux = (auxEncoder - prevAux) * in_per_tick; //Calculates the right distance by finding the change in encoder value and changing to inches.
-
-		prevLE = LEncoder; //Updates the previousEncoder Value
-		prevAux = auxEncoder; //Updates the previousEncoder Value
-
-		double Heading = masterChassis.ChassisIMU.get_heading()*PI/180; //Updates the heading variable.
-
-		double deltaTheta = Heading - previousHeading;
-		
-		double deltaX; //Local Coordinate System Delta X
-		double deltaY; //Local Coordinate System Delta Y
-
-		if (Heading == previousHeading){ //if the robot has not turned.
-			deltaX = LEncoder; //sets DeltaX to the left encoder value.
-			deltaY = auxEncoder; //sets DeltaY to the right encoder value.
-		} else { //The robot has turned
-			deltaX = 2 * sin(Heading/2) * ((LEncoder / deltaTheta) + leftOffset); //Triangles + Mathematics to determine local coordinate delta X.
-			deltaY = 2 * sin(Heading/2) * ((auxEncoder / deltaTheta) + AuxOffset); //Triangles + Mathematics to determine local coordinate delta Y.
-		}
-
-		double averageHeading = previousHeading + deltaTheta/2; //Takes the averge of the previous heading and the new heading.
-
-		X += (cos(-averageHeading) * deltaX - sin(-averageHeading) * deltaY);
-		Y += (sin(-averageHeading) * deltaX + cos(-averageHeading) * deltaY);
-
-		previousHeading = Heading;
-		
-		pros::delay(10); //Waits 10 seconds.
-	}
-}
-*/
 
 odometry masterOdometry;

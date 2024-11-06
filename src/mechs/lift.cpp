@@ -1,11 +1,8 @@
-//Respective header file for the intake.
+//Respective header file for the lift.
 #include "headers/mechs/lift.hpp"
 
-
-
-
 /**
- * Runs both the top intake and the bottom intake forward based on the current intake velocity.
+ * Moves the lift down based on the velocity of the lift.
  *
  * @return Nothing
  * 
@@ -15,7 +12,7 @@ void lift::spinForward(){
 }
 
 /**
- * Runs both the top intake and the bottom intake reverse based on the current intake velocity.
+ * Moves the lift up based on the velocity of the lift.
  *
  * @return Nothing
  * 
@@ -25,7 +22,7 @@ void lift::spinReverse(){
 }
 
 /**
- * Stops both the top intake and the bottom intake.
+ * Stops the lift from moving.
  *
  * @return Nothing
  * 
@@ -36,39 +33,27 @@ void lift::stop(){
 
 /**
  * Runs during operator control code.
- * Makes the drivetrain move based on what buttons are being pressed.
- * R1 - Forward
- * R2 - Reverse
+ * Makes the lift move based on what buttons are being pressed.
  * 
  * @return Nothing
  * 
  */
 void lift::opControl(){
-    //Looks at the different states the intake can be in.
-    //For every intake state except for disabled.
+    //Looks at the different states the lift can be in.
+    //For the manual state.
     switch(liftState){ 
     case E_MANUAL:
         //looks for press of the respective forward button on the controller.
         if (mainController->get_digital(LIFT_FORWARD)){
-            liftPReverse();
+            spinReverse();
         //looks for press of the respective reverse button on the controller.
         } else if (mainController->get_digital(LIFT_REVERSE)){ //looks for press of R2 on controller.
-            liftPFoward();
+            spinForward();
         } else {
             stop();
         }
         break;
     }
-}
-
-void lift::liftPFoward(){
-    liftVelocity = 100.0 - liftMotor.get_position()/5;
-    spinReverse();
-}
-
-void lift::liftPReverse(){
-    liftVelocity = 50.0;
-    spinForward();
 }
 
 /**
@@ -80,13 +65,13 @@ void lift::liftPReverse(){
  */
 void lift::initalize(){
 
-	//Sets the intake motors to the correct gearing, brake mode, and encoder units.
+	//Sets the lift motors to the correct gearing, brake mode, and encoder units.
     liftMotor.set_gearing(pros::E_MOTOR_GEARSET_36);
     liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     liftMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
 
-    liftState = E_MANUAL; //Default intake state is idle.
+    liftState = E_MANUAL; //Default lift state is idle.
 }
 
-lift masterLift; //Global main intake to use the intake in other files.
+lift masterLift; //Global main lift to use the lift in other files.

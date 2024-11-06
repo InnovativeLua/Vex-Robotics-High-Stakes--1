@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 
 //Required vex library.
 #include "main.h"
