@@ -60,7 +60,7 @@ void test2(){
     masterChassis.updateLeft(-60);
     masterChassis.updateRight(-60);
     
-    pros::delay(500);
+    pros::delay(550);
 
     masterChassis.updateDrive(-10, -50);
 
@@ -88,18 +88,45 @@ void test2(){
     masterChassis.updateDrive(0, 0);
     pros::delay(100);
     masterChassis.updateDrive(-50, -50);
-    pros::delay(600);
+    pros::delay(800);
     masterChassis.updateDrive(50, -50);
     pros::delay(500);
+    masterChassis.updateDrive(50, 50);
+    pros::delay(350);
     masterChassis.updateDrive(30, 30);
-    pros::delay(1100);
+    pros::delay(500);
     masterChassis.updateDrive(-50, -50);
     pros::delay(400);
     masterChassis.updateDrive(-40, 40);
-    pros::delay(125);
+    pros::delay(250);
     masterChassis.updateDrive(50, 50);
-    pros::delay(900);
+    pros::delay(300);
+    masterChassis.updateDrive(40, 10);
+    pros::delay(700);
+    masterChassis.updateDrive(30, 30);
+    pros::delay(100);
+    masterChassis.updateDrive(-50, -50);
+    pros::delay(1000);
+    masterChassis.updateDrive(-20, -20);
+    pros::delay(200);
+    masterChassis.updateDrive(-50, -50);
+    pros::delay(400);
+    masterChassis.updateDrive(50, -50);
+    pros::delay(500);
+    masterChassis.updateDrive(-40, -40);
+    pros::delay(500);
+    masterMogo.extend();
+    pros::delay(400);
+    masterChassis.updateDrive(40, 40);
+    pros::delay(500);
+    masterChassis.updateDrive(-50, 50);
+    pros::delay(850);
+    masterChassis.updateDrive(0, 0);
+    pros::delay(200);
+    masterChassis.updateDrive(-25, -25);
+    pros::delay(100);
     masterChassis.updateDrive(-50, -50);
     pros::delay(1000);
     masterChassis.updateDrive(0, 0);
+
 }

@@ -111,6 +111,8 @@ class chassis {
      */
     void initialize();
 
+    void startHeadingPID(double target);
+
 
     bool headingPIDEnabled = false;
     PID headingPID = PID(6.0, 0, 20.0, 0, "HeadingPID");

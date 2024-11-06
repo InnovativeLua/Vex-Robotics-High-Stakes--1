@@ -114,6 +114,12 @@ void chassis::opControl(){
     }
 }
 
+void chassis::startHeadingPID(double target){
+    headingPIDEnabled = true;
+    headingPID.resetVariables();
+    headingPID.setTarget(target);
+}
+
 /**
  * Runs during initialization.
  * Sets all the motors to the correct gearing, brake modes, and encoder units.

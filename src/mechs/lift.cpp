@@ -50,12 +50,10 @@ void lift::opControl(){
     case E_MANUAL:
         //looks for press of the respective forward button on the controller.
         if (mainController->get_digital(LIFT_FORWARD)){
-            liftVelocity = 90.0;
-            spinForward();
+            liftPReverse();
         //looks for press of the respective reverse button on the controller.
         } else if (mainController->get_digital(LIFT_REVERSE)){ //looks for press of R2 on controller.
-            liftVelocity = 100.0 - liftMotor.get_position()/5;
-            spinReverse();
+            liftPFoward();
         } else {
             stop();
         }
