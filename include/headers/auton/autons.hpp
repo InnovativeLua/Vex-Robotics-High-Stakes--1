@@ -3,6 +3,7 @@
 #include "headers/mechs/MOGOmech.hpp"
 #include "headers/mechs/lift.hpp"
 
+void skills();
 void test();
 void redAWP();
 void test2();

@@ -53,6 +53,7 @@ class mogoMech {
      * 
      */
     void initialize();
+    
 private:
     int ResetTime = 500; //Constant, the time it takes until the MOGO's state can be changed.
     int currentTimeout = 0; //Current time until the MOGO has reached the time it can reset.

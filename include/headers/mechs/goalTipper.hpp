@@ -11,15 +11,15 @@ class goalTipper {
     //Solenoid definition with the respective ports defined in the ports.hpp file.
 	pros::adi::DigitalOut tipperCylinder = pros::adi::DigitalOut(TIPPER_SOLENOID);
 
-    //Enum for each state of the MOGO states.
-    enum E_tipperStates { //Different states the PTO can be in.
+    //Enum for each state of the tipping states.
+    enum E_tipperStates { //Different states the tipper can be in.
         E_ENABLED, //Enabled / Extended
         E_DISABLED, //Disabled / Retracted
     };
 
     /**
      * Runs during operator control code.
-     * Makes the mogo mech extend/retract based on what buttons are being pressed.
+     * Makes the goal tipping mech extend/retract based on what buttons are being pressed.
      * 
      * @return Nothing
      * 
@@ -27,7 +27,7 @@ class goalTipper {
     void opControl();
 
     /**
-     * Disables the mobile goal mech.
+     * Disables the goal tipping mech.
      * 
      * @return Nothing
      * 
@@ -35,7 +35,7 @@ class goalTipper {
     void extend();
 
     /**
-     * Enables the mobile goal mech.
+     * Enables the goal tipping mech.
      * 
      * @return Nothing
      * 
@@ -50,6 +50,7 @@ class goalTipper {
      * 
      */
     void initialize();
+
 private:
     int ResetTime = 500; //Constant, the time it takes until the MOGO's state can be changed.
     int currentTimeout = 0; //Current time until the MOGO has reached the time it can reset.
