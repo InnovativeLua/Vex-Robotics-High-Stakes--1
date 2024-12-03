@@ -116,6 +116,8 @@ void lift::initalize(){
     liftPID.resetVariables();
     liftPID.setExitCondition(0.0, 1000.0, 1000000, 1000000);
     liftPID.setTarget(idlePosition);
+
+    liftRot.reset_position();
 }
 
 lift masterLift; //Global main lift to use the lift in other files.
