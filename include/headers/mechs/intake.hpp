@@ -12,6 +12,7 @@ public:
 
     //Motor definitions with the respective ports defined in the ports.hpp file.
     pros::Motor intakeMotor = pros::Motor(INTAKEMOTOR);
+    pros::Motor intakeMotor2 = pros::Motor(INTAKEMOTOR2);
 
     pros::Distance distanceSensor = pros::Distance(DISTANCESENSOR);
 

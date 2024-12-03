@@ -11,15 +11,17 @@ constexpr int LEFT_TOP_MOTOR = 6;
 constexpr int LEFT_BACK_MOTOR = -7;
 constexpr int LIFT_MOTOR = 11;
 constexpr int INTAKEMOTOR = 9;
+constexpr int INTAKEMOTOR2 = 10;
 
 //Sensors
 constexpr int DISTANCESENSOR = 12;
 constexpr int ODOMETRY_INERTIAL = 8;
 constexpr char ODOMETRY_AUX_TOP = 'C';
 constexpr char ODOMETRY_AUX_BOTTOM = 'D';
-constexpr char ODOMETRY_LEFT_TOP = 'A';
+constexpr char ODOMETRY_LEFT_TOP = 'G';
 constexpr char ODOMETRY_LEFT_BOTTOM = 'B';
+constexpr char LIFT_ROT = 13;
 
 //Solenoids
-constexpr char MOGO_MECH_SOLENOID = 'G';
-constexpr char TIPPER_SOLENOID = 'E';
+constexpr char MOGO_MECH_SOLENOID = 'A';
+constexpr char TIPPER_SOLENOID = 'E';   

@@ -40,6 +40,7 @@ intake::E_intakeStates intake::getCurrentState(){
  */
 void intake::spinForward(){
     intakeMotor.move_velocity(-intakeVelocity); //Sets the intake motor to the current intake velocity in reverse.
+    intakeMotor2.move_velocity(-intakeVelocity); //Sets the intake motor to the current intake velocity in reverse.
 }
 
 /**
@@ -50,6 +51,7 @@ void intake::spinForward(){
  */
 void intake::spinReverse(){
     intakeMotor.move_velocity(intakeVelocity); //Sets the intake motor to the current intake velocity.
+    intakeMotor2.move_velocity(intakeVelocity); //Stops the intake motors from moving.
 }
 
 /**
@@ -60,6 +62,7 @@ void intake::spinReverse(){
  */
 void intake::stop(){
     intakeMotor.move_velocity(0); //Stops the intake motors from moving.
+    intakeMotor2.move_velocity(0); //Stops the intake motors from moving.
 }
 
 /**
@@ -75,6 +78,7 @@ void intake::opControl(){
 
     //If the intake is in manual.
     case E_MANUAL:
+        /*
         if (mainController->get_digital(INTAKE_REDIRECT)){
             //If redirection is activated.
             intakeVelocity = 300.0; //Slows intake to half speed to increase accuracy.
@@ -89,6 +93,7 @@ void intake::opControl(){
             //Sets intake to maximum speed for manual control.
             intakeVelocity = 600.0;
         }
+        */
         //looks for press of the respective forward button on the controller.
         if (mainController->get_digital(INTAKE_FORWARD)){
             spinForward();
@@ -151,6 +156,10 @@ void intake::initalize(){
     intakeMotor.set_gearing(pros::E_MOTOR_GEARSET_06); //High Speed Motor
     intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     intakeMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+
+    intakeMotor2.set_gearing(pros::E_MOTOR_GEARSET_06); //High Speed Motor
+    intakeMotor2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    intakeMotor2.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
     intakeState = E_MANUAL; //Default intake state is idle.
 }

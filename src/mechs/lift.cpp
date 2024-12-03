@@ -8,6 +8,11 @@
  * 
  */
 void lift::spinForward(){
+    if (liftVelocity > 100){
+        liftVelocity = 100;
+    } else if (liftVelocity < -100){
+        liftVelocity = -100;
+    }
     liftMotor.move_velocity(-liftVelocity); //Sets the intake motor to the current intake velocity in reverse.
 }
 
@@ -18,6 +23,11 @@ void lift::spinForward(){
  * 
  */
 void lift::spinReverse(){
+    if (liftVelocity > 100){
+        liftVelocity = 100;
+    } else if (liftVelocity < -100){
+        liftVelocity = -100;
+    }
     liftMotor.move_velocity(liftVelocity); //Sets the intake motor to the current intake velocity in reverse.
 }
 
@@ -53,6 +63,38 @@ void lift::opControl(){
             stop();
         }
         break;
+    case (E_IDLE):
+        if (mainController->get_digital(LIFT_FORWARD)){
+            liftState = E_PRIMED;
+            liftPID.resetVariables();
+            liftPID.setTarget(primedPosition);
+        }
+        if (liftRot.get_position() < idleCoastPosition){
+            liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+        } else {
+            liftVelocity = liftPID.compute(liftRot.get_position());
+            spinForward();
+        }
+        break;
+    case (E_PRIMED):
+        liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+        if (mainController->get_digital(LIFT_REVERSE)){
+            liftState = E_FORWARD;
+            liftPID.resetVariables();
+            liftPID.setTarget(forwardPosition);
+        }
+        liftVelocity = liftPID.compute(liftRot.get_position());
+        spinForward();
+        break;
+    case (E_FORWARD):
+        if (mainController->get_digital(LIFT_RESET)){
+            liftState = E_IDLE;
+            liftPID.resetVariables();
+            liftPID.setTarget(idlePosition);
+            }
+        liftVelocity = liftPID.compute(liftRot.get_position());
+        spinForward();
+        break;
     }
 }
 
@@ -67,11 +109,13 @@ void lift::initalize(){
 
 	//Sets the lift motors to the correct gearing, brake mode, and encoder units.
     liftMotor.set_gearing(pros::E_MOTOR_GEARSET_36);
-    liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     liftMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
-
-    liftState = E_MANUAL; //Default lift state is idle.
+    liftState = E_IDLE; //Default lift state is idle.
+    liftPID.resetVariables();
+    liftPID.setExitCondition(0.0, 1000.0, 1000000, 1000000);
+    liftPID.setTarget(idlePosition);
 }
 
 lift masterLift; //Global main lift to use the lift in other files.

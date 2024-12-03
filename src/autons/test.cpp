@@ -3,121 +3,131 @@
 
 
 void skills(){
+
     masterIntake.stop();
     masterMogo.extend();
     masterIntake.spinForward();
     pros::delay(500);
+    masterIntake.spinReverse();
+    pros::delay(100);
     masterIntake.stop();
-    masterChassis.updateDrive(60, 57);
-    pros::delay(450);
-    masterChassis.updateDrive(20, 19);
-    pros::delay(100);
+    masterChassis.updateDrive(60.0, 57.0);
+    pros::delay(470);
+    masterChassis.updateDrive(20.0, 19.0);
+    pros::delay(150);
+    masterChassis.updateDrive(0, 0);
+
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(94.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
     masterChassis.updateDrive(0, 0);
     pros::delay(100);
-    masterChassis.updateDrive(-50, 50);
+    masterChassis.updateDrive(-50.0, -47.5);
+    pros::delay(850);
+    masterChassis.updateDrive(-20.0, -19.0);
     pros::delay(500);
-    masterChassis.updateDrive(-20, 20);
-    pros::delay(200);
+    masterMogo.retract();
+    masterChassis.updateDrive(0, 0);
+    pros::delay(500);
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(274.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
     masterChassis.updateDrive(0, 0);
     pros::delay(100);
-    masterChassis.updateDrive(-50, -47.5);
-    pros::delay(800);
+    masterIntake.spinForward();
+    masterChassis.updateDrive(50, 47.5);
+    pros::delay(2000);
+    masterChassis.updateDrive(20, 19);
+    pros::delay(500);
     masterChassis.updateDrive(-20, -19);
     pros::delay(500);
     masterChassis.updateDrive(0, 0);
-    masterMogo.retract();
-    pros::delay(500);
-    masterChassis.updateDrive(20, -20);
-    pros::delay(100);
-    masterChassis.updateDrive(50, -50);
-    pros::delay(550);
-    masterChassis.updateDrive(15, -15);
+
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(10.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
+    masterIntake.spinReverse();
+    masterChassis.updateDrive(0, 0);
     pros::delay(100);
     masterIntake.spinForward();
+    masterChassis.updateDrive(-40, -38);
+    pros::delay(900);
+    masterChassis.updateDrive(0, 0);
+    masterMogo.extend();
+    pros::delay(200);
     masterChassis.updateDrive(40, 38);
-    pros::delay(1300);
-    masterChassis.updateDrive(0, 0);
-    pros::delay(100);
-    masterChassis.updateDrive(20, -20);
-    pros::delay(100);
-    masterChassis.updateDrive(50, -50);
-    pros::delay(550);
-    masterChassis.updateDrive(15, -15);
-    pros::delay(100);
-    masterIntake.spinForward();
-    masterChassis.updateDrive(50, 47.5);
-    pros::delay(2000);
-    masterChassis.updateDrive(0, 0);
-    pros::delay(100);
-    masterChassis.updateDrive(-50, -47.5);
-    pros::delay(500);
-    masterChassis.updateDrive(20, -20);
-    pros::delay(100);
-    masterChassis.updateDrive(50, -50);
-    pros::delay(550);
-    masterChassis.updateDrive(15, -15);
-    pros::delay(100);
-    masterIntake.spinForward();
-    masterChassis.updateDrive(50, 47.5);
-    pros::delay(2000);
-    masterChassis.updateDrive(0, 0);
-    pros::delay(100);
-    masterChassis.updateDrive(-50, -47.5);
-    pros::delay(700);
-    masterChassis.updateDrive(0, 0);
-    pros::delay(100);
-    masterChassis.updateDrive(-20, 20);
-    pros::delay(100);
-    masterChassis.updateDrive(-50, 50);
-    pros::delay(550);
-    masterChassis.updateDrive(-15, 15);
-    pros::delay(100);
-    masterChassis.updateDrive(0, 0);
-    pros::delay(100);
-    masterChassis.updateDrive(50, 47.5);
-    pros::delay(1000);
-    masterChassis.updateDrive(0, 0);
-    pros::delay(100);
-    masterChassis.updateDrive(-50, -47.5);
     pros::delay(600);
     masterChassis.updateDrive(0, 0);
-    pros::delay(100);
-    masterChassis.updateDrive(20, -20);
-    pros::delay(100);
-    masterChassis.updateDrive(50, -50);
-    pros::delay(1350);
-    masterChassis.updateDrive(15, -15);
-    pros::delay(100);
-    masterIntake.stop();
+
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(274.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
     masterChassis.updateDrive(0, 0);
     pros::delay(100);
-    masterChassis.updateDrive(-40, -50);
-    pros::delay(2000); 
-    masterChassis.updateDrive(0, 0);
-    masterMogo.extend();
-    masterChassis.updateDrive(30, 50);
-    pros::delay(1000);
+    masterChassis.updateDrive(-50, -58.5);
+    pros::delay(4000);
+    masterChassis.updateDrive(-20, -20.5);
+    pros::delay(500);
+    masterMogo.retract();
     masterChassis.updateDrive(0, 0);
     pros::delay(100);
-    masterChassis.updateDrive(50, 47.5);
+
+
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(88.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
+    masterChassis.updateDrive(0, 0);
+    pros::delay(100);
+    masterChassis.updateDrive(40.0, 38.0);
     pros::delay(2000);
+    masterChassis.updateDrive(20.0, 19.0);
+    pros::delay(500);
     masterChassis.updateDrive(0, 0);
-    pros::delay(100);
-    masterChassis.updateDrive(20, 19);
+    pros::delay(100); 
+    masterChassis.updateDrive(-30.0, -28.5);
     pros::delay(500);
 
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(358.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
+    masterChassis.updateDrive(0, 0);
+    pros::delay(100);
+    masterChassis.updateDrive(-40, -38);
+    pros::delay(900);
     masterChassis.updateDrive(0, 0);
     masterMogo.extend();
-    pros::delay(500);
-    masterChassis.updateDrive(-20, 20);
-    pros::delay(100);
-    masterChassis.updateDrive(-50, 50);
-    pros::delay(550);
-    masterChassis.updateDrive(-15, 15);
-    pros::delay(100);
+    pros::delay(200);
+    masterChassis.updateDrive(40, 38);
+    pros::delay(600);
+    masterChassis.updateDrive(0, 0);
+
 }
 
-void test2(){
+void redLeft(){
     masterMogo.extend();
     masterChassis.updateLeft(-60);
     masterChassis.updateRight(-60);
@@ -126,10 +136,10 @@ void test2(){
 
     masterChassis.updateDrive(-10, -50);
 
-    pros::delay(350);
+    pros::delay(390);
 
     masterChassis.updateDrive(-40, -40);
-    pros::delay(300);
+    pros::delay(500);
 
     masterChassis.updateDrive(0, 0);
 
@@ -137,62 +147,185 @@ void test2(){
 
     masterMogo.retract();
     pros::delay(500);
-    masterChassis.updateDrive(50, -50);
-    pros::delay(475);
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(100.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
     masterChassis.updateDrive(0, 0);
-    pros::delay(500);
-    masterChassis.updateDrive(50, 50);
-
+    pros::delay(100);
+    
+    masterChassis.updateDrive(40, 40);
     masterIntake.spinForward();
-    pros::delay(1400);
+    pros::delay(1300);
     masterChassis.updateDrive(-30, -30);
     pros::delay(50);
-    masterChassis.updateDrive(0, 0);
-    pros::delay(100);
-    masterChassis.updateDrive(-50, -50);
-    pros::delay(800);
-    masterChassis.updateDrive(50, -50);
-    pros::delay(500);
-    masterChassis.updateDrive(50, 50);
-    pros::delay(350);
-    masterChassis.updateDrive(30, 30);
-    pros::delay(500);
-    masterChassis.updateDrive(-50, -50);
-    pros::delay(400);
-    masterChassis.updateDrive(-40, 40);
-    pros::delay(250);
-    masterChassis.updateDrive(50, 50);
-    pros::delay(300);
-    masterChassis.updateDrive(40, 10);
-    pros::delay(700);
-    masterChassis.updateDrive(30, 30);
-    pros::delay(100);
-    masterChassis.updateDrive(-50, -50);
-    pros::delay(1000);
-    masterChassis.updateDrive(-20, -20);
     pros::delay(200);
-    masterChassis.updateDrive(-50, -50);
-    pros::delay(400);
-    masterChassis.updateDrive(50, -50);
+    masterChassis.updateDrive(0, 0);
+    masterIntake.spinForward();
+    pros::delay(2000);
+    masterIntake.spinReverse();
     pros::delay(500);
-    masterChassis.updateDrive(-40, -40);
+    masterIntake.spinForward();
+
     pros::delay(500);
-    masterMogo.extend();
-    pros::delay(400);
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(180.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
+
     masterChassis.updateDrive(40, 40);
-    pros::delay(500);
-    masterChassis.updateDrive(-50, 50);
-    pros::delay(850);
+    pros::delay(600);
+    masterChassis.updateDrive(20, 20);
+    pros::delay(200);
     masterChassis.updateDrive(0, 0);
     pros::delay(200);
-    masterChassis.updateDrive(-25, -25);
-    pros::delay(100);
-    masterChassis.updateDrive(-50, -50);
+    masterChassis.updateDrive(-40, -40);
     pros::delay(1000);
     masterChassis.updateDrive(0, 0);
 
+    pros::delay(500);
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(160.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
+    masterChassis.updateDrive(40, 40);
+    pros::delay(700);
+    masterChassis.updateDrive(20, 20);
+    pros::delay(200);
+    masterChassis.updateDrive(0, 0);
+    pros::delay(200);
+    masterChassis.updateDrive(-40, -40);
+    pros::delay(1000);
+    masterChassis.updateDrive(0, 0);
+    masterIntake.stop();
 }
 
-void test(){
 
+
+
+
+
+
+void redRight(){
+    masterMogo.extend();
+    masterChassis.updateLeft(-60);
+    masterChassis.updateRight(-60);
+    
+    pros::delay(550);
+
+    masterChassis.updateDrive(-50, -10);
+
+    pros::delay(390);
+
+    masterChassis.updateDrive(-40, -40);
+    pros::delay(500);
+
+    masterChassis.updateDrive(0, 0);
+
+    pros::delay(300);
+
+    masterMogo.retract();
+    pros::delay(500);
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(260.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    } 
+    masterChassis.updateDrive(40, 40);
+    masterIntake.spinForward();
+    pros::delay(1300);
+    masterChassis.updateDrive(-30, -30);
+    pros::delay(50);
+    pros::delay(200);
+    masterChassis.updateDrive(0, 0);
+    masterIntake.spinForward();
+    pros::delay(2000);
+    masterIntake.spinReverse();
+    pros::delay(500);
+    masterIntake.spinForward();
+
+    pros::delay(500);
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(90.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
+
+    masterChassis.updateDrive(40, 40);
+    pros::delay(1000);
+    masterIntake.stop();
+    pros::delay(2000);
+    masterChassis.updateDrive(0, 0);
+}
+
+void blueLeft(){
+    masterMogo.extend();
+    masterChassis.updateLeft(-60);
+    masterChassis.updateRight(-60);
+    
+    pros::delay(550);
+
+    masterChassis.updateDrive(-10, -50);
+
+    pros::delay(390);
+
+    masterChassis.updateDrive(-40, -40);
+    pros::delay(500);
+
+    masterChassis.updateDrive(0, 0);
+
+    pros::delay(300);
+
+    masterMogo.retract();
+    pros::delay(500);
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(100.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
+    masterChassis.updateDrive(0, 0);
+    pros::delay(100);
+    
+    masterChassis.updateDrive(40, 40);
+    masterIntake.spinForward();
+    pros::delay(1300);
+    masterChassis.updateDrive(-30, -30);
+    pros::delay(50);
+    pros::delay(200);
+    masterChassis.updateDrive(0, 0);
+    masterIntake.spinForward();
+    pros::delay(2000);
+    masterIntake.spinReverse();
+    pros::delay(500);
+    masterIntake.spinForward();
+
+    pros::delay(500);
+    masterChassis.headingPIDEnabled = true;
+    masterChassis.headingPID.resetVariables();
+    masterChassis.headingPID.setTarget(270.0);
+    while (masterChassis.headingPIDEnabled){
+        masterChassis.PIDLoop();
+        pros::delay(20);
+    }
+
+    masterChassis.updateDrive(40, 40);
+    pros::delay(1000);
+    masterIntake.stop();
+    pros::delay(2000);
+    masterChassis.updateDrive(0, 0);
 }

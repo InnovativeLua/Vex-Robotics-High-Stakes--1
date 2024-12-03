@@ -61,6 +61,26 @@ void chassis::updateDrive(int leftPower, int rightPower){
     updateRight(rightPower);
 }
 
+void chassis::PIDLoop(){
+    if (headingPIDEnabled){
+        if (headingPID.checkExitCondition() == headingPID.SMALL_EXIT || headingPID.checkExitCondition() == headingPID.TIMEOUT){
+            headingPIDEnabled = false;
+            std::cout << "Disabled Heading PID" << std::endl;
+        }
+        double power = headingPID.compute(ChassisIMU.get_heading());
+        std::cout << "power: " << power << std::endl;
+        std::cout << "target: " << headingPID.getTarget()<< std::endl;
+        std::cout << "current: " << ChassisIMU.get_heading() << std::endl;
+        if (power > 50){
+            power = 50;
+        } else if (power < -50){
+            power = -50;
+        }
+        updateDrive(power, -power);
+        std::cout << "Power: " << std::endl;
+    }
+}
+
 /**
  * Runs during operator control code.
  * Makes the drivetrain move based on the controller joysticks and the type of control we want. 
@@ -72,21 +92,7 @@ void chassis::updateDrive(int leftPower, int rightPower){
  */
 void chassis::opControl(){
     if (headingPIDEnabled){
-        if (headingPID.checkExitCondition() == headingPID.SMALL_EXIT){
-            headingPIDEnabled = false;
-            std::cout << "Disabled Heading PID" << std::endl;
-        }
-        double power = headingPID.compute(ChassisIMU.get_heading());
-        std::cout << "power: " << power << std::endl;
-        std::cout << "target: " << headingPID.getTarget()<< std::endl;
-        std::cout << "current: " << ChassisIMU.get_heading() << std::endl;
-        if (power > 75){
-            power = 75;
-        } else if (power < -75){
-            power = -75;
-        }
-        updateDrive(power, -power);
-        std::cout << "Power: " << std::endl;
+        PIDLoop();
     } else if (driverControlPeriod){ 
         if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
             headingPIDEnabled = true;
@@ -162,7 +168,7 @@ void chassis::initialize(){
     driveControl = E_TANK_CONTROL;
 
     headingPID.resetVariables();
-    headingPID.setExitCondition(0.1, 500.0, 5000, 200);
+    headingPID.setExitCondition(0.1, 500.0, 3000, 200);
 
     ChassisIMU.reset(true); //Resets the chassis IMU.
 }

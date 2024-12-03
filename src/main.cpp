@@ -5,7 +5,6 @@
 #include "headers/mechs/lift.hpp"
 #include "headers/mechs/goalTipper.hpp"
 #include "headers/brain/ports.hpp"
-#include "headers/brain/autonselector.hpp"
 #include "headers/auton/autons.hpp"
 #include "headers/mechs/chassis/odometry.hpp"
 #include "headers/brain/controller.hpp"
@@ -36,32 +35,6 @@ void initialize() {
 	masterMogo.initialize();
 	masterIntake.initalize();
 	masterLift.initalize();
-
-
-	std::vector<Auton> autonsList = {};
-
-	Auton a_RedAWP;
-	a_RedAWP.autonFunction = *redAWP;
-	a_RedAWP.Name = "DefensiveAWP";
-
-	Auton a_test;
-	a_test.autonFunction = *test;
-	a_test.Name = "OffensiveAWP";
-
-	Auton a_test2;
-	a_test2.autonFunction = *test;
-	a_test2.Name = "RedFinals";
-
-	Auton a_test3;
-	a_test3.autonFunction = *test;
-	a_test3.Name = "BlueFinals";
-
-	autonsList.push_back(a_RedAWP);
-	autonsList.push_back(a_test);
-	autonsList.push_back(a_test2);
-	autonsList.push_back(a_test3);
-
-	masterAutonSelector.addAutons(autonsList);
 }
 
 /**
@@ -94,7 +67,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	skills();
+	redLeft();
 }
 
 /**
@@ -119,8 +92,6 @@ void opcontrol() {
 
 		switch (screen){
 			case 0:
-				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %3d", masterAutonSelector.currentAutonPage);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
 
 				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
@@ -139,8 +110,6 @@ void opcontrol() {
 
 				break;
 			case 1:
-				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %3d", masterAutonSelector.currentAutonPage);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Current Auton: %s", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", 180/3.14159*masterOdometry.getPosition()[2]);
@@ -149,9 +118,6 @@ void opcontrol() {
 				pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Distance: %g", masterIntake.distanceSensor.get());
 				std::cout << "Intake distance " << masterIntake.distanceSensor.get() << std::endl;
 				std::cout << "Motor Position " << masterLift.liftMotor.get_position() << std::endl;
-
-			case 2:
-				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Lift Angle: %g", masterAutonSelector.Autons[masterAutonSelector.currentAutonPage]);
 		}
 
 		masterOdometry.update();

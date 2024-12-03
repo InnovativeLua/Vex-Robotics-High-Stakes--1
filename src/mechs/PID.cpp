@@ -13,6 +13,8 @@ void PID::resetVariables() {
   integral = 0;
   time = 0;
   prev_time = 0;
+  k = 0;
+  j = 0;
 }
 
 PID::PID() {

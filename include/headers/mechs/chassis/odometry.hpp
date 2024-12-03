@@ -18,8 +18,8 @@ class odometry {
     std::vector<double> getPreviousPosition();
 
  private:
-    const double AuxOffset;
-    const double leftOffset;
+    const double AuxOffset = 0.0;
+    const double leftOffset = 0.0;
 
     double X;
     double Y;

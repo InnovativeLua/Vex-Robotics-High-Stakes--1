@@ -112,6 +112,7 @@ class chassis {
     void initialize();
 
     void startHeadingPID(double target);
+    void PIDLoop();
 
 
     bool headingPIDEnabled = false;

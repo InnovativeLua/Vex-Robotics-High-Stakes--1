@@ -6,6 +6,7 @@
 //Custom headers.
 #include "headers/brain/ports.hpp"
 #include "headers/brain/controller.hpp"
+#include "headers/mechs/PID.hpp"
 
 class lift{
 public:
@@ -13,15 +14,25 @@ public:
     pros::Motor liftMotor = pros::Motor(LIFT_MOTOR); //Declares a motor for the lift with port "LiftMotor"
 
     double liftVelocity = 100; //Variable which controls how fast the lift is moving.
+    int idlePosition = 0;
+    int idleCoastPosition = 5;
+    int primedPosition = 30;
+    int forwardPosition = 250;
 
     //Control types define what the lift is doing at any point during OPControl.
-    enum liftStates {
+    enum liftPositions {
         E_DISABLED,
+        E_MANUAL,
+        E_FORWARD,
         E_IDLE,
-        E_MANUAL
+        E_PRIMED
     };
 
-    int liftState = E_MANUAL; //The default state currently is manual.
+    liftPositions liftState = E_IDLE; //The default state currently is manual.
+
+    bool liftPIDEnabled = false;
+    PID liftPID = PID(6.0, 0, 0.0, 0, "liftPID");
+    pros::Rotation liftRot = pros::Rotation(liftRot);
 
     /**
      * Moves the lift down based on the velocity of the lift.
