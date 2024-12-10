@@ -116,9 +116,12 @@ void opcontrol() {
 				pros::screen::print(pros::E_TEXT_MEDIUM, 6, "AUX: %g", masterChassis.auxTracker.get_value());
 				pros::screen::print(pros::E_TEXT_MEDIUM, 7, "LEFT: %g", masterChassis.leftTracker.get_value());
 				pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Distance: %g", masterIntake.distanceSensor.get());
-				std::cout << "Intake distance " << masterIntake.distanceSensor.get() << std::endl;
-				std::cout << "Motor Position " << masterLift.liftMotor.get_position() << std::endl;
+				//std::cout << "Intake distance " << masterIntake.distanceSensor.get() << std::endl;
+				//std::cout << "Motor Position " << masterLift.liftMotor.get_position() << std::endl;
 		}
+
+		std::cout << "liftPosition" <<masterLift.liftRot.get_position() << "\n";
+		std::cout << "liftCur" <<masterLift.liftPID.error << "\n";
 
 		masterOdometry.update();
 		masterChassis.opControl();

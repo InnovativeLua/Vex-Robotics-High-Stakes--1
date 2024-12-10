@@ -12,12 +12,14 @@ class lift{
 public:
 
     pros::Motor liftMotor = pros::Motor(LIFT_MOTOR); //Declares a motor for the lift with port "LiftMotor"
+    pros::Motor liftMotor2 = pros::Motor(LIFT_MOTOR2); //Declares a motor for the lift with port "LiftMotor"
+    pros::adi::Encoder liftTracker = pros::adi::Encoder(LIFT_TOP, LIFT_BOTTOM, true);
 
-    double liftVelocity = 100; //Variable which controls how fast the lift is moving.
+    double liftVelocity = 200; //Variable which controls how fast the lift is moving.
     int idlePosition = 0;
-    int idleCoastPosition = 5;
-    int primedPosition = 30;
-    int forwardPosition = 250;
+    int idleCoastPosition = 20;
+    int primedPosition = 42;
+    int forwardPosition = 400;
 
     //Control types define what the lift is doing at any point during OPControl.
     enum liftPositions {
@@ -28,11 +30,11 @@ public:
         E_PRIMED
     };
 
-    liftPositions liftState = E_IDLE; //The default state currently is manual.
+    liftPositions liftState = E_MANUAL; //The default state currently is manual.
 
     bool liftPIDEnabled = false;
-    PID liftPID = PID(6.0, 0, 0.0, 0, "liftPID");
-    pros::Rotation liftRot = pros::Rotation(liftRot);
+    PID liftPID = PID(0.3, 0.000, 0.0, 0, "liftPID");
+    pros::Rotation liftRot = pros::Rotation(LIFT_ROT);
 
     /**
      * Moves the lift down based on the velocity of the lift.
