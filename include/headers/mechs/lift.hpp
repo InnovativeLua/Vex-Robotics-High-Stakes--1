@@ -17,8 +17,8 @@ public:
 
     double liftVelocity = 200; //Variable which controls how fast the lift is moving.
     int idlePosition = 0;
-    int idleCoastPosition = 20;
-    int primedPosition = 42;
+    int idleCoastPosition = 60;
+    int primedPosition = 37;
     int forwardPosition = 400;
 
     //Control types define what the lift is doing at any point during OPControl.
@@ -31,6 +31,8 @@ public:
     };
 
     liftPositions liftState = E_MANUAL; //The default state currently is manual.
+    
+    liftPositions liftAutoState = E_IDLE;
 
     bool liftPIDEnabled = false;
     PID liftPID = PID(0.3, 0.000, 0.0, 0, "liftPID");
@@ -77,6 +79,8 @@ public:
      * 
      */
     void initalize();
+
+    void autoControl();
 };
 
 extern lift masterLift; //Global lift object to be accessed by any files.

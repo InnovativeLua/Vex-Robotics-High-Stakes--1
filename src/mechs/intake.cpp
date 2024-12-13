@@ -73,6 +73,13 @@ void intake::stop(){
  * 
  */
 void intake::opControl(){
+    if (mainController->get_digital(INTAKE_LIFT)){ //looks for press of R2 on controller.
+        intakeCylinder.set_value(false);
+    } else {
+        //If neither is pressed it stops the intake.
+        intakeCylinder.set_value(true);
+    }
+
     //Looks at the different states the intake can be in.
     switch(intakeState){ 
 
@@ -157,7 +164,7 @@ void intake::initalize(){
     intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     intakeMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 
-    intakeMotor2.set_gearing(pros::E_MOTOR_GEARSET_06); //High Speed Motor
+    intakeMotor2.set_gearing(pros::E_MOTOR_GEARSET_18); //High Speed Motor
     intakeMotor2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     intakeMotor2.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 

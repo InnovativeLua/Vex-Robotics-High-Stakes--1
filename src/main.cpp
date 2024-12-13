@@ -31,7 +31,7 @@ bool limitDebounce = false;
 
 void initialize() {
 	masterChassis.initialize();
-	masterOdometry.initilize();
+	//masterOdometry.initilize();
 	masterMogo.initialize();
 	masterIntake.initalize();
 	masterLift.initalize();
@@ -67,7 +67,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	redLeft();
+	redRight();
 }
 
 /**
@@ -93,9 +93,9 @@ void opcontrol() {
 		switch (screen){
 			case 0:
 
-				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", masterOdometry.getPosition()[2]);
+				//pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
+				//pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
+				//pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", masterOdometry.getPosition()[2]);
 
 
 				//55 Degrees celcius is overheating and power power is reduced
@@ -110,9 +110,9 @@ void opcontrol() {
 
 				break;
 			case 1:
-				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", 180/3.14159*masterOdometry.getPosition()[2]);
+				//pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
+				//pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
+				//pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", 180/3.14159*masterOdometry.getPosition()[2]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 6, "AUX: %g", masterChassis.auxTracker.get_value());
 				pros::screen::print(pros::E_TEXT_MEDIUM, 7, "LEFT: %g", masterChassis.leftTracker.get_value());
 				pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Distance: %g", masterIntake.distanceSensor.get());
@@ -123,7 +123,7 @@ void opcontrol() {
 		std::cout << "liftPosition" <<masterLift.liftRot.get_position() << "\n";
 		std::cout << "liftCur" <<masterLift.liftPID.error << "\n";
 
-		masterOdometry.update();
+		//masterOdometry.update();
 		masterChassis.opControl();
 		masterIntake.opControl();
 		masterLift.opControl();

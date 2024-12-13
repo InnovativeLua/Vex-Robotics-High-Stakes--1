@@ -16,6 +16,8 @@ public:
 
     pros::Distance distanceSensor = pros::Distance(DISTANCESENSOR);
 
+	pros::adi::DigitalOut intakeCylinder = pros::adi::DigitalOut(INTAKE_RAISE_SOLENOID);
+
     //Enum for the control types define what the intake is doing at any point.
     enum E_intakeStates {
         E_DISABLED,

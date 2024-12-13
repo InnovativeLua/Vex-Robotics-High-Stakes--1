@@ -216,11 +216,18 @@ void redLeft(){
 
 
 void redRight(){
+
+    masterLift.liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    masterLift.liftVelocity = 40;
+    masterLift.spinForward();
     masterMogo.extend();
     masterChassis.updateLeft(-60);
     masterChassis.updateRight(-60);
     
     pros::delay(550);
+
+    masterLift.liftVelocity = 0;
+    masterLift.spinForward();
 
     masterChassis.updateDrive(-50, -10);
 
@@ -237,7 +244,7 @@ void redRight(){
     pros::delay(500);
     masterChassis.headingPIDEnabled = true;
     masterChassis.headingPID.resetVariables();
-    masterChassis.headingPID.setTarget(260.0);
+    masterChassis.headingPID.setTarget(270.0);
     while (masterChassis.headingPIDEnabled){
         masterChassis.PIDLoop();
         pros::delay(20);
@@ -247,28 +254,48 @@ void redRight(){
     pros::delay(1300);
     masterChassis.updateDrive(-30, -30);
     pros::delay(50);
-    pros::delay(200);
-    masterChassis.updateDrive(0, 0);
-    masterIntake.spinForward();
-    pros::delay(2000);
-    masterIntake.spinReverse();
-    pros::delay(500);
-    masterIntake.spinForward();
 
-    pros::delay(500);
     masterChassis.headingPIDEnabled = true;
     masterChassis.headingPID.resetVariables();
-    masterChassis.headingPID.setTarget(90.0);
+    masterChassis.headingPID.setTarget(225);
     while (masterChassis.headingPIDEnabled){
         masterChassis.PIDLoop();
         pros::delay(20);
     }
 
     masterChassis.updateDrive(40, 40);
-    pros::delay(1000);
+    pros::delay(1800);
     masterIntake.stop();
-    pros::delay(2000);
-    masterChassis.updateDrive(0, 0);
+
+    masterLift.liftVelocity = 200;
+    masterLift.spinForward();
+    
+    pros::delay(500);
+
+    masterLift.liftVelocity = 0;
+    masterLift.spinForward();
+
+    pros::delay(900);
+
+    masterLift.liftVelocity = 100;
+    masterLift.spinReverse();
+
+    pros::delay(900);
+    masterLift.liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+
+    masterLift.liftVelocity = 0;
+    masterLift.spinForward();
+
+    masterChassis.updateDrive(-50, -50);
+    pros::delay(700);
+
+    masterIntake.spinForward();
+    masterChassis.updateDrive(50, 10);
+    pros::delay(1000);
+
+    masterChassis.updateDrive(30, 30);
+    pros::delay(1000);
+
 }
 
 void blueLeft(){
