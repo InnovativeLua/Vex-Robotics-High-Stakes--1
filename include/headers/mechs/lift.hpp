@@ -18,8 +18,11 @@ public:
     double liftVelocity = 200; //Variable which controls how fast the lift is moving.
     int idlePosition = 0;
     int idleCoastPosition = 60;
-    int primedPosition = 37;
+    int primedPosition = 20;
     int forwardPosition = 400;
+    int intakeReversingTimer = 0;
+    int intakeReverseTime = 200;
+    bool intakeReversing = false;
 
     //Control types define what the lift is doing at any point during OPControl.
     enum liftPositions {

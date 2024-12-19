@@ -146,6 +146,9 @@ void intake::opControl(){
             currentDelay += 20; //Adds to the timer.
             spinReverse(); //Updates the speed of the motor and reverses it.
         }
+    case E_REVERSE:
+        intakeVelocity = 600.0; //Sets the intake speed to maximum.
+        spinReverse(); //Updates the speed of the motor and reverses it.
     }
 
 }

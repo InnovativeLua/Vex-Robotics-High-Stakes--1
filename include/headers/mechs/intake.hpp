@@ -25,6 +25,7 @@ public:
         E_RINGDETECTED,
         E_RINGLEFTWAITING,
         E_REVERSING,
+        E_REVERSE
     };
 
     /**
@@ -97,6 +98,8 @@ public:
      */
     void initalize();
 
+    E_intakeStates intakeState; //Current intake state the intake is in.
+
 private:
     double intakeVelocity = 600.0; //Velocity of the intake.
 
@@ -105,7 +108,7 @@ private:
     int currentDelay = 0; //Timer for both the afterDelay and the reversingTime.
     int distanceTargetDistance = 30; //Target distance for a ring to be considered "detected".
 
-    E_intakeStates intakeState; //Current intake state the intake is in.
+
 };
 
 extern intake masterIntake; //Global intake object to be accessed by any files.

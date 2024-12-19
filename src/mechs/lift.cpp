@@ -1,5 +1,6 @@
 //Respective header file for the lift.
 #include "headers/mechs/lift.hpp"
+#include "headers/mechs/intake.hpp"
 
 /**
  * Moves the lift down based on the velocity of the lift.
@@ -67,6 +68,7 @@ void lift::autoControl(){
         if (liftTracker.get_value() < idleCoastPosition){
             liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
             liftVelocity = 0;
+            spinForward();
         } else {
             liftVelocity = liftPID.compute(liftTracker.get_value());
             spinForward();
@@ -77,18 +79,29 @@ void lift::autoControl(){
         if (liftAutoState = E_FORWARD){
             liftState = E_FORWARD;
             liftPID.resetVariables();
-            liftPID.setConstants(1.0, 0.000, 0.0, 0);
+            liftPID.setConstants(5.0, 0.000, 0.0, 0);
             liftPID.setTarget(forwardPosition);
+            masterIntake.intakeState = masterIntake.E_REVERSE;
+            intakeReversing = true;
+            intakeReversingTimer = 0;
         }
         liftVelocity = liftPID.compute(liftTracker.get_value());
         spinForward();
         break;
     case (E_FORWARD):
+        liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+        intakeReversingTimer += 20;
+        std::cout << "std timer " << intakeReversingTimer << std::endl;
+        if (intakeReversingTimer > intakeReverseTime){
+            intakeReversing = false;
+            masterIntake.intakeState = masterIntake.E_MANUAL;
+        }
+
         if (liftAutoState == E_IDLE){
             liftState = E_IDLE;
             liftPID.resetVariables();
             liftPID.setTarget(idlePosition);
-            }
+        }
         liftVelocity = liftPID.compute(liftTracker.get_value());
         spinForward();
         break;
