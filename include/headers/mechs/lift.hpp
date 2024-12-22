@@ -13,12 +13,12 @@ public:
 
     pros::Motor liftMotor = pros::Motor(LIFT_MOTOR); //Declares a motor for the lift with port "LiftMotor"
     pros::Motor liftMotor2 = pros::Motor(LIFT_MOTOR2); //Declares a motor for the lift with port "LiftMotor"
-    pros::adi::Encoder liftTracker = pros::adi::Encoder(LIFT_TOP, LIFT_BOTTOM, true);
+    pros::adi::Encoder liftTracker = pros::adi::Encoder(LIFT_TOP, LIFT_BOTTOM, false);
 
     double liftVelocity = 200; //Variable which controls how fast the lift is moving.
     int idlePosition = 0;
     int idleCoastPosition = 60;
-    int primedPosition = 20;
+    int primedPosition = 40;
     int forwardPosition = 400;
     int intakeReversingTimer = 0;
     int intakeReverseTime = 200;

@@ -14,7 +14,7 @@ public:
     pros::Motor intakeMotor = pros::Motor(INTAKEMOTOR);
     pros::Motor intakeMotor2 = pros::Motor(INTAKEMOTOR2);
 
-    pros::Distance distanceSensor = pros::Distance(DISTANCESENSOR);
+    pros::Optical intakeOptical = pros::Optical(INTAKE_OPTICAL);
 
 	pros::adi::DigitalOut intakeCylinder = pros::adi::DigitalOut(INTAKE_RAISE_SOLENOID);
 
@@ -26,6 +26,13 @@ public:
         E_RINGLEFTWAITING,
         E_REVERSING,
         E_REVERSE
+    };
+
+    enum E_DetectionStates {
+        E_DISABLED,
+        E_EJECTOPPOSITE,
+        E_EJECTSAME,
+        E_EJECTBOTH
     };
 
     /**
@@ -99,16 +106,19 @@ public:
     void initalize();
 
     E_intakeStates intakeState; //Current intake state the intake is in.
+    E_DetectionStates intakeDetectionState;
 
 private:
     double intakeVelocity = 600.0; //Velocity of the intake.
 
     int afterDelay = 2500; //Time for intake to wait before reversing after a ring leaves its sight.
-    int reversingTime = 1000; //Time for the intake to reverse before stopping.
+    int reversingTime = 100; //Time for the intake to reverse before stopping.
     int currentDelay = 0; //Timer for both the afterDelay and the reversingTime.
-    int distanceTargetDistance = 30; //Target distance for a ring to be considered "detected".
 
-
+    double redRangeBottom = 40.0;
+    double redRangeTop = 50.0;
+    double blueRangeBottom = 90.0;
+    double blueRangeTop = 100.0;
 };
 
 extern intake masterIntake; //Global intake object to be accessed by any files.
