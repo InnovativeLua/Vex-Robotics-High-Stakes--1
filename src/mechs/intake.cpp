@@ -107,7 +107,7 @@ void intake::opControl(){
             //If neither is pressed it stops the intake.
             stop();
         }
-        detectJam();
+        //detectJam();
         break;
     
     //If a ring has just been detected, waiting until ring has left the distance sensor.
