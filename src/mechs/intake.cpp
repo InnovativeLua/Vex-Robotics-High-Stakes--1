@@ -65,6 +65,14 @@ void intake::stop(){
     intakeMotor2.move_velocity(0); //Stops the intake motors from moving.
 }
 
+void intake::detectJam(){
+    int deltaEncoderTick = abs(lastEncoderTick - intakeMotor.get_position());
+    if (deltaEncoderTick < lowEncoderTickRate && mainController->get_digital(INTAKE_FORWARD)){
+        std::cout << "Intake jam detected, correction occuring" << std::endl;
+        intakeMotor.move_velocity(-600);
+    }
+}
+
 /**
  * Runs during operator control code.
  * Makes the intake move based on what buttons are being pressed.
@@ -99,6 +107,7 @@ void intake::opControl(){
             //If neither is pressed it stops the intake.
             stop();
         }
+        detectJam();
         break;
     
     //If a ring has just been detected, waiting until ring has left the distance sensor.

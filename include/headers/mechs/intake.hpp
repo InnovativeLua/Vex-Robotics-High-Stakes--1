@@ -85,6 +85,9 @@ public:
      */
     void stop();
 
+
+    void detectJam();
+
     /**
      * Runs during operator control code.
      * Makes the drivetrain move based on what buttons are being pressed.
@@ -119,6 +122,9 @@ private:
     double redRangeTop = 50.0;
     double blueRangeBottom = 90.0;
     double blueRangeTop = 100.0;
+
+    int lastEncoderTick = 0;
+    int lowEncoderTickRate = 2;
 };
 
 extern intake masterIntake; //Global intake object to be accessed by any files.
