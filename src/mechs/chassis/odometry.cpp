@@ -2,7 +2,8 @@
 #include "headers/mechs/chassis/odometry.hpp"
 
 #define PI std::numbers::pi //Replaces PI with the number pi.
-#define in_per_tick 2 * PI //Replaces in_per_tick with tau.
+
+constexpr double in_per_tick = 2 * PI / 360; //Replaces in_per_tick with tau.
 
 void odometry::resetPosition(){
 	double X = 0.0;
@@ -17,9 +18,9 @@ void odometry::initilize(){
     masterChassis.leftTracker.reset();
 
 	//Sets the previous encoder/heading values to the current values.
-	double prevAux = (double)masterChassis.auxTracker.get_value();
-	double prevLE = (double)masterChassis.leftTracker.get_value();
-	double previousHeading = masterChassis.ChassisIMU.get_heading()*PI/180;
+	double prevAux = 0.0;
+	double prevLE = 0.0;
+	double previousHeading = 0.0;
 }
 
 std::vector<double> odometry::getPosition(){
@@ -37,8 +38,11 @@ void odometry::update(){
 
 	//Finds the change between the last encoder value and converts to inches traveled.
 	//Multipled by 3.25" because we are using 3.25" wheels.
-	double deltaL = (LEncoder - prevLE) * in_per_tick * 3.25;
-	double deltaAux = (auxEncoder - prevAux) * in_per_tick * 3.25;
+	double deltaL = (LEncoder - prevLE) * in_per_tick * 3.25 / 2.0;
+	double deltaAux = (auxEncoder - prevAux) * in_per_tick * 3.25 / 2.0;
+
+	std::cout << "Delta aux: " << deltaAux << std::endl;
+	std::cout << "Delta L: " << deltaL << std::endl;
 
 	prevLE = LEncoder; //Updates the previousEncoder value.
 	prevAux = auxEncoder; //Updates the previousEncoder value.
@@ -52,13 +56,13 @@ void odometry::update(){
 	double deltaY = deltaAux; //Local Coordinate System Delta Y
 
 	//Checks if the robot has not turned or barely turned.
-	if (std::abs(deltaTheta) < 0.001){
+	if (std::abs(deltaTheta) < 0.0001){
 		deltaX = deltaL; //sets DeltaX to the left encoder value.
 		deltaY = deltaAux; //sets DeltaY to the right encoder value.
 	} else { //The robot has turned
 		//Applies trigonometry to find how far the robot has traveled in the local coordinate system.
-		deltaX = 2 * std::sin(deltaTheta/2) * ((deltaL / deltaTheta) + leftOffset);
-		deltaY = 2 * std::sin(deltaTheta/2) * ((deltaAux / deltaTheta) + AuxOffset);
+		deltaX = 2.0 * std::sin(deltaTheta/2) * ((deltaL / deltaTheta) + leftOffset);
+		deltaY = 2.0 * std::sin(deltaTheta/2) * ((deltaAux / deltaTheta) + AuxOffset);
 	}
 
 	//Average of the previous heading and current heading.
@@ -69,8 +73,11 @@ void odometry::update(){
 	prevY = Y;
 
 	//Applies a rotation matrix to find the global X and Y changes and adds to the current X and Y.
-	X += (cos(-averageHeading) * deltaX - sin(-averageHeading) * deltaY);
+	X -= (cos(-averageHeading) * deltaX - sin(-averageHeading) * deltaY);
 	Y += (sin(-averageHeading) * deltaX + cos(-averageHeading) * deltaY);
+
+	std::cout << "X Position: " << X << std::endl;
+	std::cout << "Y Position: " << Y << std::endl;
 
 	previousHeading = Heading; //Sets the previous heading to the current heading.
 }

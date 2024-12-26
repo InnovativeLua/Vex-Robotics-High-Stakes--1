@@ -85,9 +85,11 @@ void autonomous() {
  */
 void opcontrol() {
 	const int mSecWaitTime = 10;
+	int n = 0;
 	masterChassis.driverControlPeriod = true;
 
 	while (true) {
+		n += 1;
 		int screen = 1;
 
 		switch (screen){
@@ -110,20 +112,22 @@ void opcontrol() {
 
 				break;
 			case 1:
-				//pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Position X: %g", masterOdometry.getPosition()[0]);
-				//pros::screen::print(pros::E_TEXT_MEDIUM, 4, "Position Y: %g", masterOdometry.getPosition()[1]);
-				//pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", 180/3.14159*masterOdometry.getPosition()[2]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 6, "AUX: %g", masterChassis.auxTracker.get_value());
-				pros::screen::print(pros::E_TEXT_MEDIUM, 7, "LEFT: %g", masterChassis.leftTracker.get_value());
-				pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Distance: %g", masterIntake.distanceSensor.get());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Position X: %g", masterOdometry.getPosition()[0]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Position Y: %g", masterOdometry.getPosition()[1]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", 180/3.14159*masterOdometry.getPosition()[2]);
+				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "AUX: %g", masterChassis.auxTracker.get_value());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "LEFT: %g", masterChassis.leftTracker.get_value());
+				//pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Distance: %g", masterIntake.distanceSensor.get());
 				//std::cout << "Intake distance " << masterIntake.distanceSensor.get() << std::endl;
 				//std::cout << "Motor Position " << masterLift.liftMotor.get_position() << std::endl;
 		}
 
-		std::cout << "liftPosition" <<masterLift.liftRot.get_position() << "\n";
-		std::cout << "liftCur" <<masterLift.liftPID.error << "\n";
-
-		//masterOdometry.update();
+		if (n % 10 == 0){
+			std::cout << "auxEncoder: " << masterChassis.auxTracker.get_value() << "\n";
+			std::cout << "leftEncoder" << masterChassis.leftTracker.get_value() << "\n";
+		}
+		
+		masterOdometry.update();
 		masterChassis.opControl();
 		masterIntake.opControl();
 		masterLift.opControl();

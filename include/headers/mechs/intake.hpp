@@ -29,7 +29,7 @@ public:
     };
 
     enum E_DetectionStates {
-        E_DISABLED,
+        E_NONE,
         E_EJECTOPPOSITE,
         E_EJECTSAME,
         E_EJECTBOTH

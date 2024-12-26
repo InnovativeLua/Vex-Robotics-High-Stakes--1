@@ -1,5 +1,10 @@
 //Respective header file for the chassis.
 #include "headers/mechs/chassis/basechassis.hpp"
+#include "headers/mechs/chassis/odometry.hpp"
+
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
 
 /**
  * Sets the current chassis control type.
@@ -61,23 +66,70 @@ void chassis::updateDrive(int leftPower, int rightPower){
     updateRight(rightPower);
 }
 
-void chassis::PIDLoop(){
+void chassis::headingPIDLoop(){
     if (headingPIDEnabled){
         if (headingPID.checkExitCondition() == headingPID.SMALL_EXIT || headingPID.checkExitCondition() == headingPID.TIMEOUT){
             headingPIDEnabled = false;
             std::cout << "Disabled Heading PID" << std::endl;
         }
-        double power = headingPID.compute(ChassisIMU.get_heading());
+        double compute = ChassisIMU.get_heading();
+        if (abs(compute - headingPID.target) > 180){
+            compute -= sgn(compute - headingPID.target) * 360;
+        }
+
+        double power = headingPID.compute(compute);
         std::cout << "power: " << power << std::endl;
         std::cout << "target: " << headingPID.getTarget()<< std::endl;
         std::cout << "current: " << ChassisIMU.get_heading() << std::endl;
-        if (power > 50){
-            power = 50;
-        } else if (power < -50){
-            power = -50;
+        if (power > 100){
+            power = 100;
+        } else if (power < -100){
+            power = -100;
         }
         updateDrive(power, -power);
         std::cout << "Power: " << std::endl;
+    }
+}
+
+void chassis::PIDLoop(){
+    if (mainPIDEnabled == true){
+        if (distancePID.checkExitCondition() == distancePID.SMALL_EXIT || distancePID.checkExitCondition() == distancePID.TIMEOUT){
+            mainPIDEnabled = false;
+            std::cout << "Disabled distance PID" << std::endl;
+        }
+        double dx = mainPIDTarget[0] - masterOdometry.getPosition()[0];
+        double dy = mainPIDTarget[1] - masterOdometry.getPosition()[1];
+        double distanceToTarget = sqrt(dx*dx + dy*dy);
+        double targetAngle = atan2(dy, dx) * 180 / 3.14159; //Added one needs to be same sign however maybe just add sgn(dx or dy);
+        mainHeadingPID.setTarget(targetAngle);
+        std::cout << "Distance to target" << distanceToTarget << std::endl;
+
+        double computeHeading = ChassisIMU.get_heading();
+        double errHeading = computeHeading - mainHeadingPID.target;
+        if (abs(errHeading) > 180){
+            computeHeading -= sgn(errHeading) * 360;
+        }
+
+        double headingPower = mainHeadingPID.compute(computeHeading);
+        double distancePower = distancePID.compute(distanceToTarget);
+
+        double leftPower = -distancePower + headingPower;
+        double rightPower = -distancePower - headingPower;
+
+        if (abs(distancePower + headingPower) >= abs(distancePower - headingPower)){
+            if (abs(distancePower + headingPower) > 50){
+                double max = abs(distancePower + headingPower);
+                leftPower = leftPower/max * 50;
+                rightPower = rightPower/max * 50;
+            }
+        } else if (abs(distancePower + headingPower) < abs(distancePower - headingPower)){
+            if (abs(distancePower - headingPower) > 50){
+                double max = abs(distancePower - headingPower);
+                leftPower = leftPower/max * 50;
+                rightPower = rightPower/max * 50;
+            }
+        }
+        updateDrive(leftPower, rightPower);
     }
 }
 
@@ -92,12 +144,19 @@ void chassis::PIDLoop(){
  */
 void chassis::opControl(){
     if (headingPIDEnabled){
+        headingPIDLoop();
+
+    } else if (mainPIDEnabled){
         PIDLoop();
     } else if (driverControlPeriod){ 
         if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
             headingPIDEnabled = true;
             headingPID.resetVariables();
-            headingPID.setTarget(180.0);
+            headingPID.setTarget(atan2(20, 20) * 180 / 3.14159);
+            return;
+        }
+        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+            startMainPID({30, 30});
             return;
         }
 		//Arcade control for the drivetrain in case we want to use it.
@@ -124,6 +183,21 @@ void chassis::startHeadingPID(double target){
     headingPIDEnabled = true;
     headingPID.resetVariables();
     headingPID.setTarget(target);
+}
+
+void chassis::startMainPID(std::vector<double> target){
+    double dx = mainPIDTarget[0] - masterOdometry.getPosition()[0];
+    double dy = mainPIDTarget[1] - masterOdometry.getPosition()[1];
+    double targetAngle = atan2(dy, dx);
+
+    mainPIDEnabled = true;
+    mainPIDTarget = target;
+
+    mainHeadingPID.resetVariables();
+    mainHeadingPID.setTarget(targetAngle);
+
+    distancePID.resetVariables();
+    distancePID.setTarget(0.0);
 }
 
 /**
@@ -168,7 +242,9 @@ void chassis::initialize(){
     driveControl = E_TANK_CONTROL;
 
     headingPID.resetVariables();
-    headingPID.setExitCondition(0.1, 500.0, 3000, 200);
+    headingPID.setExitCondition(0.001, 500.0, 10000, 2000);
+    distancePID.resetVariables();
+    distancePID.setExitCondition(2.0, 100.0, 100000, 1000);
 
     ChassisIMU.reset(true); //Resets the chassis IMU.
 }

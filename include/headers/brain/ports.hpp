@@ -19,13 +19,13 @@ constexpr int INTAKE_OPTICAL = 14;
 constexpr int ODOMETRY_INERTIAL = 12;
 constexpr char ODOMETRY_AUX_TOP = 'C';
 constexpr char ODOMETRY_AUX_BOTTOM = 'D';
-constexpr char ODOMETRY_LEFT_TOP = 'D';
-constexpr char ODOMETRY_LEFT_BOTTOM = 'B';
+constexpr char ODOMETRY_LEFT_TOP = 'F';
+constexpr char ODOMETRY_LEFT_BOTTOM = 'E';
 constexpr char LIFT_TOP = 'H';
 constexpr char LIFT_BOTTOM = 'G';
 constexpr char LIFT_ROT = 15;
 
 //Solenoids
 constexpr char MOGO_MECH_SOLENOID = 'B';
-constexpr char TIPPER_SOLENOID = 'C';   
+constexpr char TIPPER_SOLENOID = 'A';    //Should be C, changed ofr now.
 constexpr char INTAKE_RAISE_SOLENOID = 'A';

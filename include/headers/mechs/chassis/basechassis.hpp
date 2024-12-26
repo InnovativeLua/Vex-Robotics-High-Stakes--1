@@ -77,6 +77,8 @@ class chassis {
      */
     void updateRight(int power);
 
+    void headingPIDLoop();
+
     /**
      * Runs both the left and right chassis motors.
      *
@@ -113,10 +115,19 @@ class chassis {
 
     void startHeadingPID(double target);
     void PIDLoop();
+    void startMainPID(std::vector<double> target);
 
 
     bool headingPIDEnabled = false;
-    PID headingPID = PID(6.0, 0, 20.0, 0, "HeadingPID");
+    PID headingPID = PID(7.0, 0.0, 30.0, 0.0, "HeadingPID");
+    PID distancePID = PID(10.0, 0, 0.0, 0, "distancePID");
+    PID mainHeadingPID = PID(7.0, 0, 0.0, 0, "mainHeadingPID");
+    bool mainPIDEnabled = false;
+
+    std::vector<double> mainPIDTarget = {20.0, 20.0};
+
+
+
 
 private:
     E_driveControl driveControl; //Current drive control type the chassis is using.

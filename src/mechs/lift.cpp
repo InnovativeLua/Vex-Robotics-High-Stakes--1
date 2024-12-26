@@ -54,7 +54,7 @@ void lift::stop(){
  */
 
 void lift::autoControl(){
-    std::cout << "Tracker pos: " << (liftTracker.get_value()) << std::endl;
+    //std::cout << "Tracker pos: " << (liftTracker.get_value()) << std::endl;
     //Looks at the different states the lift can be in.
     //For the manual state.
     switch(liftAutoState){ 
@@ -109,7 +109,7 @@ void lift::autoControl(){
 }
 
 void lift::opControl(){
-    std::cout << "Tracker pos: " << (liftTracker.get_value()) << std::endl;
+    //std::cout << "Tracker pos: " << (liftTracker.get_value()) << std::endl;
     //Looks at the different states the lift can be in.
     //For the manual state.
     switch(liftState){ 

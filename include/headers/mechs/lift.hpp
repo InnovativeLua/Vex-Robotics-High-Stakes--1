@@ -18,7 +18,7 @@ public:
     double liftVelocity = 200; //Variable which controls how fast the lift is moving.
     int idlePosition = 0;
     int idleCoastPosition = 60;
-    int primedPosition = 40;
+    int primedPosition = 90;
     int forwardPosition = 400;
     int intakeReversingTimer = 0;
     int intakeReverseTime = 200;
