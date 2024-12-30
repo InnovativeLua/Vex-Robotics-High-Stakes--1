@@ -111,22 +111,27 @@ void chassis::PIDLoop(){
         }
 
         double headingPower = mainHeadingPID.compute(computeHeading);
+
+        if (distanceToTarget < 3.0){
+            headingPower = 0.0;
+        }
+
         double distancePower = distancePID.compute(distanceToTarget);
 
         double leftPower = -distancePower + headingPower;
         double rightPower = -distancePower - headingPower;
 
         if (abs(distancePower + headingPower) >= abs(distancePower - headingPower)){
-            if (abs(distancePower + headingPower) > 50){
+            if (abs(distancePower + headingPower) > 90){
                 double max = abs(distancePower + headingPower);
-                leftPower = leftPower/max * 50;
-                rightPower = rightPower/max * 50;
+                leftPower = leftPower/max * 90;
+                rightPower = rightPower/max * 90;
             }
         } else if (abs(distancePower + headingPower) < abs(distancePower - headingPower)){
-            if (abs(distancePower - headingPower) > 50){
+            if (abs(distancePower - headingPower) > 90){
                 double max = abs(distancePower - headingPower);
-                leftPower = leftPower/max * 50;
-                rightPower = rightPower/max * 50;
+                leftPower = leftPower/max * 90;
+                rightPower = rightPower/max * 90;
             }
         }
         updateDrive(leftPower, rightPower);
@@ -244,7 +249,7 @@ void chassis::initialize(){
     headingPID.resetVariables();
     headingPID.setExitCondition(0.001, 500.0, 10000, 2000);
     distancePID.resetVariables();
-    distancePID.setExitCondition(2.0, 100.0, 100000, 1000);
+    distancePID.setExitCondition(2.0, 200.0, 100000, 1000);
 
     ChassisIMU.reset(true); //Resets the chassis IMU.
 }

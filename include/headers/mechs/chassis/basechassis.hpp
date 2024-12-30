@@ -120,8 +120,8 @@ class chassis {
 
     bool headingPIDEnabled = false;
     PID headingPID = PID(7.0, 0.0, 30.0, 0.0, "HeadingPID");
-    PID distancePID = PID(10.0, 0, 0.0, 0, "distancePID");
-    PID mainHeadingPID = PID(7.0, 0, 0.0, 0, "mainHeadingPID");
+    PID distancePID = PID(5.0, 0, 10.0, 0, "distancePID");
+    PID mainHeadingPID = PID(5.0, 0, 30.0, 0, "mainHeadingPID");
     bool mainPIDEnabled = false;
 
     std::vector<double> mainPIDTarget = {20.0, 20.0};
