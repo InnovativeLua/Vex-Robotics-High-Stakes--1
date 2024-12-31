@@ -32,7 +32,7 @@ public:
     liftPositions liftState; //State the lift is currently in.
 
     bool liftPIDEnabled = false;
-    PID liftPID = PID(0.3, 0.000, 0.0, 0, "liftPID"); //Sets the default constants and name for the PID.
+    PID liftPID = PID(0.3, 0.000, 0.0, 0); //Sets the default constants and name for the PID.
 
     /**
      * Moves the lift motor forward based on the velocity of the lift.
