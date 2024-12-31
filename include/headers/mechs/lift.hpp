@@ -12,37 +12,30 @@ class lift{
 public:
 
     pros::Motor liftMotor = pros::Motor(LIFT_MOTOR); //Declares a motor for the lift with port "LiftMotor"
-    pros::Motor liftMotor2 = pros::Motor(LIFT_MOTOR2); //Declares a motor for the lift with port "LiftMotor"
-    pros::adi::Encoder liftTracker = pros::adi::Encoder(LIFT_TOP, LIFT_BOTTOM, false);
+    pros::adi::Encoder liftTracker = pros::adi::Encoder(LIFT_TOP, LIFT_BOTTOM, false); //Declares an optical encoder.
 
-    double liftVelocity = 200; //Variable which controls how fast the lift is moving.
-    int idlePosition = 0;
-    int idleCoastPosition = 60;
-    int primedPosition = 90;
-    int forwardPosition = 400;
-    int intakeReversingTimer = 0;
-    int intakeReverseTime = 200;
-    bool intakeReversing = false;
+    double liftVelocity = 200; //Controls how fast the lift is moving.
+    int idlePosition = 0; //Default position for the lift to go towards while idle.
+    int idleCoastPosition = 60; //Position to make the motor coast as to protect the motor from overheating.
+    int primedPosition = 90; //Position for priming the lift.
+    int forwardPosition = 400; //Position to target when going to place it onto wall states. Prevents the lift from going over maximum expansion.
 
     //Control types define what the lift is doing at any point during OPControl.
     enum liftPositions {
-        E_DISABLED,
-        E_MANUAL,
-        E_FORWARD,
-        E_IDLE,
-        E_PRIMED
+        E_DISABLED, //Not going to do anything.
+        E_MANUAL, //Controls based on an up and down button.
+        E_IDLE, //Goes to default position and waits.
+        E_PRIMED, //Primes itself targetting the primed position, waiting for a ring.
+        E_FORWARD //Moves the ring forwards, targetting the forward position to get it onto the wall stake.
     };
 
-    liftPositions liftState = E_MANUAL; //The default state currently is manual.
-    
-    liftPositions liftAutoState = E_IDLE;
+    liftPositions liftState; //State the lift is currently in.
 
     bool liftPIDEnabled = false;
-    PID liftPID = PID(0.3, 0.000, 0.0, 0, "liftPID");
-    pros::Rotation liftRot = pros::Rotation(LIFT_ROT);
+    PID liftPID = PID(0.3, 0.000, 0.0, 0, "liftPID"); //Sets the default constants and name for the PID.
 
     /**
-     * Moves the lift down based on the velocity of the lift.
+     * Moves the lift motor forward based on the velocity of the lift.
      *
      * @return Nothing
      * 
@@ -50,7 +43,7 @@ public:
     void spinForward();
 
     /**
-     * Moves the lift up based on the velocity of the lift.
+     * Moves the lift motor reverse based on the velocity of the lift.
      *
      * @return Nothing
      * 
@@ -76,14 +69,13 @@ public:
 
     /**
      * Runs during initialization.
-     * Sets all the motors to the correct gearing, brake modes, and encoder units.
+     * Sets the motor to the correct gearing, brake modes, and encoder units.
+     * Sets up the PID and sensor.
      * 
      * @return Nothing
      * 
      */
     void initalize();
-
-    void autoControl();
 };
 
 extern lift masterLift; //Global lift object to be accessed by any files.
