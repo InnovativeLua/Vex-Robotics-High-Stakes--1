@@ -1,9 +1,10 @@
 #include "headers/mechs/PID.hpp"
 
+//Typesafe Sign Function, found here:
+//https://stackoverflow.com/questions/1903954/is-there-a-standard-sign-function-signum-sgn-in-c-c
 template <typename T> int sgn(T val) {
     return (T(0) < val) - (val < T(0));
 }
-
 
 void PID::resetVariables() {
   output = 0;
@@ -17,15 +18,17 @@ void PID::resetVariables() {
   j = 0;
 }
 
-PID::PID() {
-  resetVariables();
-  setConstants(0, 0, 0, 0);
-}
-
-PID::Constants PID::getConstants() { return constants; }
-
-// PID constructor with constants
-PID::PID(double p, double i, double d, double start_i, std::string name) {
+/**
+ * Constructs the PID given PID and the starting value for I.
+ *
+ * @param p(double) Proportional term constant.
+ * @param i(double) Integral term constant.
+ * @param d(double) Derivative term constant.
+ * @param start_i(double) Value the integral value will start with.
+ * @return Nothing
+ * 
+ */
+PID::PID(double p, double i, double d, double start_i) {
   resetVariables();
   setConstants(p, i, d, start_i);
 } 

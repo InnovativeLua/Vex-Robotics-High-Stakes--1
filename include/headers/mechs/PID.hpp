@@ -5,10 +5,7 @@
 class PID {
  public:
 
-  PID();
-
-
-  PID(double p, double i = 0, double d = 0, double pStart_i = 0, std::string name = "");
+  PID(double p, double i = 0, double d = 0, double pStart_i = 0);
 
 
   void setConstants(double p, double i = 0, double d = 0, double pStart_i = 0);
@@ -38,7 +35,6 @@ class PID {
 
   void setTarget(double input);
 
-
   double compute(double current);
 
 
@@ -46,16 +42,11 @@ class PID {
 
   int checkExitCondition();
 
-
-  Constants getConstants();
-
   void resetVariables();
 
   Constants constants;
 
   exitCondition exit;
-
-  void setName(std::string name);
 
   /**
    * PID variables. 
@@ -75,5 +66,4 @@ class PID {
   int i = 0, j = 0, k = 0, l = 0; //Need to rewrite these to be more explicit.
   //Also make timeout and big error work.
   void reset_timers();
-  std::string name;
 };
