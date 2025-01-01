@@ -1,7 +1,8 @@
 //Respective header file for the odometry.
 #include "headers/mechs/chassis/odometry.hpp"
 
-constexpr double in_per_tick = 2 * PI / 360 * 3.25 / 2.0; //Converts encoder ticks to radians, based on 3.25" wheels.
+//Converts encoder ticks to radians, based on 3.25" wheels.
+constexpr double in_per_tick = 2 * PI / 360 * 3.25 / 2.0;
 
 /**
  * Sets the current X and Y positions to (0, 0);
