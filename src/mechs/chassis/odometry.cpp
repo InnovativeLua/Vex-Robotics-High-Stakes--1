@@ -1,36 +1,45 @@
 //Respective header file for the odometry.
 #include "headers/mechs/chassis/odometry.hpp"
 
-#define PI std::numbers::pi //Replaces PI with the number pi.
+constexpr double in_per_tick = 2 * PI / 360 * 3.25 / 2.0; //Converts encoder ticks to radians, based on 3.25" wheels.
 
-constexpr double in_per_tick = 2 * PI / 360; //Replaces in_per_tick with tau.
-
+/**
+ * Sets the current X and Y positions to (0, 0);
+ * 
+ * @return Nothing
+ * 
+ */
 void odometry::resetPosition(){
 	double X = 0.0;
 	double Y = 0.0;
 }
 
-void odometry::initilize(){
-	resetPosition(); //Calibrates the position to (0, 0)
-
-	//Sets the 2 tracking wheels' values to 0 degrees.
-    masterChassis.auxTracker.reset();
-    masterChassis.leftTracker.reset();
-
-	//Sets the previous encoder/heading values to the current values.
-	double prevAux = 0.0;
-	double prevLE = 0.0;
-	double previousHeading = 0.0;
-}
-
+/**
+ * Returns the current position and heading in a vector format.
+ * 
+ * @return std::vector<double> the current X, Y, and Heading positions of the robot in format {X, Y, Heading}
+ * 
+ */
 std::vector<double> odometry::getPosition(){
-	return {X, Y, Heading}; //Returns a vector of the X Position, Y Position, and Heading.
+	return {X, Y, Heading};
 }
 
+/**
+ * Returns the previous position and heading in a vector format.
+ * 
+ * @return std::vector<double> the previous X, Y, and Heading positions of the robot in format {X, Y, Heading}
+ * 
+ */
 std::vector<double> odometry::getPreviousPosition(){
-	return {prevX, prevY, previousHeading}; //Returns a vector of the previous X, Y, and Heading.
+	return {prevX, prevY, previousHeading};
 }
 
+/**
+ * Updates the X, Y, and heading values.
+ *
+ * @return Nothing
+ * 
+ */
 void odometry::update(){
 	//Sets variables composed of the encoder values. Casts to double to keep types consistent.
 	double LEncoder = (double)(masterChassis.leftTracker.get_value());
@@ -38,11 +47,8 @@ void odometry::update(){
 
 	//Finds the change between the last encoder value and converts to inches traveled.
 	//Multipled by 3.25" because we are using 3.25" wheels.
-	double deltaL = (LEncoder - prevLE) * in_per_tick * 3.25 / 2.0;
-	double deltaAux = (auxEncoder - prevAux) * in_per_tick * 3.25 / 2.0;
-
-	std::cout << "Delta aux: " << deltaAux << std::endl;
-	std::cout << "Delta L: " << deltaL << std::endl;
+	double deltaL = (LEncoder - prevLE) * in_per_tick;
+	double deltaAux = (auxEncoder - prevAux) * in_per_tick;
 
 	prevLE = LEncoder; //Updates the previousEncoder value.
 	prevAux = auxEncoder; //Updates the previousEncoder value.
@@ -76,10 +82,27 @@ void odometry::update(){
 	X -= (cos(-averageHeading) * deltaX - sin(-averageHeading) * deltaY);
 	Y += (sin(-averageHeading) * deltaX + cos(-averageHeading) * deltaY);
 
-	std::cout << "X Position: " << X << std::endl;
-	std::cout << "Y Position: " << Y << std::endl;
-
 	previousHeading = Heading; //Sets the previous heading to the current heading.
 }
 
-odometry masterOdometry;
+/**
+ * Runs during initialization.
+ * Sets up several variables and resets encoders.
+ * 
+ * @return Nothing
+ * 
+ */
+void odometry::initilize(){
+	resetPosition(); //Calibrates the position to (0, 0)
+
+	//Sets the 2 tracking wheels' values to 0 degrees.
+    masterChassis.auxTracker.reset();
+    masterChassis.leftTracker.reset();
+
+	//Defines the previous values that are necessary for the first update call.
+	double prevAux = 0.0;
+	double prevLE = 0.0;
+	double previousHeading = 0.0;
+}
+
+odometry masterOdometry; //Global main Odometry object to use the Odometry in other files.
