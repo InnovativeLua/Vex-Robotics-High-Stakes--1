@@ -95,8 +95,10 @@ void chassis::PIDLoop(){
     if (mainPIDEnabled == true){
         if (distancePID.checkExitCondition() == distancePID.SMALL_EXIT || distancePID.checkExitCondition() == distancePID.TIMEOUT){
             mainPIDEnabled = false;
+            motionTimer = 0;
             std::cout << "Disabled distance PID" << std::endl;
         }
+        motionTimer += 10;
         double dx = mainPIDTarget[0] - masterOdometry.getPosition()[0];
         double dy = mainPIDTarget[1] - masterOdometry.getPosition()[1];
         double distanceToTarget = sqrt(dx*dx + dy*dy);
@@ -141,6 +143,10 @@ void chassis::PIDLoop(){
             double tempPower = leftPower;
             leftPower = -rightPower;
             rightPower = -tempPower;
+        }
+        if (motionTimer < motionProfileTime){
+            leftPower = leftPower * motionTimer / motionProfileTime;
+            rightPower = rightPower * motionTimer / motionProfileTime;
         }
         updateDrive(leftPower, rightPower);
     }

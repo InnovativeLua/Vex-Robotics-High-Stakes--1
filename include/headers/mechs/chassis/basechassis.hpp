@@ -126,6 +126,8 @@ class chassis {
     bool mainPIDReversed = false;
     double maxMainPIDVelocity = 90.0;
     double maxHeadingPIDVelocity = 100.0;
+    int motionProfileTime = 300;
+    int motionTimer = 0;
 
     std::vector<double> mainPIDTarget = {0.0, 0.0};
 
