@@ -1,20 +1,27 @@
 #include "headers/brain/autonfunctions.hpp"
 #include "headers/mechs/chassis/odometry.hpp"
-#include "headers/mechs/chassis/chassisPID.hpp"
 
 void AutonWaitFor(int MSTime){
     while (MSTime > 0){
-        MSTime -= 10;
         masterOdometry.update();
-        masterChassisPID.update();
+        if (masterChassis.headingPIDEnabled){
+            masterChassis.headingPIDLoop();
+        } else if (masterChassis.mainPIDEnabled){
+            masterChassis.PIDLoop();
+        }
 		pros::delay(10);
+        MSTime -= 10;
     }
 }
 
 void WaitChassisPID(){
-    while (masterChassisPID.distancePIDActive == true && masterChassisPID.headingPIDActive == true){
+    while (masterChassis.mainPIDEnabled == true || masterChassis.headingPIDEnabled == true){
         masterOdometry.update();
-        masterChassisPID.update();
+        if (masterChassis.headingPIDEnabled){
+            masterChassis.headingPIDLoop();
+        } else if (masterChassis.mainPIDEnabled){
+            masterChassis.PIDLoop();
+        }
 		pros::delay(10);
     }
 }

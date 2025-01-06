@@ -31,7 +31,7 @@ bool limitDebounce = false;
 
 void initialize() {
 	masterChassis.initialize();
-	//masterOdometry.initilize();
+	masterOdometry.initilize();
 	masterMogo.initialize();
 	masterIntake.initalize();
 	masterLift.initalize();
@@ -67,7 +67,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	redRight();
+	skills();
 }
 
 /**

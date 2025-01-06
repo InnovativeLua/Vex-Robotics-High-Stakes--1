@@ -81,10 +81,10 @@ void chassis::headingPIDLoop(){
         std::cout << "power: " << power << std::endl;
         std::cout << "target: " << headingPID.getTarget()<< std::endl;
         std::cout << "current: " << ChassisIMU.get_heading() << std::endl;
-        if (power > 100){
-            power = 100;
-        } else if (power < -100){
-            power = -100;
+        if (power > maxHeadingPIDVelocity){
+            power = maxHeadingPIDVelocity;
+        } else if (power < -maxHeadingPIDVelocity){
+            power = -maxHeadingPIDVelocity;
         }
         updateDrive(power, -power);
         std::cout << "Power: " << std::endl;
@@ -104,7 +104,10 @@ void chassis::PIDLoop(){
         mainHeadingPID.setTarget(targetAngle);
         std::cout << "Distance to target" << distanceToTarget << std::endl;
 
-        double computeHeading = ChassisIMU.get_heading();
+        double computeHeading = (ChassisIMU.get_heading() + 180 * mainPIDReversed);
+        if (computeHeading >= 360){
+            computeHeading -= 360;
+        }
         double errHeading = computeHeading - mainHeadingPID.target;
         if (abs(errHeading) > 180){
             computeHeading -= sgn(errHeading) * 360;
@@ -122,17 +125,22 @@ void chassis::PIDLoop(){
         double rightPower = -distancePower - headingPower;
 
         if (abs(distancePower + headingPower) >= abs(distancePower - headingPower)){
-            if (abs(distancePower + headingPower) > 90){
+            if (abs(distancePower + headingPower) > maxMainPIDVelocity){
                 double max = abs(distancePower + headingPower);
-                leftPower = leftPower/max * 90;
-                rightPower = rightPower/max * 90;
+                leftPower = leftPower/max * maxMainPIDVelocity;
+                rightPower = rightPower/max * maxMainPIDVelocity;
             }
         } else if (abs(distancePower + headingPower) < abs(distancePower - headingPower)){
-            if (abs(distancePower - headingPower) > 90){
+            if (abs(distancePower - headingPower) > maxMainPIDVelocity){
                 double max = abs(distancePower - headingPower);
-                leftPower = leftPower/max * 90;
-                rightPower = rightPower/max * 90;
+                leftPower = leftPower/max * maxMainPIDVelocity;
+                rightPower = rightPower/max * maxMainPIDVelocity;
             }
+        }
+        if (mainPIDReversed){
+            double tempPower = leftPower;
+            leftPower = -rightPower;
+            rightPower = -tempPower;
         }
         updateDrive(leftPower, rightPower);
     }
@@ -150,7 +158,6 @@ void chassis::PIDLoop(){
 void chassis::opControl(){
     if (headingPIDEnabled){
         headingPIDLoop();
-
     } else if (mainPIDEnabled){
         PIDLoop();
     } else if (driverControlPeriod){ 
@@ -161,7 +168,7 @@ void chassis::opControl(){
             return;
         }
         if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)){
-            startMainPID({30, 30});
+            startMainPID({30, 30}, 75.0, false);
             return;
         }
 		//Arcade control for the drivetrain in case we want to use it.
@@ -184,13 +191,24 @@ void chassis::opControl(){
     }
 }
 
-void chassis::startHeadingPID(double target){
+void chassis::startHeadingPID(double target, double maxVel){
+    if (maxVel < 0){
+        std::cout << "Max velocity is a postive number" << std::endl;
+    } else {
+        maxHeadingPIDVelocity = maxVel;
+    }
     headingPIDEnabled = true;
     headingPID.resetVariables();
     headingPID.setTarget(target);
 }
 
-void chassis::startMainPID(std::vector<double> target){
+void chassis::startMainPID(std::vector<double> target, double maxVel,bool reversed){
+    if (maxVel < 0){
+        std::cout << "Max velocity is a postive number" << std::endl;
+    } else {
+        maxMainPIDVelocity = maxVel;
+    }
+    mainPIDReversed = reversed;
     double dx = mainPIDTarget[0] - masterOdometry.getPosition()[0];
     double dy = mainPIDTarget[1] - masterOdometry.getPosition()[1];
     double targetAngle = atan2(dy, dx);
@@ -249,9 +267,9 @@ void chassis::initialize(){
     headingPID.resetVariables();
     headingPID.setExitCondition(0.001, 500.0, 10000, 2000);
     distancePID.resetVariables();
-    distancePID.setExitCondition(2.0, 200.0, 100000, 1000);
+    distancePID.setExitCondition(2.0, 200.0, 10000, 1000);
 
-    ChassisIMU.reset(true); //Resets the chassis IMU.
+    ChassisIMU.reset(true); //Resets th    distancePID.setExitCondition(2.0, 200.0, 100000, 1000);e chassis IMU.
 }
 
 chassis masterChassis; //Global main chassis to use the drivetrain in other files.

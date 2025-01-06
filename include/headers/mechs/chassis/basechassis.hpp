@@ -113,9 +113,9 @@ class chassis {
      */
     void initialize();
 
-    void startHeadingPID(double target);
+    void startHeadingPID(double target, double maxVel);
     void PIDLoop();
-    void startMainPID(std::vector<double> target);
+    void startMainPID(std::vector<double> target, double maxVel,bool reversed);
 
 
     bool headingPIDEnabled = false;
@@ -123,8 +123,11 @@ class chassis {
     PID distancePID = PID(5.0, 0, 10.0, 0);
     PID mainHeadingPID = PID(5.0, 0, 30.0, 0);
     bool mainPIDEnabled = false;
+    bool mainPIDReversed = false;
+    double maxMainPIDVelocity = 90.0;
+    double maxHeadingPIDVelocity = 100.0;
 
-    std::vector<double> mainPIDTarget = {20.0, 20.0};
+    std::vector<double> mainPIDTarget = {0.0, 0.0};
 
 
 
