@@ -95,7 +95,6 @@ void chassis::PIDLoop(){
     if (mainPIDEnabled == true){
         if (distancePID.checkExitCondition() == distancePID.SMALL_EXIT || distancePID.checkExitCondition() == distancePID.TIMEOUT){
             mainPIDEnabled = false;
-            motionTimer = 0;
             std::cout << "Disabled distance PID" << std::endl;
         }
         motionTimer += 10;
@@ -214,6 +213,7 @@ void chassis::startMainPID(std::vector<double> target, double maxVel,bool revers
     } else {
         maxMainPIDVelocity = maxVel;
     }
+    motionTimer = 0;
     mainPIDReversed = reversed;
     double dx = mainPIDTarget[0] - masterOdometry.getPosition()[0];
     double dy = mainPIDTarget[1] - masterOdometry.getPosition()[1];
