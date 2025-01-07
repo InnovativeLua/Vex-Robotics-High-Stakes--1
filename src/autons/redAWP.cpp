@@ -1,10 +1,8 @@
 #include "headers/auton/autons.hpp"
+#include "headers/brain/autonfunctions.hpp"
 
 void redAWP(){
-    masterChassis.updateLeft(100);
-    masterChassis.updateRight(100);
-    
-    pros::delay(1000);
-
-    masterChassis.updateDrive(0, 0);
+    masterIntake.spinForward();
+    pros::delay(500);
+    masterIntake.stop();
 }

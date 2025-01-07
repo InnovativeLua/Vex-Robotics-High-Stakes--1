@@ -4,7 +4,7 @@
 #include "headers/mechs/lift.hpp"
 
 void skills();
-void blueRight();
-void redRight();
-void blueLeft();
-void redLeft();
+void blueAWP();
+void blueElimination();
+void redAWP();
+void redElimination();
