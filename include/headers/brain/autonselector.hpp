@@ -3,13 +3,14 @@
 #include "headers/brain/auton.hpp"
 #include "main.h"
 #include "headers/auton/autons.hpp"
+#include <string>
 
 class autonSelector {
 public:
   std::vector<Auton> Autons;
   int currentAutonPage;
   int autonCount;
-  pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn('H');
+  pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn('A');
   bool limitDebounce = false;
   autonSelector();
   void callSelectedAuton();
@@ -18,6 +19,7 @@ public:
   void cycleAutons();
   void initilize();
   void compTask();
+  std::string getSelectedAuton();
   Auton createAuton(std::function<void()> autoFunction, std::string autoName);
 };
 

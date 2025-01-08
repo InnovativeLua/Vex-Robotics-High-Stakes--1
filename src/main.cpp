@@ -30,6 +30,7 @@ void initialize() {
 	masterMogo.initialize();
 	masterIntake.initalize();
 	masterLift.initalize();
+	masterAutonSelector.initilize();
 }
 
 /**
@@ -90,7 +91,8 @@ void opcontrol() {
 
 	while (true) {
 		n += 1;
-		int screen = 1;
+		int screen = 2;
+		pros::screen::erase();
 
 		switch (screen){
 			case 0:
@@ -120,11 +122,12 @@ void opcontrol() {
 				//pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Distance: %g", masterIntake.distanceSensor.get());
 				//std::cout << "Intake distance " << masterIntake.distanceSensor.get() << std::endl;
 				//std::cout << "Motor Position " << masterLift.liftMotor.get_position() << std::endl;
+			case 2:
+				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %s", masterAutonSelector.getSelectedAuton());
 		}
 
-		if (n % 10 == 0){
-			std::cout << "auxEncoder: " << masterChassis.auxTracker.get_value() << "\n";
-			std::cout << "leftEncoder" << masterChassis.leftTracker.get_value() << "\n";
+		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
+			masterAutonSelector.callSelectedAuton();
 		}
 		
 		masterOdometry.update();
@@ -133,6 +136,7 @@ void opcontrol() {
 		masterLift.opControl();
 		masterMogo.opControl();
 		masterTipper.opControl();
+		masterAutonSelector.compTask();
 
 		pros::delay(mSecWaitTime);
 	}

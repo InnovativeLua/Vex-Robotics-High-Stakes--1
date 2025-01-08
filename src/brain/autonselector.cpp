@@ -55,4 +55,9 @@ void autonSelector::initilize(){
   addAutons(autonsToSelectFrom);
 }
 
+
+std::string autonSelector::getSelectedAuton(){
+  return Autons[currentAutonPage].Name;
+}
+
 autonSelector masterAutonSelector;
