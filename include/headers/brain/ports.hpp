@@ -28,4 +28,4 @@ constexpr char LIFT_ROT = 15;
 //Solenoids
 constexpr char MOGO_MECH_SOLENOID = 'B';
 constexpr char TIPPER_SOLENOID = 'B';    //Should be C, changed ofr now.
-constexpr char INTAKE_RAISE_SOLENOID = 'B';
+constexpr char EXTENSION_SOLENOID = 'B';    //Should be C, changed ofr now.

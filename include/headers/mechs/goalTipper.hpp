@@ -10,7 +10,8 @@ class goalTipper {
 
     //Solenoid definition with the respective ports defined in the ports.hpp file.
 	pros::adi::DigitalOut tipperCylinder = pros::adi::DigitalOut(TIPPER_SOLENOID);
-
+	pros::adi::DigitalOut extensionCylinder = pros::adi::DigitalOut(EXTENSION_SOLENOID);
+    
     //Enum for each state of the tipping states.
     enum E_tipperStates { //Different states the tipper can be in.
         E_ENABLED, //Enabled / Extended
@@ -32,7 +33,7 @@ class goalTipper {
      * @return Nothing
      * 
      */
-    void extend();
+    void extendTipper();
 
     /**
      * Enables the goal tipping mech.
@@ -40,7 +41,23 @@ class goalTipper {
      * @return Nothing
      * 
      */
-    void retract();
+    void retractTipper();
+
+    /**
+     * Disables the extension mech.
+     * 
+     * @return Nothing
+     * 
+     */
+    void extendExtension();
+
+    /**
+     * Enables the extension mech.
+     * 
+     * @return Nothing
+     * 
+     */
+    void retractExtension();
 
     /**
      * Runs during initialization.
@@ -52,9 +69,12 @@ class goalTipper {
     void initialize();
 
 private:
-    int ResetTime = 500; //Constant, the time it takes until the tipper's state can be changed.
-    int currentTimeout = 0; //Current time until the tipper has reached the time it can reset.
+    int resetTimeTipper = 500; //Constant, the time it takes until the tipper's state can be changed.
+    int resetTimeExtension = 500; //Constant, the time it takes until the extensions's state can be changed.
+    int currentTipperTimeout = 0; //Current time until the tipper has reached the time it can reset.
+    int currentExtensionTimeout = 0; //Current time until the extension has reached the time it can reset.
     E_tipperStates tipperState; //Current state the tipper is in.
+    E_tipperStates extensionState; //Current state the tipper is in.
 };
 
 extern goalTipper masterTipper; //Global main tipper to use the tipper in other files.
