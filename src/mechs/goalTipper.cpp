@@ -1,4 +1,4 @@
-//Respective header file for the intake.
+//Respective header file for the tipper.
 #include "headers/mechs/goalTipper.hpp"
 
 /**
