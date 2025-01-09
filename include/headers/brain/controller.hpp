@@ -13,3 +13,4 @@ constexpr pros::controller_digital_e_t LIFT_FORWARD = pros::E_CONTROLLER_DIGITAL
 constexpr pros::controller_digital_e_t LIFT_REVERSE = pros::E_CONTROLLER_DIGITAL_L1; //R2
 constexpr pros::controller_digital_e_t LIFT_RESET = pros::E_CONTROLLER_DIGITAL_DOWN; //R2
 constexpr pros::controller_digital_e_t INTAKE_LIFT = pros::E_CONTROLLER_DIGITAL_UP;
+constexpr pros::controller_digital_e_t GOALTIPPER_TOGGLE = pros::E_CONTROLLER_DIGITAL_X;

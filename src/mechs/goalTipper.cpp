@@ -3,28 +3,28 @@
 
 /**
  * Runs during operator control code.
- * Makes the mogo mech extend/retract based on what buttons are being pressed.
+ * Makes the tipping mech extend/retract based on what buttons are being pressed.
  * 
  * @return Nothing
  * 
  */
 void goalTipper::opControl(){
-    if (currentTimeout <= 0){
-        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_X)){
-            currentTimeout = ResetTime;
-            if (tipperState == E_ENABLED){
+    if (currentTimeout <= 0){ //Only runs until after the timeout has ran its course.
+        if (mainController->get_digital(GOALTIPPER_TOGGLE)){
+            currentTimeout = ResetTime; //Resets the timeout so it does not activate immediently again.
+            if (tipperState == E_ENABLED){ //If tipper is enabled extend, else retract.
                 extend();
             } else {
                 retract();
             }
         } 
     } else {
-        currentTimeout -= 20;
+        currentTimeout -= 20; //Reduces the timeout by 20 miliseconds.
     }
 }
 
 /**
- * Disables the mobile goal mech.
+ * Disables the tipping mech.
  * 
  * @return Nothing
  * 
@@ -35,7 +35,7 @@ void goalTipper::extend(){
 }
 
 /**
- * Enables the mobile goal mech.
+ * Enables the tipping mech.
  * 
  * @return Nothing
  * 

@@ -52,9 +52,9 @@ class goalTipper {
     void initialize();
 
 private:
-    int ResetTime = 500; //Constant, the time it takes until the MOGO's state can be changed.
-    int currentTimeout = 0; //Current time until the MOGO has reached the time it can reset.
-    E_tipperStates tipperState; //Current state the MOGO is in.
+    int ResetTime = 500; //Constant, the time it takes until the tipper's state can be changed.
+    int currentTimeout = 0; //Current time until the tipper has reached the time it can reset.
+    E_tipperStates tipperState; //Current state the tipper is in.
 };
 
-extern goalTipper masterTipper; //Global main chassis to use the drivetrain in other files.
+extern goalTipper masterTipper; //Global main tipper to use the tipper in other files.
