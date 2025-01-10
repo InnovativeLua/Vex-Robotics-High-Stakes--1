@@ -80,19 +80,14 @@ void intake::detectJam(){
  * @return Nothing
  * 
  */
-void intake::opControl(){
-    if (mainController->get_digital(INTAKE_LIFT)){ //looks for press of R2 on controller.
-        intakeCylinder.set_value(false);
-    } else {
-        //If neither is pressed it stops the intake.
-        intakeCylinder.set_value(true);
-    }
+void intake::opControl(bool intakeReverseFlag){
 
     //Looks at the different states the intake can be in.
     switch(intakeState){ 
 
     //If the intake is in manual.
     case E_MANUAL:
+        intakeVelocity = 600.0;
         //looks for press of the respective forward button on the controller.
         if (intakeOptical.get_hue() > redRangeBottom && intakeOptical.get_hue() < redRangeTop){ //If the distance sensor detects a ring.
             intakeState = E_RINGDETECTED; //State is changed to ring being detected.
@@ -106,6 +101,10 @@ void intake::opControl(){
         } else {
             //If neither is pressed it stops the intake.
             stop();
+        }
+        if (intakeReverseFlag == true){
+            intakeVelocity = 400.0;
+            spinReverse();
         }
         //detectJam();
         break;

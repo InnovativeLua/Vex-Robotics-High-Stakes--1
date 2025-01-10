@@ -16,8 +16,6 @@ public:
 
     pros::Optical intakeOptical = pros::Optical(INTAKE_OPTICAL);
 
-	pros::adi::DigitalOut intakeCylinder = pros::adi::DigitalOut(INTAKE_RAISE_SOLENOID);
-
     //Enum for the control types define what the intake is doing at any point.
     enum E_intakeStates {
         E_DISABLED,
@@ -97,7 +95,7 @@ public:
      * @return Nothing
      * 
      */
-    void opControl();
+    void opControl(bool intakeReverseFlag);
 
     /**
      * Runs during initialization.

@@ -16,8 +16,8 @@ public:
 
     double liftVelocity = 200; //Controls how fast the lift is moving.
     int idlePosition = 0; //Default position for the lift to go towards while idle.
-    int idleCoastPosition = 60; //Position to make the motor coast as to protect the motor from overheating.
-    int primedPosition = 90; //Position for priming the lift.
+    int idleCoastPosition = 30; //Position to make the motor coast as to protect the motor from overheating.
+    int primedPosition = 45; //Position for priming the lift.
     int forwardPosition = 400; //Position to target when going to place it onto wall states. Prevents the lift from going over maximum expansion.
 
     //Control types define what the lift is doing at any point during OPControl.
@@ -28,6 +28,16 @@ public:
         E_PRIMED, //Primes itself targetting the primed position, waiting for a ring.
         E_FORWARD //Moves the ring forwards, targetting the forward position to get it onto the wall stake.
     };
+
+    //Control types define what the lift is doing at any point during OPControl.
+    enum autonFlags {
+        E_NONE,
+        E_AUTOPRIME, //Not going to do anything.
+        E_AUTOFORWARD, //Controls based on an up and down button.
+        E_AUTOIDLE, //Goes to default position and waits.
+    };
+
+    autonFlags currentAutonFlag;
 
     liftPositions liftState; //State the lift is currently in.
 
@@ -68,6 +78,15 @@ public:
     void opControl(); //Function called every time the OPControl loop is ran in main.cpp.
 
     /**
+     * Runs during auton control code.
+     * Makes the lift move based on what buttons are being pressed.
+     * 
+     * @return Nothing
+     * 
+     */
+    void autonUpdate(); //Function called every time the OPControl loop is ran in main.cpp.
+
+    /**
      * Runs during initialization.
      * Sets the motor to the correct gearing, brake modes, and encoder units.
      * Sets up the PID and sensor.
@@ -76,6 +95,10 @@ public:
      * 
      */
     void initalize();
+
+    bool intakeReverseFlag = false;
+    int reverseTimer = 0;
+    int maxReverseTime = 200;
 };
 
 extern lift masterLift; //Global lift object to be accessed by any files.

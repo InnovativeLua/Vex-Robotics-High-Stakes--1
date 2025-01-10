@@ -1,5 +1,6 @@
 //Respective header file for the lift.
 #include "headers/mechs/lift.hpp"
+#include "headers/mechs/intake.hpp"
 
 /**
  * Moves the lift motor forward based on the velocity of the lift.
@@ -94,6 +95,8 @@ void lift::opControl(){
             liftPID.setConstants(1.0, 0.000, 0.0, 0);
             
             liftPID.setTarget(forwardPosition);
+            reverseTimer = 0;
+            intakeReverseFlag = true;
         }
         liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
         spinForward(); //Updates the motor as to start moving.
@@ -104,7 +107,72 @@ void lift::opControl(){
             liftState = E_IDLE;  //Changes state to activated
             liftPID.resetVariables(); //Reset liftPID.
             liftPID.setTarget(idlePosition); //Targets the PID to the starting position.
+        }
+        if (intakeReverseFlag == true){
+            if (reverseTimer > maxReverseTime){
+                intakeReverseFlag = false;
             }
+            reverseTimer += 10;
+        }
+        liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
+        spinForward(); //Updates the motor as to start moving.
+        break;
+    }
+}
+
+void lift::autonUpdate(){
+    //Looks at the different states the lift can be in.
+    switch(liftState){ 
+    //For the manual state.
+    case (E_IDLE):
+        if (currentAutonFlag == E_AUTOPRIME){//looks for press of the prime button on the controller.
+            liftState = E_PRIMED; //Changes state to primed
+            //Reset liftPID and setting the speed in terms of P and D values:
+            liftPID.resetVariables();
+            liftPID.setConstants(0.3, 0.000, 0.0, 0);
+
+            liftPID.setTarget(primedPosition);
+            break;
+        }
+        if (liftTracker.get_value() < idleCoastPosition){ //Protection for motor as to not overheat.
+            liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST); //Releases the hold of the motor.
+            liftVelocity = 0; //Sets the lift velocity to zero to make the lift fall.
+        } else {
+            liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
+            spinForward(); //Updates the motor as to start moving.
+        }
+        break;
+    //For the primed state.
+    case (E_PRIMED):
+        liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD); //Makes the motor hold its position.
+        if ((currentAutonFlag == E_AUTOFORWARD)){ //Looks for press of the actviation on the controller.
+            liftState = E_FORWARD;  //Changes state to activated
+            //Reset liftPID and setting the speed in terms of P and D values:
+            liftPID.resetVariables();
+            liftPID.setConstants(1.0, 0.000, 0.0, 0);
+            
+            liftPID.setTarget(forwardPosition);
+            reverseTimer = 0;
+            intakeReverseFlag = true;
+        }
+        liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
+        spinForward(); //Updates the motor as to start moving.
+        break;
+    //For the forwarded state.
+    case (E_FORWARD):
+        if (currentAutonFlag == E_AUTOIDLE){ //Looks for press of the reset on the controller.
+            liftState = E_IDLE;  //Changes state to activated
+            liftPID.resetVariables(); //Reset liftPID.
+            liftPID.setTarget(idlePosition); //Targets the PID to the starting position.
+        }
+        if (intakeReverseFlag == true){
+            masterIntake.spinReverse();
+            if (reverseTimer > maxReverseTime){
+                masterIntake.stop();
+                intakeReverseFlag = false;
+            }
+            reverseTimer += 10;
+        }
         liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
         spinForward(); //Updates the motor as to start moving.
         break;

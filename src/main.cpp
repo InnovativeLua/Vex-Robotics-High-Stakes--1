@@ -132,8 +132,8 @@ void opcontrol() {
 		
 		masterOdometry.update();
 		masterChassis.opControl();
-		masterIntake.opControl();
 		masterLift.opControl();
+		masterIntake.opControl(masterLift.intakeReverseFlag);
 		masterMogo.opControl();
 		masterTipper.opControl();
 		masterAutonSelector.compTask();

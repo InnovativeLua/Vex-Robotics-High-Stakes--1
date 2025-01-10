@@ -10,7 +10,7 @@ public:
   std::vector<Auton> Autons;
   int currentAutonPage;
   int autonCount;
-  pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn('A');
+  pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn(AUTON_LIMIT);
   bool limitDebounce = false;
   autonSelector();
   void callSelectedAuton();

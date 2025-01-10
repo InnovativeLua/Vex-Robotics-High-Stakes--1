@@ -1,8 +1,10 @@
 #include "headers/brain/autonfunctions.hpp"
 #include "headers/mechs/chassis/odometry.hpp"
+#include "headers/mechs/lift.hpp"
 
 void AutonWaitFor(int MSTime){
     while (MSTime > 0){
+        masterLift.autonUpdate();
         masterOdometry.update();
         if (masterChassis.headingPIDEnabled){
             masterChassis.headingPIDLoop();
@@ -17,6 +19,7 @@ void AutonWaitFor(int MSTime){
 void WaitChassisPID(){
     while (masterChassis.mainPIDEnabled == true || masterChassis.headingPIDEnabled == true){
         masterOdometry.update();
+        masterLift.autonUpdate();
         if (masterChassis.headingPIDEnabled){
             masterChassis.headingPIDLoop();
         } else if (masterChassis.mainPIDEnabled){

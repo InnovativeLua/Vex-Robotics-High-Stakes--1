@@ -1,4 +1,5 @@
 #pragma once
+#include "main.h"
 //Header which includes all the ports.
 //Ports with a negative number correspond to reversing the motor.
 
@@ -24,8 +25,11 @@ constexpr char ODOMETRY_LEFT_BOTTOM = 'E';
 constexpr char LIFT_TOP = 'H';
 constexpr char LIFT_BOTTOM = 'G';
 constexpr char LIFT_ROT = 15;
+constexpr char AUTON_LIMIT = 'A';
 
 //Solenoids
 constexpr char MOGO_MECH_SOLENOID = 'B';
-constexpr char TIPPER_SOLENOID = 'B';    //Should be C, changed for now.
-constexpr char EXTENSION_SOLENOID = 'B';    //Should be C, changed for now.
+constexpr char TIPPER_SOLENOID_ADI = 'A';    //Should be C, changed for now.
+constexpr int TIPPER_SOLENOID_SMART = 17;
+constexpr char EXTENSION_SOLENOID_ADI = 'B';    //Should be C, changed for now.
+constexpr int EXTENSION_SOLENOID_SMART = 17;
