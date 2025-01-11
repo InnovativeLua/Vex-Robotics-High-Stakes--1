@@ -1,6 +1,9 @@
+#pragma once
+
 //Required vex library.
 #include "main.h"
 #include <string>
+#include <cstdint>
 #include <utility>
 
 //Custom headers.<
@@ -11,8 +14,12 @@ class goalTipper {
  public:
 
     //Solenoid definition with the respective ports defined in the ports.hpp file.
-	pros::adi::DigitalOut tipperCylinder = pros::adi::DigitalOut('q');
-	pros::adi::DigitalOut extensionCylinder = pros::adi::DigitalOut('q');
+
+	pros::adi::ext_adi_port_pair_t portpairExtension = pros::adi::ext_adi_port_pair_t({EXTENSION_SOLENOID_SMART, EXTENSION_SOLENOID_ADI});
+	pros::adi::ext_adi_port_pair_t portpairTipper = pros::adi::ext_adi_port_pair_t({TIPPER_SOLENOID_SMART, TIPPER_SOLENOID_ADI});
+
+	pros::adi::DigitalOut tipperCylinder = pros::adi::DigitalOut(portpairTipper);
+	pros::adi::DigitalOut extensionCylinder = pros::adi::DigitalOut(portpairExtension);
     
     //Enum for each state of the tipping states.
     enum E_tipperStates { //Different states the tipper can be in.

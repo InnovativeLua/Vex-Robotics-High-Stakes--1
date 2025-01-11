@@ -2,6 +2,7 @@
 #include "headers/mechs/intake.hpp"
 #include "headers/mechs/MOGOmech.hpp"
 #include "headers/mechs/lift.hpp"
+#include "headers/mechs/goalTipper.hpp"
 
 void skills();
 void blueAWP();

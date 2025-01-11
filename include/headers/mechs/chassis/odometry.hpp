@@ -21,6 +21,10 @@ class odometry {
      */
     void resetPosition();
 
+    void setX(double num);
+
+    void setY(double num);
+
      /**
      * Returns the current position and heading in a vector format.
      * 

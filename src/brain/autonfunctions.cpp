@@ -1,5 +1,4 @@
 #include "headers/brain/autonfunctions.hpp"
-#include "headers/mechs/chassis/odometry.hpp"
 #include "headers/mechs/lift.hpp"
 
 void AutonWaitFor(int MSTime){

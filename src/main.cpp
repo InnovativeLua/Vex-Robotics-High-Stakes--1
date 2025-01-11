@@ -13,6 +13,10 @@
 #include <vector>
 #include <cstdint>
 
+#define EXT_ADI_SMART_PORT 1
+#define ADI_PORT 'a'
+
+
 
 
 
@@ -88,6 +92,11 @@ void opcontrol() {
 	const int mSecWaitTime = 10;
 	int n = 0;
 	masterChassis.driverControlPeriod = true;
+
+	std::pair ext_pair(0, 'a');
+	pros::adi::ext_adi_port_pair_t portpair(ext_pair);
+	pros::adi::DigitalOut extensionCylinder(portpair);
+
 
 	while (true) {
 		n += 1;

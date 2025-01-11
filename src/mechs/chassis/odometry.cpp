@@ -15,6 +15,14 @@ void odometry::resetPosition(){
 	double Y = 0.0;
 }
 
+void odometry::setX(double num){
+	X = num;
+}
+
+void odometry::setY(double num){
+	Y = num;
+}
+
 /**
  * Returns the current position and heading in a vector format.
  * 
