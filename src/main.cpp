@@ -13,11 +13,6 @@
 #include <vector>
 #include <cstdint>
 
-#define EXT_ADI_SMART_PORT 1
-#define ADI_PORT 'a'
-
-
-
 
 
 

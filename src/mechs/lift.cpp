@@ -79,7 +79,8 @@ void lift::opControl(){
         }
         if (liftTracker.get_value() < idleCoastPosition){ //Protection for motor as to not overheat.
             liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST); //Releases the hold of the motor.
-            liftVelocity = 0; //Sets the lift velocity to zero to make the lift fall.
+            liftVelocity = 0.0; //Sets the lift velocity to zero to make the lift fall.
+            stop(); //Updates the motor as to start moving.
         } else {
             liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
             spinForward(); //Updates the motor as to start moving.
