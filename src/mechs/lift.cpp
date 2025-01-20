@@ -41,7 +41,7 @@ void lift::spinReverse(){
  * 
  */
 void lift::stop(){
-    liftMotor.move_velocity(0.0); //Stops the lift motor.
+    liftMotor.brake(); //Stops the lift motor.
 }
 
 /**

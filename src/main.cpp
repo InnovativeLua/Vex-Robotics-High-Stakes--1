@@ -30,6 +30,7 @@ void initialize() {
 	masterIntake.initalize();
 	masterLift.initalize();
 	masterAutonSelector.initilize();
+	masterTipper.initialize();
 }
 
 /**
@@ -88,9 +89,6 @@ void opcontrol() {
 	int n = 0;
 	masterChassis.driverControlPeriod = true;
 
-	std::pair ext_pair(0, 'a');
-	pros::adi::ext_adi_port_pair_t portpair(ext_pair);
-	pros::adi::DigitalOut extensionCylinder(portpair);
 
 
 	while (true) {

@@ -30,6 +30,6 @@ constexpr char AUTON_LIMIT = 'A';
 //Solenoids
 constexpr char MOGO_MECH_SOLENOID = 'B';
 constexpr char TIPPER_SOLENOID_ADI = 'A';    //Should be C, changed for now.
-constexpr int TIPPER_SOLENOID_SMART = 17;
+constexpr int TIPPER_SOLENOID_SMART = 15;
 constexpr char EXTENSION_SOLENOID_ADI = 'B';    //Should be C, changed for now.
-constexpr int EXTENSION_SOLENOID_SMART = 17;
+constexpr int EXTENSION_SOLENOID_SMART = 15;
