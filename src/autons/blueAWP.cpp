@@ -2,83 +2,48 @@
 #include "headers/brain/autonfunctions.hpp"
 
 void blueAWP(){
-
     //Init
     masterIntake.stop();
     masterMogo.extend();
 
     //Move forward and backwards to push ring out of way.
-    masterChassis.startMainPID({-30.0, 0}, 80.0, true);
+    masterLift.currentAutonFlag = masterLift.E_AUTOPRIME;
+    masterChassis.startMainPID({12.0, -0}, 75.0, false);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
     WaitChassisPID();
 
-    masterChassis.startMainPID({-20.0, 0}, 80.0, false);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
+    masterLift.currentAutonFlag = masterLift.E_AUTOFORWARD;
+    AutonWaitFor(750);
+    masterLift.currentAutonFlag = masterLift.E_AUTOIDLE;
+
+    masterChassis.startMainPID({-37.0, -4.0}, 90.0, true);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
     WaitChassisPID();
 
-    //Turn towards the alliance stake.
-    masterChassis.startHeadingPID(270.0, 75.0);
-    masterChassis.headingPID.setExitCondition(0.01, 500.0, 2000, 300);
-    WaitChassisPID();
-
-    //Puts ring on alliance Stake.
-    AutonWaitFor(300.0);
-    masterIntake.spinForward();
-    AutonWaitFor(500.0);
-    masterIntake.spinReverse();
-    AutonWaitFor(100.0);
-    masterIntake.stop();
-
-    //Backup slightly.
-    masterChassis.startMainPID({-20.0, -0.0}, 90.0, true);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
-    WaitChassisPID();
-
-    //Turn towards goal + goes towards goal.
-    masterChassis.startHeadingPID(360.0-235.0, 75.0);
-    masterChassis.headingPID.setExitCondition(0.01, 500.0, 3000, 300);
-    WaitChassisPID();
-
-   masterChassis.startMainPID({9.0, -43.0}, 90.0, true);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 3000, 500);
-    WaitChassisPID();
-
-    //Grabs goal.
+    AutonWaitFor(100);
     masterMogo.retract();
-    AutonWaitFor(500.0);
-
-    //Turns toward 1 ring.
-    masterChassis.startHeadingPID(180.0, 75.0);
-    masterChassis.headingPID.setExitCondition(0.01, 500.0, 3000, 300);
-    WaitChassisPID();
-
 
     masterIntake.spinForward();
 
-    //Go to the first ring.
-    masterChassis.startMainPID({34.0, -43.0}, 70.0, false);
+    masterChassis.startMainPID({-53.0, -32.0}, 90.0, false);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
+    WaitChassisPID();
+
+    masterChassis.startMainPID({-73.0, -26.0}, 90.0, false);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 3000, 500);
     WaitChassisPID();
 
-    //Go to the second of the two rings in the middle.
-    masterChassis.startMainPID({30.0, -61.0}, 70.0, false);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 3000, 500);
+    masterChassis.startMainPID({-50.0, -20.0}, 90.0, true);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
     WaitChassisPID();
 
-    //Backs up slightly.
-    masterChassis.startMainPID({20.0, -45.0}, 70.0, true);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 3000, 500);
+    masterChassis.startMainPID({-69.0, -18.0}, 90.0, false);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
     WaitChassisPID();
 
-    //Go to the first of the two rings in the middle.
-    masterChassis.startMainPID({22.0, -61.0}, 70.0, false);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 3000, 500);
+    masterChassis.startMainPID({-40.0, 40.0}, 90.0, true);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
     WaitChassisPID();
 
-    //Hit middle bar.
-    masterChassis.startMainPID({-20.0, 50.0}, 70.0, true);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 3000, 500);
-    WaitChassisPID();
-
-    masterIntake.stop();
+    masterChassis.updateDrive(0, 0);
 }

@@ -10,7 +10,7 @@ public:
   std::vector<Auton> Autons;
   int currentAutonPage;
   int autonCount;
-  pros::adi::DigitalIn limitSwitch = pros::adi::DigitalIn(AUTON_LIMIT);
+  pros::adi::AnalogIn autonPot = pros::adi::AnalogIn(AUTON_POT);
   bool limitDebounce = false;
   autonSelector();
   void callSelectedAuton();
@@ -19,7 +19,9 @@ public:
   void cycleAutons();
   void initilize();
   void compTask();
+  int getAutonPage();
   std::string getSelectedAuton();
+  const int potMax = 1000;
   Auton createAuton(std::function<void()> autoFunction, std::string autoName);
 };
 

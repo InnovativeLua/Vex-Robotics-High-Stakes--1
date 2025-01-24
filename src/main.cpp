@@ -89,7 +89,9 @@ void opcontrol() {
 	int n = 0;
 	masterChassis.driverControlPeriod = true;
 
-
+	if (masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name == "skills" && true){
+		skillsStart();	
+	}
 
 	while (true) {
 		n += 1;
@@ -119,8 +121,8 @@ void opcontrol() {
 				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Position X: %g", masterOdometry.getPosition()[0]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Position Y: %g", masterOdometry.getPosition()[1]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", 180/3.14159*masterOdometry.getPosition()[2]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "AUX: %g", masterChassis.auxTracker.get_value());
-				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "LEFT: %g", masterChassis.leftTracker.get_value());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "AUX: %d", masterChassis.auxTracker.get_value());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "LEFT: %d", masterChassis.leftTracker.get_value());
 				//pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Distance: %g", masterIntake.distanceSensor.get());
 				//std::cout << "Intake distance " << masterIntake.distanceSensor.get() << std::endl;
 				//std::cout << "Motor Position " << masterLift.liftMotor.get_position() << std::endl;

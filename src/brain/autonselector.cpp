@@ -8,6 +8,7 @@ autonSelector::autonSelector() {
 
 void autonSelector::callSelectedAuton() {
   if (autonCount == 0) return;
+  currentAutonPage = abs((autonCount)*(autonPot.get_value() % potMax)/potMax);
   Autons[currentAutonPage].autonFunction();
 }
 
@@ -28,6 +29,7 @@ void autonSelector::cycleAutons(){
 }
 
 void autonSelector::compTask(){
+  /*
   if (limitSwitch.get_value() == false){
     limitDebounce = false;
   } else {
@@ -36,6 +38,7 @@ void autonSelector::compTask(){
       cycleAutons();
     }
   }
+  */
 }
 
 Auton autonSelector::createAuton(std::function<void()> autoFunction, std::string autoName){
@@ -46,18 +49,25 @@ Auton autonSelector::createAuton(std::function<void()> autoFunction, std::string
 }
 
 void autonSelector::initilize(){
+  //autonPot.calibrate();
   std::vector<Auton> autonsToSelectFrom = {};
   autonsToSelectFrom.push_back(createAuton(redAWP,"redAWP"));
-    autonsToSelectFrom.push_back(createAuton(blueAWP,"blueAWP"));
+  autonsToSelectFrom.push_back(createAuton(blueAWP,"blueAWP"));
   autonsToSelectFrom.push_back(createAuton(skills,"skills"));
   autonsToSelectFrom.push_back(createAuton(redElimination,"redElimination"));
   autonsToSelectFrom.push_back(createAuton(blueElimination,"blueElimination"));
+
   addAutons(autonsToSelectFrom);
 }
 
 
 std::string autonSelector::getSelectedAuton(){
+  currentAutonPage = abs((autonCount)*(autonPot.get_value() % potMax)/potMax);
   return Autons[currentAutonPage].Name;
+}
+
+int autonSelector::getAutonPage(){
+  return abs((autonCount)*(autonPot.get_value() % potMax)/potMax);
 }
 
 autonSelector masterAutonSelector;

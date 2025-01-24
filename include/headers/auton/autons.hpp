@@ -9,3 +9,4 @@ void blueAWP();
 void blueElimination();
 void redAWP();
 void redElimination();
+void skillsStart();

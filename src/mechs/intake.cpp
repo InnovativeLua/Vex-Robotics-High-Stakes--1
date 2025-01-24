@@ -98,6 +98,10 @@ void intake::opControl(bool intakeReverseFlag){
         //looks for press of the respective reverse button on the controller.
         } else if (mainController->get_digital(INTAKE_REVERSE)){ //looks for press of R2 on controller.
             spinReverse();
+        } else if (mainController->get_digital(INTAKE_LOWERSTAGE_REVERSE)){
+            intakeMotor2.move_velocity(intakeVelocity);
+        } else if (mainController->get_digital(INTAKE_LOWERSTAGE_FORWARD)){
+            intakeMotor2.move_velocity(-intakeVelocity);
         } else {
             //If neither is pressed it stops the intake.
             stop();
