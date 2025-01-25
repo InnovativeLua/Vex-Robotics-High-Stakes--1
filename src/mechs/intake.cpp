@@ -65,11 +65,81 @@ void intake::stop(){
     intakeMotor2.move_velocity(0); //Stops the intake motors from moving.
 }
 
-void intake::detectJam(){
-    int deltaEncoderTick = abs(lastEncoderTick - intakeMotor.get_position());
-    if (deltaEncoderTick < lowEncoderTickRate && mainController->get_digital(INTAKE_FORWARD)){
-        std::cout << "Intake jam detected, correction occuring" << std::endl;
-        intakeMotor.move_velocity(-600);
+void intake::update(bool intakeReverseFlag){
+
+    //Looks at the different states the intake can be in.
+
+    if (autonFlag == E_FORWARD_FLAG || autonFlag == E_REVERSE_FLAG || autonFlag == E_IDLE_FLAG)
+        intakeVelocity = 600.0;
+        if (colorRed == false){
+            //looks for press of the respective forward button on the controller.
+            if (intakeOptical.get_hue() > redRangeBottom && intakeOptical.get_hue() < redRangeTop){ //If the distance sensor detects a ring.
+                intakeState = E_RINGDETECTED; //State is changed to ring being detected.
+            }
+        } else if (colorRed == true){
+                //looks for press of the respective forward button on the controller.
+            if (intakeOptical.get_hue() > blueRangeBottom && intakeOptical.get_hue() < blueRangeTop){ //If the distance sensor detects a ring.
+                intakeState = E_RINGDETECTED; //State is changed to ring being detected.
+            }
+        }
+
+        if (intakeReverseFlag == true){
+            intakeVelocity = 600.0;
+            spinReverse();
+        }
+        //detectJam();
+        if (autonFlag == E_FORWARD_FLAG){
+            intakeVelocity = 600.0;
+            spinForward();
+        } else if (autonFlag == E_REVERSE_FLAG){
+            intakeVelocity = 600.0;
+            spinReverse();
+        } else if (autonFlag == E_IDLE_FLAG){
+            stop();
+        }
+
+    switch (intakeState){
+    
+    //If a ring has just been detected, waiting until ring has left the distance sensor.
+    case E_RINGDETECTED:
+        if (colorRed == false){
+        //Checks if the ring is no longer being deteced by the distance sensor.
+            if (intakeOptical.get_hue() < redRangeBottom || intakeOptical.get_hue() > redRangeTop){
+                intakeState = E_RINGLEFTWAITING; //Changes the state to ring having left.
+                currentDelay = 0; //Resets the delay for the time before the intake starts reversing.
+            }
+        } else if (colorRed == true){
+        //Checks if the ring is no longer being deteced by the distance sensor.
+            if (intakeOptical.get_hue() < blueRangeBottom || intakeOptical.get_hue() > blueRangeTop){
+                intakeState = E_RINGLEFTWAITING; //Changes the state to ring having left.
+                currentDelay = 0; //Resets the delay for the time before the intake starts reversing.
+            }
+        }
+
+    //If the ring has been deteced and is waiting to reverse.
+    case E_RINGLEFTWAITING:
+        //Checks if the currentDelay is larger than the time alloted for waiting.
+        if (currentDelay > afterDelay){
+            stop(); //Updates the motor with the 50% speed and reverses it.
+            intakeState = E_REVERSING; //Sets the state to reversing.
+            currentDelay = 0; //Resets the delay so it can be used for the reversing time.
+        } else {
+            currentDelay += 20; //If not enough time has passed then it adds to the timer.
+        }
+
+    //If the intake is to be reversing automatically.
+    case E_REVERSING:
+        stop(); //Updates the motor with the 50% speed and reverses it.
+        //Checks if the currentDelay is larger than the alloted time for reversing.
+        if (currentDelay > reversingTime){
+            stop(); //Stops the intake.
+            currentDelay = 0; //Resets the timer.
+            intakeState = E_MANUAL; //Sets the intake state back to manual.
+            intakeVelocity = 600.0; //Sets the intake speed to maximum.
+        }
+    case E_REVERSE:
+        intakeVelocity = 600.0; //Sets the intake speed to maximum.
+        spinReverse(); //Updates the speed of the motor and reverses it.
     }
 }
 
@@ -89,9 +159,16 @@ void intake::opControl(bool intakeReverseFlag){
     case E_MANUAL:
         intakeVelocity = 600.0;
         //looks for press of the respective forward button on the controller.
-        if (intakeOptical.get_hue() > redRangeBottom && intakeOptical.get_hue() < redRangeTop){ //If the distance sensor detects a ring.
-            intakeState = E_RINGDETECTED; //State is changed to ring being detected.
-            break; //Stops the manual code underneath from running.
+        if (colorRed == false){
+            //looks for press of the respective forward button on the controller.
+            if (intakeOptical.get_hue() > redRangeBottom && intakeOptical.get_hue() < redRangeTop){ //If the distance sensor detects a ring.
+                intakeState = E_RINGDETECTED; //State is changed to ring being detected.
+            }
+        } else if (colorRed == true){
+                //looks for press of the respective forward button on the controller.
+            if (intakeOptical.get_hue() > blueRangeBottom && intakeOptical.get_hue() < blueRangeTop){ //If the distance sensor detects a ring.
+                intakeState = E_RINGDETECTED; //State is changed to ring being detected.
+            }
         }
         if (mainController->get_digital(INTAKE_FORWARD)){
             spinForward();
@@ -107,7 +184,7 @@ void intake::opControl(bool intakeReverseFlag){
             stop();
         }
         if (intakeReverseFlag == true){
-            intakeVelocity = 400.0;
+            intakeVelocity = 600.0;
             spinReverse();
         }
         //detectJam();
@@ -116,9 +193,18 @@ void intake::opControl(bool intakeReverseFlag){
     //If a ring has just been detected, waiting until ring has left the distance sensor.
     case E_RINGDETECTED:
         //Checks if the ring is no longer being deteced by the distance sensor.
-        if (intakeOptical.get_hue() < redRangeBottom || intakeOptical.get_hue() > redRangeTop){
-            intakeState = E_RINGLEFTWAITING; //Changes the state to ring having left.
-            currentDelay = 0; //Resets the delay for the time before the intake starts reversing.
+        if (colorRed == false){
+        //Checks if the ring is no longer being deteced by the distance sensor.
+            if (intakeOptical.get_hue() < redRangeBottom || intakeOptical.get_hue() > redRangeTop){
+                intakeState = E_RINGLEFTWAITING; //Changes the state to ring having left.
+                currentDelay = 0; //Resets the delay for the time before the intake starts reversing.
+            }
+        } else if (colorRed == true){
+        //Checks if the ring is no longer being deteced by the distance sensor.
+            if (intakeOptical.get_hue() < blueRangeBottom || intakeOptical.get_hue() > blueRangeTop){
+                intakeState = E_RINGLEFTWAITING; //Changes the state to ring having left.
+                currentDelay = 0; //Resets the delay for the time before the intake starts reversing.
+            }
         }
 
     //If the ring has been deteced and is waiting to reverse.

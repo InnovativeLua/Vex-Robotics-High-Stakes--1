@@ -22,7 +22,8 @@ public:
   int getAutonPage();
   std::string getSelectedAuton();
   const int potMax = 1000;
-  Auton createAuton(std::function<void()> autoFunction, std::string autoName);
+  Auton createAuton(std::function<void()> autoFunction, std::string autoName, bool colorRed);
+  void updatePage();
 };
 
 extern autonSelector masterAutonSelector;

@@ -2,6 +2,6 @@
 #include "headers/brain/autonfunctions.hpp"
 
 void redElimination(){
-    masterIntake.spinForward();
-    pros::delay(200000);
+    masterIntake.autonFlag = masterIntake.E_FORWARD_FLAG;
+    AutonWaitFor(10000);
 }

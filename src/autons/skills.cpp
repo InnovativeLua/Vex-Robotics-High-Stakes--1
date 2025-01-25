@@ -7,10 +7,11 @@ void skillsStart(){
     masterIntake.stop();
     masterMogo.extend();
     masterIntake.spinForward();
+    masterIntake.autonFlag = masterIntake.E_FORWARD_FLAG;
     AutonWaitFor(500.0);
-    masterIntake.spinReverse();
+    masterIntake.autonFlag = masterIntake.E_REVERSE_FLAG;
     AutonWaitFor(100.0);
-    masterIntake.stop();
+    masterIntake.autonFlag = masterIntake.E_IDLE_FLAG;
 
     //Reversses after scoring.
     masterChassis.startMainPID({14.0, 0}, 100.0, false);

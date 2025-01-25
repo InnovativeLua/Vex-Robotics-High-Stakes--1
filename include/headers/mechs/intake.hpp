@@ -16,6 +16,8 @@ public:
 
     pros::Optical intakeOptical = pros::Optical(INTAKE_OPTICAL);
 
+    bool colorRed = false;
+
     //Enum for the control types define what the intake is doing at any point.
     enum E_intakeStates {
         E_DISABLED,
@@ -25,6 +27,14 @@ public:
         E_REVERSING,
         E_REVERSE
     };
+
+    enum autonFlags{
+        E_FORWARD_FLAG,
+        E_REVERSE_FLAG,
+        E_IDLE_FLAG
+    };
+
+    autonFlags autonFlag = E_IDLE_FLAG;
 
     enum E_DetectionStates {
         E_NONE,
@@ -97,6 +107,8 @@ public:
      */
     void opControl(bool intakeReverseFlag);
 
+    void update(bool intakeReverseFlag);
+
     /**
      * Runs during initialization.
      * Sets all the motors to the correct gearing, brake modes, and encoder units.
@@ -112,14 +124,14 @@ public:
 private:
     double intakeVelocity = 600.0; //Velocity of the intake.
 
-    int afterDelay = 2500; //Time for intake to wait before reversing after a ring leaves its sight.
+    int afterDelay = 3000; //Time for intake to wait before reversing after a ring leaves its sight.
     int reversingTime = 100; //Time for the intake to reverse before stopping.
     int currentDelay = 0; //Timer for both the afterDelay and the reversingTime.
 
-    double redRangeBottom = 40.0;
-    double redRangeTop = 50.0;
-    double blueRangeBottom = 90.0;
-    double blueRangeTop = 100.0;
+    double redRangeBottom = 14.0;
+    double redRangeTop = 20.0;
+    double blueRangeBottom = 150.0;
+    double blueRangeTop = 170.0;
 
     int lastEncoderTick = 0;
     int lowEncoderTickRate = 2;

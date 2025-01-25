@@ -18,32 +18,32 @@ void redAWP(){
 
     masterChassis.startMainPID({-37.0, 4.0}, 90.0, true);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
+    AutonWaitFor(1100);
+    masterMogo.retract();
     WaitChassisPID();
 
-    AutonWaitFor(100);
-    masterMogo.retract();
+    masterIntake.autonFlag = masterIntake.E_FORWARD_FLAG;
 
-    masterIntake.spinForward();
-
-    masterChassis.startMainPID({-53.0, 32.0}, 90.0, false);
+    masterChassis.startMainPID({-53.0, 30.0}, 90.0, false);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
     WaitChassisPID();
 
-    masterChassis.startMainPID({-73.0, 26.0}, 90.0, false);
+    masterChassis.startMainPID({-66.0, 24.0}, 90.0, false);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 3000, 500);
     WaitChassisPID();
 
-    masterChassis.startMainPID({-50.0, 20.0}, 90.0, true);
+    masterChassis.startMainPID({-35.0, 10.0}, 90.0, true);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
     WaitChassisPID();
 
-    masterChassis.startMainPID({-69.0, 18.0}, 90.0, false);
+    masterChassis.startMainPID({-64.0, 10.0}, 90.0, false);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
     WaitChassisPID();
 
-    masterChassis.startMainPID({-40.0, -40.0}, 90.0, true);
+    masterChassis.startMainPID({-40.0, -50.0}, 75.0, false);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
     WaitChassisPID();
 
+    masterIntake.autonFlag = masterIntake.E_IDLE_FLAG;
     masterChassis.updateDrive(0, 0);
 }

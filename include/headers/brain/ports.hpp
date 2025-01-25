@@ -4,7 +4,7 @@
 //Ports with a negative number correspond to reversing the motor.
 
 //Motors
-constexpr int RIGHT_FRONT_MOTOR = 8;
+constexpr int RIGHT_FRONT_MOTOR = 7;
 constexpr int RIGHT_TOP_MOTOR = -10;
 constexpr int RIGHT_BACK_MOTOR = 9;
 constexpr int LEFT_FRONT_MOTOR = -4;
@@ -16,7 +16,7 @@ constexpr int INTAKEMOTOR = 19;
 constexpr int INTAKEMOTOR2 = 18;
 
 //Sensors
-constexpr int INTAKE_OPTICAL = 14;
+constexpr int INTAKE_OPTICAL = 17;
 constexpr int ODOMETRY_INERTIAL = 12;
 constexpr char ODOMETRY_AUX_TOP = 'C';
 constexpr char ODOMETRY_AUX_BOTTOM = 'D';

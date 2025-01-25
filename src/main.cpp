@@ -68,6 +68,8 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
+	masterAutonSelector.updatePage();
+	masterIntake.colorRed = masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].colorRed;
 	masterAutonSelector.callSelectedAuton();
 }
 
@@ -89,9 +91,13 @@ void opcontrol() {
 	int n = 0;
 	masterChassis.driverControlPeriod = true;
 
+	masterAutonSelector.updatePage();
+	masterIntake.colorRed = masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].colorRed;
+
 	if (masterAutonSelector.Autons[masterAutonSelector.currentAutonPage].Name == "skills" && true){
 		skillsStart();	
 	}
+
 
 	while (true) {
 		n += 1;
@@ -128,6 +134,7 @@ void opcontrol() {
 				//std::cout << "Motor Position " << masterLift.liftMotor.get_position() << std::endl;
 			case 2:
 				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %s", masterAutonSelector.getSelectedAuton());
+				mainController->print(0, 0, "C: %s", masterAutonSelector.getSelectedAuton());
 		}
 
 		if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
