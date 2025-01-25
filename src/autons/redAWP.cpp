@@ -40,7 +40,7 @@ void redAWP(){
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
     WaitChassisPID();
 
-    masterChassis.startMainPID({-40.0, -50.0}, 75.0, false);
+    masterChassis.startMainPID({-40.0, -70.0}, 50.0, true);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
     WaitChassisPID();
 
