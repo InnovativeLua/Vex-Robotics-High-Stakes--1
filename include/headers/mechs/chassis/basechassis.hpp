@@ -37,8 +37,8 @@ class chassis {
 
     pros::IMU ChassisIMU = pros::IMU(ODOMETRY_INERTIAL); //Chassis IMU to be used later.
 
-    pros::adi::Encoder leftTracker = pros::adi::Encoder(ODOMETRY_LEFT_TOP, ODOMETRY_LEFT_BOTTOM, false);
-    pros::adi::Encoder auxTracker = pros::adi::Encoder(ODOMETRY_AUX_TOP, ODOMETRY_AUX_BOTTOM, false);
+    pros::Rotation leftTracker = pros::Rotation(ODOMETRY_LEFT);
+    pros::Rotation auxTracker = pros::Rotation(ODOMETRY_AUX);
 
     bool driverControlPeriod; //Boolean to see if the driver control period is enabled.
 

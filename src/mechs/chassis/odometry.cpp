@@ -3,6 +3,7 @@
 
 //Converts encoder ticks to radians, based on 3.25" wheels.
 constexpr double in_per_tick = 2 * PI / 360 * 3.25 / 2.0;
+constexpr double in_per_tick_mec = 2 * PI /360 * 2 / 2.0 / 100;
 
 /**
  * Sets the current X and Y positions to (0, 0);
@@ -51,13 +52,13 @@ std::vector<double> odometry::getPreviousPosition(){
  */
 void odometry::update(){
 	//Sets variables composed of the encoder values. Casts to double to keep types consistent.
-	double LEncoder = (double)(masterChassis.leftTracker.get_value());
-	double auxEncoder = (double)(masterChassis.auxTracker.get_value());
+	double LEncoder = (double)(masterChassis.leftTracker.get_position());
+	double auxEncoder = (double)(masterChassis.auxTracker.get_position());
 
 	//Finds the change between the last encoder value and converts to inches traveled.
 	//Multipled by 3.25" because we are using 3.25" wheels.
-	double deltaL = (LEncoder - prevLE) * in_per_tick;
-	double deltaAux = (auxEncoder - prevAux) * in_per_tick;
+	double deltaL = (LEncoder - prevLE) * in_per_tick_mec;
+	double deltaAux = (auxEncoder - prevAux) * in_per_tick_mec;
 
 	prevLE = LEncoder; //Updates the previousEncoder value.
 	prevAux = auxEncoder; //Updates the previousEncoder value.
@@ -107,6 +108,8 @@ void odometry::initilize(){
 	//Sets the 2 tracking wheels' values to 0 degrees.
     masterChassis.auxTracker.reset();
     masterChassis.leftTracker.reset();
+	masterChassis.auxTracker.reset_position();
+	masterChassis.leftTracker.reset_position();
 
 	//Defines the previous values that are necessary for the first update call.
 	double prevAux = 0.0;

@@ -12,13 +12,13 @@ class lift{
 public:
 
     pros::Motor liftMotor = pros::Motor(LIFT_MOTOR); //Declares a motor for the lift with port "LiftMotor"
-    pros::adi::Encoder liftTracker = pros::adi::Encoder(LIFT_TOP, LIFT_BOTTOM, false); //Declares an optical encoder.
+    pros::Rotation liftTracker = pros::Rotation(LIFT_TRACKER); //Declares an optical encoder.
 
     double liftVelocity = 200; //Controls how fast the lift is moving.
-    int idlePosition = 0; //Default position for the lift to go towards while idle.
-    int idleCoastPosition = 50; //Position to make the motor coast as to protect the motor from overheating.
-    int primedPosition = 72; //Position for priming the lift.
-    int forwardPosition = 400; //Position to target when going to place it onto wall states. Prevents the lift from going over maximum expansion.
+    int idlePosition = 40; //Default position for the lift to go towards while idle.
+    int idleCoastPosition = 3000; //Position to make the motor coast as to protect the motor from overheating.
+    int primedPosition = 2600; //Position for priming the lift.
+    int forwardPosition = 20000; //Position to target when going to place it onto wall states. Prevents the lift from going over maximum expansion.
 
     //Control types define what the lift is doing at any point during OPControl.
     enum liftPositions {
@@ -42,7 +42,10 @@ public:
     liftPositions liftState; //State the lift is currently in.
 
     bool liftPIDEnabled = false;
-    PID liftPID = PID(0.3, 0.000, 0.0, 0); //Sets the default constants and name for the PID.
+    PID liftPID = PID(0.03, 0.000, 0.0, 0); //Sets the default constants and name for the PID.
+    double liftP = 0.02;
+    double liftD = 0.3;
+    double liftP_FORWARD = 0.03;
 
     /**
      * Moves the lift motor forward based on the velocity of the lift.
@@ -98,7 +101,7 @@ public:
 
     bool intakeReverseFlag = false;
     int reverseTimer = 0;
-    int maxReverseTime = 200;
+    int maxReverseTime = 100;
 };
 
 extern lift masterLift; //Global lift object to be accessed by any files.

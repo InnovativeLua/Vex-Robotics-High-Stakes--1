@@ -72,17 +72,17 @@ void lift::opControl(){
             liftState = E_PRIMED; //Changes state to primed
             //Reset liftPID and setting the speed in terms of P and D values:
             liftPID.resetVariables();
-            liftPID.setConstants(0.3, 0.000, 0.0, 0);
+            liftPID.setConstants(liftP, liftD, 0.0, 0);
 
             liftPID.setTarget(primedPosition);
             break;
         }
-        if (liftTracker.get_value() < idleCoastPosition){ //Protection for motor as to not overheat.
+        if (liftTracker.get_position() < idleCoastPosition){ //Protection for motor as to not overheat.
             liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST); //Releases the hold of the motor.
             liftVelocity = 0.0; //Sets the lift velocity to zero to make the lift fall.
             stop(); //Updates the motor as to start moving.
         } else {
-            liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
+            liftVelocity = liftPID.compute(liftTracker.get_position()); //Computes the velocity of the lift based on the encoder value.
             spinForward(); //Updates the motor as to start moving.
         }
         break;
@@ -93,13 +93,13 @@ void lift::opControl(){
             liftState = E_FORWARD;  //Changes state to activated
             //Reset liftPID and setting the speed in terms of P and D values:
             liftPID.resetVariables();
-            liftPID.setConstants(1.0, 0.000, 0.0, 0);
+            liftPID.setConstants(liftP_FORWARD, liftD, 0.0, 0);
             
             liftPID.setTarget(forwardPosition);
             reverseTimer = 0;
             intakeReverseFlag = true;
         }
-        liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
+        liftVelocity = liftPID.compute(liftTracker.get_position()); //Computes the velocity of the lift based on the encoder value.
         spinForward(); //Updates the motor as to start moving.
         break;
     //For the forwarded state.
@@ -115,7 +115,7 @@ void lift::opControl(){
             }
             reverseTimer += 10;
         }
-        liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
+        liftVelocity = liftPID.compute(liftTracker.get_position()); //Computes the velocity of the lift based on the encoder value.
         spinForward(); //Updates the motor as to start moving.
         break;
     }
@@ -130,16 +130,16 @@ void lift::autonUpdate(){
             liftState = E_PRIMED; //Changes state to primed
             //Reset liftPID and setting the speed in terms of P and D values:
             liftPID.resetVariables();
-            liftPID.setConstants(0.3, 0.000, 0.0, 0);
+            liftPID.setConstants(liftP, 0.000, 0.0, 0);
 
             liftPID.setTarget(primedPosition);
             break;
         }
-        if (liftTracker.get_value() < idleCoastPosition){ //Protection for motor as to not overheat.
+        if (liftTracker.get_position() < idleCoastPosition){ //Protection for motor as to not overheat.
             liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST); //Releases the hold of the motor.
             liftVelocity = 0; //Sets the lift velocity to zero to make the lift fall.
         } else {
-            liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
+            liftVelocity = liftPID.compute(liftTracker.get_position()); //Computes the velocity of the lift based on the encoder value.
             spinForward(); //Updates the motor as to start moving.
         }
         break;
@@ -150,13 +150,13 @@ void lift::autonUpdate(){
             liftState = E_FORWARD;  //Changes state to activated
             //Reset liftPID and setting the speed in terms of P and D values:
             liftPID.resetVariables();
-            liftPID.setConstants(1.0, 0.000, 0.0, 0);
+            liftPID.setConstants(liftP_FORWARD, liftD, 0.0, 0);
             
             liftPID.setTarget(forwardPosition);
             reverseTimer = 0;
             intakeReverseFlag = true;
         }
-        liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
+        liftVelocity = liftPID.compute(liftTracker.get_position()); //Computes the velocity of the lift based on the encoder value.
         spinForward(); //Updates the motor as to start moving.
         break;
     //For the forwarded state.
@@ -174,7 +174,7 @@ void lift::autonUpdate(){
             }
             reverseTimer += 10;
         }
-        liftVelocity = liftPID.compute(liftTracker.get_value()); //Computes the velocity of the lift based on the encoder value.
+        liftVelocity = liftPID.compute(liftTracker.get_position()); //Computes the velocity of the lift based on the encoder value.
         spinForward(); //Updates the motor as to start moving.
         break;
     }
@@ -201,6 +201,7 @@ void lift::initalize(){
     liftPID.setTarget(idlePosition); //The default position for the lift.
 
     liftTracker.reset(); //Resets the lift encoder.
+    liftTracker.reset_position();
 }
 
 lift masterLift; //Global main lift to use the lift in other files.

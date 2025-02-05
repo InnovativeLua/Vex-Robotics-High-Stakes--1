@@ -127,13 +127,14 @@ void opcontrol() {
 				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Position X: %g", masterOdometry.getPosition()[0]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Position Y: %g", masterOdometry.getPosition()[1]);
 				pros::screen::print(pros::E_TEXT_MEDIUM, 5, "Orientation: %g", 180/3.14159*masterOdometry.getPosition()[2]);
-				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "AUX: %d", masterChassis.auxTracker.get_value());
-				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "LEFT: %d", masterChassis.leftTracker.get_value());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 3, "AUX: %i", masterChassis.auxTracker.get_position());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 4, "LEFT: %i", masterChassis.leftTracker.get_position());
 				//pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Distance: %g", masterIntake.distanceSensor.get());
 				//std::cout << "Intake distance " << masterIntake.distanceSensor.get() << std::endl;
 				//std::cout << "Motor Position " << masterLift.liftMotor.get_position() << std::endl;
 			case 2:
 				pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %s", masterAutonSelector.getSelectedAuton());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Lift : %i", masterLift.liftTracker.get_position());
 				mainController->print(0, 0, "C: %s", masterAutonSelector.getSelectedAuton());
 		}
 

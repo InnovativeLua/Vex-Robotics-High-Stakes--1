@@ -84,8 +84,9 @@ void intake::update(bool intakeReverseFlag){
         }
 
         if (intakeReverseFlag == true){
-            intakeVelocity = 600.0;
+            intakeVelocity = 500.0;
             spinReverse();
+            intakeVelocity = 600.0;
         }
         //detectJam();
         if (autonFlag == E_FORWARD_FLAG){
@@ -184,8 +185,9 @@ void intake::opControl(bool intakeReverseFlag){
             stop();
         }
         if (intakeReverseFlag == true){
-            intakeVelocity = 600.0;
+            intakeVelocity = 500.0;
             spinReverse();
+            intakeVelocity = 600.0;
         }
         //detectJam();
         break;
