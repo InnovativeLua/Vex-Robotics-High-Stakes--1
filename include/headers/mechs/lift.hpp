@@ -17,7 +17,7 @@ public:
     double liftVelocity = 200; //Controls how fast the lift is moving.
     int idlePosition = 0; //Default position for the lift to go towards while idle.
     int idleCoastPosition = 50; //Position to make the motor coast as to protect the motor from overheating.
-    int primedPosition = 65; //Position for priming the lift.
+    int primedPosition = 72; //Position for priming the lift.
     int forwardPosition = 400; //Position to target when going to place it onto wall states. Prevents the lift from going over maximum expansion.
 
     //Control types define what the lift is doing at any point during OPControl.

@@ -16,9 +16,9 @@ void redAWP(){
     AutonWaitFor(750);
     masterLift.currentAutonFlag = masterLift.E_AUTOIDLE;
 
-    masterChassis.startMainPID({-37.0, 4.0}, 90.0, true);
+    masterChassis.startMainPID({-37.0, 4.0}, 70.0, true);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
-    AutonWaitFor(1100);
+    AutonWaitFor(2000);
     masterMogo.retract();
     WaitChassisPID();
 
@@ -40,7 +40,7 @@ void redAWP(){
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
     WaitChassisPID();
 
-    masterChassis.startMainPID({-40.0, -70.0}, 50.0, true);
+    masterChassis.startMainPID({0.0, 0.0}, 50.0, true);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
     WaitChassisPID();
 

@@ -6,9 +6,9 @@ void skillsStart(){
     //Scores alliance Stake.
     masterIntake.stop();
     masterMogo.extend();
-    masterIntake.spinForward();
     masterIntake.autonFlag = masterIntake.E_FORWARD_FLAG;
     AutonWaitFor(500.0);
+    masterIntake.spinReverse();
     masterIntake.autonFlag = masterIntake.E_REVERSE_FLAG;
     AutonWaitFor(100.0);
     masterIntake.autonFlag = masterIntake.E_IDLE_FLAG;
@@ -23,7 +23,7 @@ void skillsStart(){
     masterChassis.headingPID.setExitCondition(0.01, 500.0, 3000, 300);
     WaitChassisPID();
 
-    masterChassis.startMainPID({11.0, 20.0}, 100.0, true);
+    masterChassis.startMainPID({14.0, 20.0}, 100.0, true);
     masterChassis.distancePID.setExitCondition(2.0, 200.0, 3000, 500);
     WaitChassisPID();
     masterMogo.retract();
@@ -35,11 +35,12 @@ void skills(){
     //Scores alliance Stake.
     masterIntake.stop();
     masterMogo.extend();
-    masterIntake.spinForward();
+    masterIntake.autonFlag = masterIntake.E_FORWARD_FLAG;
     AutonWaitFor(500.0);
     masterIntake.spinReverse();
+    masterIntake.autonFlag = masterIntake.E_REVERSE_FLAG;
     AutonWaitFor(100.0);
-    masterIntake.stop();
+    masterIntake.autonFlag = masterIntake.E_IDLE_FLAG;
 
     //Reversses after scoring.
     masterChassis.startMainPID({14.0, 0}, 100.0, false);
@@ -51,7 +52,7 @@ void skills(){
     masterChassis.headingPID.setExitCondition(0.01, 500.0, 3000, 300);
     WaitChassisPID();
 
-    masterChassis.startMainPID({11.0, 20.0}, 100.0, true);
+    masterChassis.startMainPID({14.0, 20.0}, 100.0, true);
     masterChassis.distancePID.setExitCondition(2.0, 200.0, 3000, 500);
     WaitChassisPID();
     masterMogo.retract();
@@ -62,19 +63,20 @@ void skills(){
     masterChassis.headingPID.setExitCondition(0.01, 500.0, 3000, 300);
     WaitChassisPID();
 
-    masterChassis.startMainPID({45.0, 25.0}, 100.0, false);
+    masterChassis.startMainPID({47.0, 25.0}, 100.0, false);
     masterChassis.distancePID.setExitCondition(2.0, 200.0, 4000, 500);
-    masterIntake.spinForward();
+    masterIntake.autonFlag = masterIntake.E_FORWARD_FLAG;
     WaitChassisPID();
 
     //Goes for second ring and primes the lady brown.
-    masterChassis.startMainPID({72.0, 62.0}, 100.0, false);
+    masterChassis.startMainPID({68.0, 62.0}, 100.0, false);
     masterChassis.distancePID.setExitCondition(2.0, 200.0, 6000, 500);
-    WaitChassisPID();
-    masterLift.currentAutonFlag = masterLift.E_AUTOPRIME;
-    AutonWaitFor(500);
 
-    masterChassis.startMainPID({72.0, 65.0}, 80.0, false);
+    AutonWaitFor(1000);
+    masterLift.currentAutonFlag = masterLift.E_AUTOPRIME;
+    WaitChassisPID();
+
+    masterChassis.startMainPID({68.0, 65.0}, 80.0, false);
     masterChassis.distancePID.setExitCondition(2.0, 200.0, 6000, 500);
     WaitChassisPID();
 
@@ -87,9 +89,9 @@ void skills(){
     AutonWaitFor(1000);
 
     masterLift.currentAutonFlag = masterLift.E_AUTOFORWARD;
-    masterIntake.spinReverse();
+    masterIntake.autonFlag = masterIntake.E_REVERSE_FLAG;
     AutonWaitFor(100);
-    masterIntake.stop();
+    masterIntake.autonFlag = masterIntake.E_IDLE_FLAG;
     AutonWaitFor(1000);
 
     //Backs up.
@@ -104,8 +106,8 @@ void skills(){
     masterChassis.headingPID.setExitCondition(0.01, 500.0, 3000, 300);
     WaitChassisPID();
 
-    masterIntake.spinForward();
-    masterChassis.startMainPID({-10.0, 50.0}, 50.0, false);
+    masterIntake.autonFlag = masterIntake.E_FORWARD_FLAG;
+    masterChassis.startMainPID({-10.0, 50.0}, 70.0, false);
     masterChassis.distancePID.setExitCondition(2.0, 200.0, 6000, 500);
     WaitChassisPID();
 
@@ -127,7 +129,7 @@ void skills(){
     masterOdometry.setY(0.0);
 
     //Places the mobile goal in the corner.
-    masterChassis.startMainPID({-20.0, -20.0}, 85.0, true);
+    masterChassis.startMainPID({-10.0, 20.0}, 85.0, true);
     masterChassis.distancePID.setExitCondition(2.0, 200.0, 6000, 500);
     WaitChassisPID();
 

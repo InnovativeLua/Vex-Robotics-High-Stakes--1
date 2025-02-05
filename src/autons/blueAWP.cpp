@@ -8,42 +8,46 @@ void blueAWP(){
 
     //Move forward and backwards to push ring out of way.
     masterLift.currentAutonFlag = masterLift.E_AUTOPRIME;
-    masterChassis.startMainPID({12.0, 0}, 75.0, false);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
-    WaitChassisPID();
+    masterChassis.updateDrive(40, 40);
+    AutonWaitFor(500);
 
+    masterChassis.updateDrive(0, 0);
     masterLift.currentAutonFlag = masterLift.E_AUTOFORWARD;
     AutonWaitFor(750);
     masterLift.currentAutonFlag = masterLift.E_AUTOIDLE;
 
-    masterChassis.startMainPID({-37.0, -4.0}, 90.0, true);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
-    AutonWaitFor(1100);
+    masterChassis.updateDrive(-50, -50);
+    AutonWaitFor(1650);
+    masterChassis.updateDrive(0, 0);
+    AutonWaitFor(100);
     masterMogo.retract();
-    WaitChassisPID();
+    AutonWaitFor(100);
+
+    masterChassis.updateDrive(40, -40);
+    AutonWaitFor(1000);
 
     masterIntake.autonFlag = masterIntake.E_FORWARD_FLAG;
 
-    masterChassis.startMainPID({-53.0, -30.0}, 90.0, false);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
-    WaitChassisPID();
+    masterChassis.updateDrive(40, 40);
+    AutonWaitFor(2400);
+    masterChassis.updateDrive(0, 0);
 
-    masterChassis.startMainPID({-66.0, -24.0}, 90.0, false);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 3000, 500);
-    WaitChassisPID();
+    masterChassis.updateDrive(-50, 50);
+    AutonWaitFor(1200);
 
-    masterChassis.startMainPID({-35.0, -10.0}, 90.0, true);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
-    WaitChassisPID();
+    masterChassis.updateDrive(60, 60);
+    AutonWaitFor(2000);
+    masterChassis.updateDrive(0, 0);
 
-    masterChassis.startMainPID({-64.0, -10.0}, 90.0, false);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
-    WaitChassisPID();
+    masterLift.currentAutonFlag = masterLift.E_AUTOPRIME;
+    masterChassis.updateDrive(40, 40);
+    AutonWaitFor(200);
 
-    masterChassis.startMainPID({-40.0, 70.0}, 50.0, true);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 4000, 500);
-    WaitChassisPID();
+    masterChassis.updateDrive(0, 0);
+    masterLift.currentAutonFlag = masterLift.E_AUTOFORWARD;
+    AutonWaitFor(500);
+    masterLift.currentAutonFlag = masterLift.E_AUTOIDLE;
 
     masterIntake.autonFlag = masterIntake.E_IDLE_FLAG;
-    masterChassis.updateDrive(0, 0);
+    AutonWaitFor(500);
 }

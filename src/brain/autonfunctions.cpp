@@ -4,7 +4,7 @@
 
 void AutonWaitFor(int MSTime){
     while (MSTime > 0){
-        masterOdometry.update();
+        //masterOdometry.update();
         masterIntake.update(false);
         masterLift.autonUpdate();
         if (masterChassis.headingPIDEnabled){
