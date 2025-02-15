@@ -5,8 +5,12 @@
 #include "headers/mechs/goalTipper.hpp"
 
 void skills();
-void blueAWP();
-void blueElimination();
-void redAWP();
-void redElimination();
 void skillsStart();
+void redGoalSide();
+void blueGoalSide();
+void redRingSide();
+void blueRingSide();
+void wBlueGoalSide();
+void wRedGoalSide();
+void wBlueRingSide();
+void wRedRingSide();

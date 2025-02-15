@@ -3,7 +3,7 @@
 
 //Converts encoder ticks to radians, based on 3.25" wheels.
 constexpr double in_per_tick = 2 * PI / 360 * 3.25 / 2.0;
-constexpr double in_per_tick_mec = 2 * PI /360 * 2 / 2.0 / 10;
+constexpr double in_per_tick_mec = 2 * PI /360 * 2 / 2.0 / 100;
 
 /**
  * Sets the current X and Y positions to (0, 0);

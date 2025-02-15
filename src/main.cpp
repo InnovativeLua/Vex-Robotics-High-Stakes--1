@@ -101,7 +101,7 @@ void opcontrol() {
 
 	while (true) {
 		n += 1;
-		int screen = 2;
+		int screen = 1;
 		pros::screen::erase();
 
 		switch (screen){
