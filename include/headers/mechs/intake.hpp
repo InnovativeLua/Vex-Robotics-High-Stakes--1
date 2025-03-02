@@ -124,8 +124,8 @@ public:
 private:
     double intakeVelocity = 600.0; //Velocity of the intake.
 
-    int afterDelay = 3000; //Time for intake to wait before reversing after a ring leaves its sight.
-    int reversingTime = 100; //Time for the intake to reverse before stopping.
+    int afterDelay = 5500; //Time for intake to wait before reversing after a ring leaves its sight.
+    int reversingTime = 300; //Time for the intake to reverse before stopping.
     int currentDelay = 0; //Timer for both the afterDelay and the reversingTime.
 
     double redRangeBottom = 14.0;

@@ -25,7 +25,7 @@
 
 void initialize() {
 	masterChassis.initialize();
-	//masterOdometry.initilize();
+	masterOdometry.initilize();
 	masterMogo.initialize();
 	masterIntake.initalize();
 	masterLift.initalize();
@@ -142,7 +142,7 @@ void opcontrol() {
 			masterAutonSelector.callSelectedAuton();
 		}
 		
-		//masterOdometry.update();
+		masterOdometry.update();
 		masterChassis.opControl();
 		masterLift.opControl();
 		masterIntake.opControl(masterLift.intakeReverseFlag);

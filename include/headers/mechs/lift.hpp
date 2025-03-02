@@ -16,9 +16,9 @@ public:
 
     double liftVelocity = 200; //Controls how fast the lift is moving.
     int idlePosition = 40; //Default position for the lift to go towards while idle.
-    int idleCoastPosition = 3000; //Position to make the motor coast as to protect the motor from overheating.
-    int primedPosition = 2600; //Position for priming the lift.
-    int forwardPosition = 14000; //Position to target when going to place it onto wall states. Prevents the lift from going over maximum expansion.
+    int idleCoastPosition = 10000; //Position to make the motor coast as to protect the motor from overheating.
+    int primedPosition = 14500; //Position for priming the lift.
+    int forwardPosition = 70000; //Position to target when going to place it onto wall states. Prevents the lift from going over maximum expansion.
 
     //Control types define what the lift is doing at any point during OPControl.
     enum liftPositions {
@@ -43,9 +43,9 @@ public:
 
     bool liftPIDEnabled = false;
     PID liftPID = PID(0.03, 0.000, 0.0, 0); //Sets the default constants and name for the PID.
-    double liftP = 0.02;
-    double liftD = 1.0;
-    double liftP_FORWARD = 0.03;
+    double liftP = 0.005;
+    double liftD = 0.0;
+    double liftP_FORWARD = 0.01;
 
     /**
      * Moves the lift motor forward based on the velocity of the lift.
@@ -101,7 +101,7 @@ public:
 
     bool intakeReverseFlag = false;
     int reverseTimer = 0;
-    int maxReverseTime = 140;
+    int maxReverseTime = 200;
 };
 
 extern lift masterLift; //Global lift object to be accessed by any files.

@@ -19,7 +19,7 @@ class goalTipper {
 	pros::adi::ext_adi_port_pair_t portpairTipper = pros::adi::ext_adi_port_pair_t(TIPPER_SOLENOID_SMART, TIPPER_SOLENOID_ADI);
 
 	pros::adi::DigitalOut tipperCylinder = pros::adi::DigitalOut(TIPPER_SOLENOID_ADI);
-	pros::adi::DigitalOut extensionCylinder = pros::adi::DigitalOut(portpairExtension);
+	pros::adi::DigitalOut extensionCylinder = pros::adi::DigitalOut(EXTENSION_SOLENOID_ADI);
     
     //Enum for each state of the tipping states.
     enum E_tipperStates { //Different states the tipper can be in.

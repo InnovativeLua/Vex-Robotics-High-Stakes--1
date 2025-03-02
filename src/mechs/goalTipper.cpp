@@ -33,7 +33,7 @@ void goalTipper::opControl(){
             }
         } 
     } else {
-        currentTipperTimeout -= 20; //Reduces the timeout by 20 miliseconds.
+        currentExtensionTimeout -= 20; //Reduces the timeout by 20 miliseconds.
     }
 }
 
@@ -89,8 +89,7 @@ void goalTipper::retractExtension(){
  * 
  */
 void goalTipper::initialize(){
-    retractExtension();
-    retractExtension();
+
 }
 
 goalTipper masterTipper; //Global master mobile goal mech to be used in other files.

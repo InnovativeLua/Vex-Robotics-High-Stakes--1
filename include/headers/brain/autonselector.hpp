@@ -21,7 +21,7 @@ public:
   void compTask();
   int getAutonPage();
   std::string getSelectedAuton();
-  const int potMax = 1000;
+  const int potMax = 3000;
   Auton createAuton(std::function<void()> autoFunction, std::string autoName, bool colorRed);
   void updatePage();
 };
