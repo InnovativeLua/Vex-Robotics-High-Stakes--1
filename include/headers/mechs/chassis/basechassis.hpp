@@ -120,12 +120,12 @@ class chassis {
 
     bool headingPIDEnabled = false;
     PID headingPID = PID(7.0, 0.0, 30.0, 0.0);
-    PID distancePID = PID(5.0, 0, 10.0, 0);
+    PID distancePID = PID(10.0, 0, 0.0, 0);
     PID mainHeadingPID = PID(5.0, 0, 30.0, 0);
     bool mainPIDEnabled = false;
     bool mainPIDReversed = false;
-    double maxMainPIDVelocity = 90.0;
-    double maxHeadingPIDVelocity = 100.0;
+    double maxMainPIDVelocity = 127.0;
+    double maxHeadingPIDVelocity = 127.0;
     int motionProfileTime = 300;
     int motionTimer = 0;
 

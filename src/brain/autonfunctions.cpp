@@ -4,7 +4,7 @@
 
 void AutonWaitFor(int MSTime){
     while (MSTime > 0){
-        //masterOdometry.update();
+        masterOdometry.update();
         masterIntake.update(false);
         masterLift.autonUpdate();
         if (masterChassis.headingPIDEnabled){
@@ -19,6 +19,10 @@ void AutonWaitFor(int MSTime){
 
 void WaitChassisPID(){
     while (masterChassis.mainPIDEnabled == true || masterChassis.headingPIDEnabled == true){
+        pros::screen::erase();
+        pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Position X: %g", masterOdometry.getPosition()[0]);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Position Y: %g", masterOdometry.getPosition()[1]);
+        pros::screen::print(pros::E_TEXT_MEDIUM, 3, "AUX: %i", masterChassis.auxTracker.get_position());
         masterOdometry.update();
         masterIntake.update(false);
         masterLift.autonUpdate();

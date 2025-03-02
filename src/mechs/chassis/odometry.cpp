@@ -52,8 +52,8 @@ std::vector<double> odometry::getPreviousPosition(){
  */
 void odometry::update(){
 	//Sets variables composed of the encoder values. Casts to double to keep types consistent.
-	double LEncoder = (double)(masterChassis.leftTracker.get_position());
-	double auxEncoder = (double)(masterChassis.auxTracker.get_position());
+	double LEncoder = -(double)(masterChassis.leftTracker.get_position());
+	double auxEncoder = -(double)(masterChassis.auxTracker.get_position());
 
 	//Finds the change between the last encoder value and converts to inches traveled.
 	//Multipled by 3.25" because we are using 3.25" wheels.
