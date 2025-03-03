@@ -20,8 +20,8 @@ constexpr int ODOMETRY_INERTIAL = 13;
 constexpr char ODOMETRY_AUX = 11;
 constexpr char ODOMETRY_LEFT = 12;
 constexpr char LIFT_TRACKER = -10;
-constexpr char LIFT_TOP = 'H';
-constexpr char LIFT_BOTTOM = 'G';
+constexpr char LIFT_TOP = 'A';
+constexpr char LIFT_BOTTOM = 'A';
 constexpr char AUTON_POT = 'F';
 
 //Solenoids

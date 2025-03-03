@@ -24,13 +24,13 @@
  */
 
 void initialize() {
+	masterTipper.initialize();
 	masterChassis.initialize();
 	masterOdometry.initilize();
 	masterMogo.initialize();
 	masterIntake.initalize();
 	masterLift.initalize();
 	masterAutonSelector.initilize();
-	masterTipper.initialize();
 }
 
 /**
@@ -133,8 +133,8 @@ void opcontrol() {
 				//std::cout << "Intake distance " << masterIntake.distanceSensor.get() << std::endl;
 				//std::cout << "Motor Position " << masterLift.liftMotor.get_position() << std::endl;
 			case 2:
-				//pros::screen::print(pros::E_TEXT_MEDIUM, 1, "Current Auton: %s", masterAutonSelector.getSelectedAuton());
-				//pros::screen::print(pros::E_TEXT_MEDIUM, 2, "Lift : %i", masterLift.liftTracker.get_position());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Current Auton: %s", masterAutonSelector.getSelectedAuton());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 9, "Lift : %i", masterLift.liftTracker.get_position());
 				//mainController->print(0, 0, "C: %s", masterAutonSelector.getSelectedAuton());
 
 				break;
