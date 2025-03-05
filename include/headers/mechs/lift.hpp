@@ -101,7 +101,7 @@ public:
 
     bool intakeReverseFlag = false;
     int reverseTimer = 0;
-    int maxReverseTime = 200;
+    int maxReverseTime = 150;
 };
 
 extern lift masterLift; //Global lift object to be accessed by any files.

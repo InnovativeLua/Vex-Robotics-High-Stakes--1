@@ -20,13 +20,9 @@ constexpr int ODOMETRY_INERTIAL = 13;
 constexpr char ODOMETRY_AUX = 11;
 constexpr char ODOMETRY_LEFT = 12;
 constexpr char LIFT_TRACKER = -10;
-constexpr char LIFT_TOP = 'A';
-constexpr char LIFT_BOTTOM = 'A';
 constexpr char AUTON_POT = 'F';
 
 //Solenoids
 constexpr char MOGO_MECH_SOLENOID = 'G';
 constexpr char TIPPER_SOLENOID_ADI = 'H';    //Should be C, changed for now.
-constexpr int TIPPER_SOLENOID_SMART = 19;
 constexpr char EXTENSION_SOLENOID_ADI = 'E';    //Should be C, changed for now.
-constexpr int EXTENSION_SOLENOID_SMART = 19;

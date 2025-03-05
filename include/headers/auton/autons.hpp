@@ -14,3 +14,4 @@ void wBlueGoalSide();
 void wRedGoalSide();
 void wBlueRingSide();
 void wRedRingSide();
+void soloREDAWP();

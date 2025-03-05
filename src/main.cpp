@@ -24,9 +24,9 @@
  */
 
 void initialize() {
-	masterTipper.initialize();
 	masterChassis.initialize();
 	masterOdometry.initilize();
+	masterTipper.initialize();
 	masterMogo.initialize();
 	masterIntake.initalize();
 	masterLift.initalize();

@@ -5,18 +5,18 @@ void blueGoalSide(){
     //Init
     masterIntake.stop();
     masterMogo.extend();
-    masterTipper.extendTipper();
+    masterTipper.retractTipper();
     masterTipper.retractExtension();
 
     //Reversses after scoring.
     masterChassis.startMainPID({45.0, 0.0}, 127.0, false);
     masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
     AutonWaitFor(300);
-    masterTipper.retractTipper();
+    masterTipper.extendTipper();
     WaitChassisPID();
     masterChassis.updateDrive(0, 0);
     AutonWaitFor(300);
-    masterTipper.extendTipper();
+    masterTipper.retractTipper();
     AutonWaitFor(300);
 
 

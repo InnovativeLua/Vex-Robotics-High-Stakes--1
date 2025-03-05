@@ -41,6 +41,7 @@ intake::E_intakeStates intake::getCurrentState(){
 void intake::spinForward(){
     intakeMotor.move_velocity(-intakeVelocity); //Sets the intake motor to the current intake velocity in reverse.
     intakeMotor2.move_velocity(-intakeVelocity); //Sets the intake motor to the current intake velocity in reverse.
+    intakeOptical.set_led_pwm(0);
 }
 
 /**
@@ -52,6 +53,7 @@ void intake::spinForward(){
 void intake::spinReverse(){
     intakeMotor.move_velocity(intakeVelocity); //Sets the intake motor to the current intake velocity.
     intakeMotor2.move_velocity(intakeVelocity); //Stops the intake motors from moving.
+    intakeOptical.set_led_pwm(0);
 }
 
 /**
@@ -63,6 +65,7 @@ void intake::spinReverse(){
 void intake::stop(){
     intakeMotor.move_velocity(0); //Stops the intake motors from moving.
     intakeMotor2.move_velocity(0); //Stops the intake motors from moving.
+    intakeOptical.set_led_pwm(0);
 }
 
 void intake::update(bool intakeReverseFlag){

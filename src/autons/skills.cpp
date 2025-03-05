@@ -28,7 +28,7 @@ void skills(){
     masterChassis.headingPID.setExitCondition(0.01, 500.0, 3000, 300);
     WaitChassisPID();
 
-    masterChassis.startMainPID({8.0, 23.0}, 100.0, true);
+    masterChassis.startMainPID({9.0, 23.0}, 100.0, true);
     masterChassis.distancePID.setExitCondition(2.0, 200.0, 3000, 500);
     WaitChassisPID();
     masterMogo.retract();

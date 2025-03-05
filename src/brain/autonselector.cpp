@@ -56,15 +56,10 @@ Auton autonSelector::createAuton(std::function<void()> autoFunction, std::string
 void autonSelector::initilize(){
   //autonPot.calibrate();
   std::vector<Auton> autonsToSelectFrom = {};
-  //autonsToSelectFrom.push_back(createAuton(skills,"skills", true));
+  autonsToSelectFrom.push_back(createAuton(skills,"skillsSkills", true));
   autonsToSelectFrom.push_back(createAuton(redGoalSide,"redGoalSide", true));
-  autonsToSelectFrom.push_back(createAuton(redRingSide,"redRingSide", true));
-  autonsToSelectFrom.push_back(createAuton(wRedGoalSide,"wRedGoalSide", true));
-  autonsToSelectFrom.push_back(createAuton(wRedRingSide,"wRedRingSide", true));
-  autonsToSelectFrom.push_back(createAuton(blueGoalSide,"blueGoalSide", false));
-  autonsToSelectFrom.push_back(createAuton(blueRingSide,"blueRingSide", false));
-  autonsToSelectFrom.push_back(createAuton(wBlueGoalSide,"wBlueGoalSide", false));
-  autonsToSelectFrom.push_back(createAuton(wBlueRingSide,"wBlueRingSide", false));
+  autonsToSelectFrom.push_back(createAuton(blueGoalSide,"blueGoalSide", true));
+  autonsToSelectFrom.push_back(createAuton(soloREDAWP,"soloRedAWP", true));
 
   addAutons(autonsToSelectFrom);
 }

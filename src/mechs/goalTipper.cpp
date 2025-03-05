@@ -89,8 +89,7 @@ void goalTipper::retractExtension(){
  * 
  */
 void goalTipper::initialize(){
-    retractExtension();
-    retractTipper();
+    
 }
 
 goalTipper masterTipper; //Global master mobile goal mech to be used in other files.
