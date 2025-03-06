@@ -10,7 +10,7 @@
  */
 void mogoMech::opControl(){
     if (currentTimeout <= 0){
-        if (mainController->get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+        if (mainController->get_digital(MOGO_TOGGLE)){
             currentTimeout = ResetTime;
             if (mogoMechState == E_ENABLED){
                 extend();

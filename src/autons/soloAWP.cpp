@@ -10,8 +10,8 @@ void soloREDAWP(){
 
     //Move forward and backwards to push ring out of way.
     masterLift.currentAutonFlag = masterLift.E_AUTOPRIME;
-    masterChassis.startMainPID({5.0, -1.0}, 127.0, false);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 1000, 500);
+    masterChassis.startMainPID({10.0, 0}, 127.0, false);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 5000, 500);
     WaitChassisPID();
 
     masterChassis.updateDrive(0, 0);
@@ -21,21 +21,48 @@ void soloREDAWP(){
     AutonWaitFor(500);
 
     //Reversses after scoring.
-    masterChassis.startMainPID({-19.0, -5.0}, 127.0, true);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
+    masterChassis.startMainPID({-30.0, -4.0}, 127.0, true);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 5000, 500);
     WaitChassisPID();
     masterMogo.retract();
     AutonWaitFor(500);
 
     masterIntake.autonFlag = masterIntake.E_FORWARD_FLAG;
-    masterChassis.startMainPID({-27.0, 10.0}, 127.0, false);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
+    masterChassis.startMainPID({-38.0, 17.0}, 127.0, false);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 5000, 500);
     WaitChassisPID();
-    masterChassis.updateDrive(0, 0);    
+    masterChassis.updateDrive(0, 0);        
 
-    masterIntake.autonFlag = masterIntake.E_FORWARD_FLAG;
-    masterChassis.startMainPID({0.0, -5.0}, 127.0, false);
-    masterChassis.distancePID.setExitCondition(1.0, 200.0, 2000, 500);
+
+    //Ring Stack;
+    masterChassis.startMainPID({9.0, -6.0}, 127.0, false);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 5000, 500);
     WaitChassisPID();
     masterChassis.updateDrive(0, 0);   
+
+    masterChassis.startMainPID({15.0, -16.0}, 127.0, false);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 5000, 500);
+    WaitChassisPID();
+    masterChassis.updateDrive(0, 0); 
+    
+
+    //Turns and heads towards the mobile goal, grabbing it.
+    masterChassis.startHeadingPID(90.0, 100.0);
+    masterChassis.headingPID.setExitCondition(0.01, 500.0, 3000, 300);
+    WaitChassisPID();
+
+    masterChassis.startMainPID({-30.0, -40.0}, 127.0, true);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 5000, 500);
+    WaitChassisPID(); 
+
+    masterMogo.retract();
+    AutonWaitFor(500);
+
+    masterChassis.startMainPID({-40.0, -50.0}, 127.0, true);
+    masterChassis.distancePID.setExitCondition(1.0, 200.0, 5000, 500);
+    WaitChassisPID(); 
+
+
+
+    masterChassis.updateDrive(0, 0);  
 }

@@ -26,3 +26,5 @@ constexpr char AUTON_POT = 'F';
 constexpr char MOGO_MECH_SOLENOID = 'G';
 constexpr char TIPPER_SOLENOID_ADI = 'H';    //Should be C, changed for now.
 constexpr char EXTENSION_SOLENOID_ADI = 'E';    //Should be C, changed for now.
+constexpr char PTO_SOLENOID_ADI = 'D';    //Should be C, changed for now.
+constexpr char HANG_SOLENOID_ADI = 'C';

@@ -4,6 +4,7 @@
 #include "headers/mechs/MOGOmech.hpp"
 #include "headers/mechs/lift.hpp"
 #include "headers/mechs/goalTipper.hpp"
+#include "headers/mechs/hang.hpp"
 #include "headers/brain/ports.hpp"
 #include "headers/auton/autons.hpp"
 #include "headers/mechs/chassis/odometry.hpp"
@@ -28,6 +29,7 @@ void initialize() {
 	masterOdometry.initilize();
 	masterTipper.initialize();
 	masterMogo.initialize();
+	masterHang.initialize();
 	masterIntake.initalize();
 	masterLift.initalize();
 	masterAutonSelector.initilize();
@@ -150,6 +152,7 @@ void opcontrol() {
 		masterIntake.opControl(masterLift.intakeReverseFlag);
 		masterMogo.opControl();
 		masterTipper.opControl();
+		masterHang.opControl();
 		masterAutonSelector.compTask();
 
 		pros::delay(mSecWaitTime);
