@@ -15,9 +15,9 @@ public:
     pros::Rotation liftTracker = pros::Rotation(LIFT_TRACKER); //Declares an optical encoder.
 
     double liftVelocity = 200; //Controls how fast the lift is moving.
-    int idlePosition = 40; //Default position for the lift to go towards while idle.
+    int idlePosition = 300; //Default position for the lift to go towards while idle.
     int idleCoastPosition = 2500; //Position to make the motor coast as to protect the motor from overheating.
-    int primedPosition = 3625; //Position for priming the lift.
+    int primedPosition = 4000; //Position for priming the lift.
     int forwardPosition = 17500; //Position to target when going to place it onto wall states. Prevents the lift from going over maximum expansion.
 
     //Control types define what the lift is doing at any point during OPControl.
