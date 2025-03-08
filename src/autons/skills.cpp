@@ -154,6 +154,7 @@ void skills(){
     AutonWaitFor(100.0);
 
 
+    masterLift.currentAutonFlag = masterLift.E_AUTOPRIME;
     //Turns towards the first ring and goes towards it.
     masterChassis.startHeadingPID(90.0, 85.0);
     masterChassis.headingPID.setExitCondition(0.01, 500.0, 3000, 300);
@@ -161,7 +162,6 @@ void skills(){
 
 
     //Move forward and backwards to push ring out of way.
-    masterLift.currentAutonFlag = masterLift.E_AUTOPRIME;
 
     masterChassis.startMainPID({-47.0, 60.0}, 100.0, false);
     masterChassis.distancePID.setExitCondition(2.0, 200.0, 3000, 500);
