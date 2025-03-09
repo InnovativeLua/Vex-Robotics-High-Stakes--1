@@ -125,6 +125,7 @@ void intake::update(bool intakeReverseFlag){
         //Checks if the currentDelay is larger than the time alloted for waiting.
         if (currentDelay > afterDelay){
             stop(); //Updates the motor with the 50% speed and reverses it.
+            intakeVelocity = 0;
             intakeState = E_REVERSING; //Sets the state to reversing.
             currentDelay = 0; //Resets the delay so it can be used for the reversing time.
         } else {
@@ -134,16 +135,35 @@ void intake::update(bool intakeReverseFlag){
     //If the intake is to be reversing automatically.
     case E_REVERSING:
         stop(); //Updates the motor with the 50% speed and reverses it.
+        intakeVelocity = 0.0; //Sets the intake speed to maximum.
         //Checks if the currentDelay is larger than the alloted time for reversing.
+        currentDelay += 20;
         if (currentDelay > reversingTime){
             stop(); //Stops the intake.
             currentDelay = 0; //Resets the timer.
             intakeState = E_MANUAL; //Sets the intake state back to manual.
-            intakeVelocity = 600.0; //Sets the intake speed to maximum.
+            intakeVelocity = 0.0; //Sets the intake speed to maximum.
         }
     case E_REVERSE:
         intakeVelocity = 600.0; //Sets the intake speed to maximum.
         spinReverse(); //Updates the speed of the motor and reverses it.
+    }
+}
+
+void intake::acceptInput(){
+    if (mainController->get_digital(INTAKE_FORWARD)){
+        spinForward();
+    //looks for press of the respective reverse button on the controller.
+    } else if (mainController->get_digital(INTAKE_REVERSE)){ //looks for press of R2 on controller.
+        spinReverse();
+    } else if (mainController->get_digital(INTAKE_LOWERSTAGE_REVERSE)){
+        intakeMotor2.move_velocity(intakeVelocity);
+    } else if (mainController->get_digital(INTAKE_LOWERSTAGE_FORWARD)){
+        intakeMotor2.move_velocity(-intakeVelocity);
+    } else {
+        //If neither is pressed it stops the intake.
+        intakeVelocity = 0.0;
+        stop();
     }
 }
 
@@ -161,56 +181,45 @@ void intake::opControl(bool intakeReverseFlag){
 
     //If the intake is in manual.
     case E_MANUAL:
+        if (5 > abs(intakeMotor.get_actual_velocity()) && intakeVelocity > 0 && false){
+            intakeVelocity = 600.0;
+            intakeState = E_REVERSING;
+            currentDelay = 0.0;
+            intakeMotor.move_velocity(intakeVelocity);
+            break;
+            //Check the velocity lowers that means the wrong color ring has reached the top so we can reverse;
+        }
         intakeVelocity = 600.0;
         //looks for press of the respective forward button on the controller.
         if (colorRed == false){
             //looks for press of the respective forward button on the controller.
             if (intakeOptical.get_hue() > redRangeBottom && intakeOptical.get_hue() < redRangeTop){ //If the distance sensor detects a ring.
-                intakeState = E_RINGDETECTED; //State is changed to ring being detected.
+                //intakeState = E_RINGDETECTED; //State is changed to ring being detected.
             }
         } else if (colorRed == true){
                 //looks for press of the respective forward button on the controller.
             if (intakeOptical.get_hue() > blueRangeBottom && intakeOptical.get_hue() < blueRangeTop){ //If the distance sensor detects a ring.
-                intakeState = E_RINGDETECTED; //State is changed to ring being detected.
+                //intakeState = E_RINGDETECTED; //State is changed to ring being detected.
             }
         }
-        if (mainController->get_digital(INTAKE_FORWARD)){
-            spinForward();
-        //looks for press of the respective reverse button on the controller.
-        } else if (mainController->get_digital(INTAKE_REVERSE)){ //looks for press of R2 on controller.
-            spinReverse();
-        } else if (mainController->get_digital(INTAKE_LOWERSTAGE_REVERSE)){
-            intakeMotor2.move_velocity(intakeVelocity);
-        } else if (mainController->get_digital(INTAKE_LOWERSTAGE_FORWARD)){
-            intakeMotor2.move_velocity(-intakeVelocity);
-        } else {
-            //If neither is pressed it stops the intake.
-            stop();
-        }
+        acceptInput();
         if (intakeReverseFlag == true){
             intakeVelocity = 500.0;
             spinReverse();
             intakeVelocity = 600.0;
         }
+
         //detectJam();
         break;
     
     //If a ring has just been detected, waiting until ring has left the distance sensor.
     case E_RINGDETECTED:
-        //Checks if the ring is no longer being deteced by the distance sensor.
-        if (colorRed == false){
-        //Checks if the ring is no longer being deteced by the distance sensor.
-            if (intakeOptical.get_hue() < redRangeBottom || intakeOptical.get_hue() > redRangeTop){
-                intakeState = E_RINGLEFTWAITING; //Changes the state to ring having left.
-                currentDelay = 0; //Resets the delay for the time before the intake starts reversing.
-            }
-        } else if (colorRed == true){
-        //Checks if the ring is no longer being deteced by the distance sensor.
-            if (intakeOptical.get_hue() < blueRangeBottom || intakeOptical.get_hue() > blueRangeTop){
-                intakeState = E_RINGLEFTWAITING; //Changes the state to ring having left.
-                currentDelay = 0; //Resets the delay for the time before the intake starts reversing.
-            }
+        acceptInput();
+        if (intakeVelocity/5 - 50.0 > abs(intakeMotor.get_actual_velocity()) && abs(intakeMotor.get_actual_velocity()) > 10.0){
+            spinReverse();
+            intakeState = E_REVERSING;
         }
+        break;
 
     //If the ring has been deteced and is waiting to reverse.
     case E_RINGLEFTWAITING:
@@ -219,20 +228,25 @@ void intake::opControl(bool intakeReverseFlag){
             stop(); //Updates the motor with the 50% speed and reverses it.
             intakeState = E_REVERSING; //Sets the state to reversing.
             currentDelay = 0; //Resets the delay so it can be used for the reversing time.
+            intakeVelocity = 0;
         } else {
             currentDelay += 20; //If not enough time has passed then it adds to the timer.
         }
+        break;
 
     //If the intake is to be reversing automatically.
     case E_REVERSING:
-        stop(); //Updates the motor with the 50% speed and reverses it.
+        spinReverse(); //Updates the motor with the 50% speed and reverses it.
         //Checks if the currentDelay is larger than the alloted time for reversing.
         if (currentDelay > reversingTime){
             stop(); //Stops the intake.
             currentDelay = 0; //Resets the timer.
             intakeState = E_MANUAL; //Sets the intake state back to manual.
-            intakeVelocity = 600.0; //Sets the intake speed to maximum.
+            intakeVelocity = 0.0; //Sets the intake speed to maximum.
+        } else {
+            currentDelay += 20;
         }
+        break;
     case E_REVERSE:
         intakeVelocity = 600.0; //Sets the intake speed to maximum.
         spinReverse(); //Updates the speed of the motor and reverses it.

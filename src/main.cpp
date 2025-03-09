@@ -134,10 +134,9 @@ void opcontrol() {
 				//pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Distance: %g", masterIntake.distanceSensor.get());
 				//std::cout << "Intake distance " << masterIntake.distanceSensor.get() << std::endl;
 				//std::cout << "Motor Position " << masterLift.liftMotor.get_position() << std::endl;
-			case 2:
 				pros::screen::print(pros::E_TEXT_MEDIUM, 8, "Current Auton: %s", masterAutonSelector.getSelectedAuton());
-				pros::screen::print(pros::E_TEXT_MEDIUM, 9, "Lift : %i", masterLift.liftTracker.get_position());
-				//mainController->print(0, 0, "C: %s", masterAutonSelector.getSelectedAuton());
+				pros::screen::print(pros::E_TEXT_MEDIUM, 9, "intake ve : %g", abs(masterIntake.intakeMotor.get_actual_velocity()));
+				mainController->print(0, 0, "C: %s", masterAutonSelector.getSelectedAuton());
 
 				break;
 		}

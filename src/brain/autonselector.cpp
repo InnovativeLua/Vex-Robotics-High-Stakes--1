@@ -59,6 +59,8 @@ void autonSelector::initilize(){
   autonsToSelectFrom.push_back(createAuton(skills,"skillsSkills", true));
   autonsToSelectFrom.push_back(createAuton(blueGoalSide,"blueGoalSide", true));
   autonsToSelectFrom.push_back(createAuton(soloREDAWP,"soloRedAWP", true));
+  autonsToSelectFrom.push_back(createAuton(blueRingSide,"blueRingSide", false));
+  autonsToSelectFrom.push_back(createAuton(redRingSide,"redRingSide", true));
   autonsToSelectFrom.push_back(createAuton(redGoalSide,"redGoalSide", true));
 
   addAutons(autonsToSelectFrom);
